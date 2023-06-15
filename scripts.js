@@ -1,6 +1,4 @@
-function testFunc () {
-    console.log("Buttons works")
-}
+
 
 function uploadImages () {
     let arrayOfPictures = [];
@@ -144,7 +142,7 @@ function publishImages () {
 }
 
 const btnUploadEx = document.querySelector('#btnUploadEx');
-const btnPublishEx = document.querySelector('#btnPublish');
+const btnPublishEx = document.querySelector('#btnPublishEx');
 
 btnUploadEx.addEventListener('click', uploadImages)
-btnPublishEx.addEventListener('click', testFunc)
+btnPublishEx.addEventListener('click', publishImages)
