@@ -7,8 +7,8 @@
       "service_worker": "background.js"
     },
     "action": {
-      "default_popup": "hello.html",
-      "default_icon": "hello_extensions.png"
+      "default_popup": "main_page.html",
+      "default_icon": "./images/responsys-logo.png"
     },
     "permissions": [
       "activeTab",
