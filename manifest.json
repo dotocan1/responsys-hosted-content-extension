@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "Hello Extensions",
-    "description": "Base Level Extension",
+    "name": "Responsys Hosted Content Helper",
+    "description": "Upload images easier",
     "version": "1.0",
     "background": {
       "service_worker": "background.js"
