@@ -24,3 +24,30 @@ button {
 button:hover {
     background-color: #45a049;
   }
+
+.checkboxes{
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0 1rem 0;
+}
+
+/* Style the checkboxes */
+input[type="checkbox"] {
+  width: 20px; /* Specifies the width */
+  height: 20px; /* Specifies the height */
+}
+
+/* Style the labels */
+label {
+  font-size: 16px; /* Specifies the font size */
+  color: #333; /* Specifies the text color */
+}
+
+.checkbox{
+display: flex;
+align-items: center;
+flex-direction: row;
+gap: 0.5rem;
+
+}

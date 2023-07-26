@@ -1,12 +1,42 @@
 function loopWithDelay () {
     // select publish button here
     if (i == storedVariable.length) {
-        storedLinks.forEach(function(item){
+        storedLinks.forEach(function (item) {
             console.log(item)
         });
-        storedOnlyLinks.forEach(function(item){
-            window.open(item, "_blank");
-        })
+
+        // if user has turned on "Open every image in new tab"
+        if (boolOpenImages == true) {
+            storedOnlyLinks.forEach(function (item) {
+                window.open(item, "_blank");
+            })
+        }
+
+        // if user has turned on "Export to CSV"
+        if (boolDownloadImages == true) {
+            let newEntry = ["ImageName", "ImageLink"];
+            storedOnlyLinks.unshift(newEntry);
+
+            // Convert 2D array to CSV string
+            function arrayToCSV (storedOnlyLinks) {
+                return storedOnlyLinks.map(row => row.join(",")).join("\n");
+            }
+
+            // Download CSV file
+            function downloadCSV (data, filename = 'export.csv') {
+                let csv = arrayToCSV(data);
+                let csvBlob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                let csvUrl = URL.createObjectURL(csvBlob);
+                let hiddenElement = document.createElement('a');
+                hiddenElement.href = csvUrl;
+                hiddenElement.target = '_blank';
+                hiddenElement.download = filename;
+                hiddenElement.click();
+            }
+
+            downloadCSV(storedOnlyLinks)
+        }
+
         return;
     }
 
@@ -75,6 +105,9 @@ let storedOnlyLinks = JSON.parse(localStorage.getItem('linksOnlyArray'));
 let btnPublish;
 let inputElement;
 let i = 0;
+// let boolOpenImages = 
+// let boolDownloadImages = 
+console.log("This works!!!" + boolOpenImages)
 
 loopWithDelay();
 // _np is only added to pictures that arent published

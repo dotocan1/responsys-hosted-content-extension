@@ -16,7 +16,8 @@
       "tabs",
       "contextMenus",
       "webRequest",
-      "scripting"
+      "scripting",
+      "storage"
     ],
     "host_permissions": ["<all_urls>"]
   }
