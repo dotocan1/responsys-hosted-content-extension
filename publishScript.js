@@ -1,7 +1,12 @@
 function loopWithDelay () {
     // select publish button here
     if (i == storedVariable.length) {
-        storedLinks.forEach(item => console.log(item));
+        storedLinks.forEach(function(item){
+            console.log(item)
+        });
+        storedOnlyLinks.forEach(function(item){
+            window.open(item, "_blank");
+        })
         return;
     }
 
@@ -64,8 +69,9 @@ function loopWithDelay () {
 
 }
 
-const storedVariable = JSON.parse(localStorage.getItem('savedArray'));
-const storedLinks = JSON.parse(localStorage.getItem('linksArray'));
+let storedVariable = JSON.parse(localStorage.getItem('savedArray'));
+let storedLinks = JSON.parse(localStorage.getItem('linksArray'));
+let storedOnlyLinks = JSON.parse(localStorage.getItem('linksOnlyArray'));
 let btnPublish;
 let inputElement;
 let i = 0;
