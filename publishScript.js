@@ -105,22 +105,41 @@ let storedOnlyLinks = JSON.parse(localStorage.getItem('linksOnlyArray'));
 let btnPublish;
 let inputElement;
 let i = 0;
- 
-new Promise((resolve, reject) => {
-    chrome.storage.sync.get('chkOpenImages', function(data) {
-        console.log('Checkbox state is ' + data.chkOpenImages);
-        // Use data.checkboxState in your webpage-modifying code...
-        boolOpenImages = data.chkOpenImages;
-        console.log('data.boolOpenImages');
-        resolve();
-    });
-})
-.then(() => {
-    loopWithDelay();
-})
-.catch((error) => {
-    console.error('An error occurred:', error);
-});
 
-console.log("This works!!!" + boolOpenImages)
-// _np is only added to pictures that arent published
+let boolDownloadImages;
+let boolOpenImages;
+ 
+async function getChkOpenImages() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get('chkOpenImages', function(data) {
+            console.log('Checkbox open image state is ' + data.chkOpenImages);
+            boolOpenImages = data.chkOpenImages;
+            console.log(data.boolOpenImages);
+            resolve();
+        });
+    });
+}
+
+async function getchkDownloadImages() {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get('chkDownloadImages', function(data) {
+            console.log('Checkbox download images state is ' + data.chkDownloadImages);
+            boolDownloadImages = data.chkDownloadImages;
+            console.log(data.boolDownloadImages);
+            resolve();
+        });
+    });
+}
+
+// Put your code in an async function
+async function main() {
+    try {
+        await getchkDownloadImages();
+        await getChkOpenImages();
+        loopWithDelay();
+    } catch(error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+main(); // Call the main function
