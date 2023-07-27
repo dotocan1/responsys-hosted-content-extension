@@ -105,9 +105,22 @@ let storedOnlyLinks = JSON.parse(localStorage.getItem('linksOnlyArray'));
 let btnPublish;
 let inputElement;
 let i = 0;
-// let boolOpenImages = 
-// let boolDownloadImages = 
-console.log("This works!!!" + boolOpenImages)
+ 
+new Promise((resolve, reject) => {
+    chrome.storage.sync.get('chkOpenImages', function(data) {
+        console.log('Checkbox state is ' + data.chkOpenImages);
+        // Use data.checkboxState in your webpage-modifying code...
+        boolOpenImages = data.chkOpenImages;
+        console.log('data.boolOpenImages');
+        resolve();
+    });
+})
+.then(() => {
+    loopWithDelay();
+})
+.catch((error) => {
+    console.error('An error occurred:', error);
+});
 
-loopWithDelay();
+console.log("This works!!!" + boolOpenImages)
 // _np is only added to pictures that arent published
