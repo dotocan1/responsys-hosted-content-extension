@@ -11,34 +11,6 @@ function loopWithDelay () {
                 window.open(item, "_blank");
             })
         }
-
-        // if user has turned on "Export to CSV"
-        if (boolDownloadImages == true) {
-            console.log(storedOnlyLinks)
-            let newEntry = ["ImageName", "ImageLink"];
-            storedOnlyLinks.unshift(newEntry);
-            console.log(storedOnlyLinks);
-
-            // Convert 2D array to CSV string
-            function arrayToCSV (storedOnlyLinks) {
-                return storedOnlyLinks.map(row => row.join(",")).join("\n");
-            }
-
-            // Download CSV file
-            function downloadCSV (data, filename = 'export.csv') {
-                let csv = arrayToCSV(data);
-                let csvBlob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                let csvUrl = URL.createObjectURL(csvBlob);
-                let hiddenElement = document.createElement('a');
-                hiddenElement.href = csvUrl;
-                hiddenElement.target = '_blank';
-                hiddenElement.download = filename;
-                hiddenElement.click();
-            }
-
-            downloadCSV(storedOnlyLinks)
-        }
-
         return;
     }
 
