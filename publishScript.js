@@ -45,9 +45,14 @@ function loopWithDelay () {
     try {
         // select the publish button
         document.querySelectorAll('iframe').forEach(item => {
-            if (item.contentWindow.document.body.querySelector('#FilePublish').value == "Publish") {
-                btnPublish = item.contentWindow.document.body.querySelector('#FilePublish');
+            try {
+                if (item.contentWindow.document.body.querySelector('#FilePublish').value == "Publish") {
+                    btnPublish = item.contentWindow.document.body.querySelector('#FilePublish');
+                }
+            } catch (error) {
+                console.log(error)
             }
+
         }
         )
     }
@@ -94,9 +99,6 @@ function loopWithDelay () {
     }
 
     i++;
-    // if (i < storedVariable.length) {
-    //     return;
-    // }
     setTimeout(loopWithDelay, 10000); // Delay of 1 second (1000 milliseconds)
 
 }
