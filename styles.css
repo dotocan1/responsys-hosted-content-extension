@@ -51,3 +51,24 @@ flex-direction: row;
 gap: 0.5rem;
 
 }
+
+#delete-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#delete-field{
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+input[type = "text"]{
+  height: 50%;
+}
+
+#btnDeleteEx{
+  width: fit-content;
+}

@@ -7,23 +7,24 @@
 <body>
     <h1>Responsys Hosted Content</h1>
     <h2>Instructions: <br> <br> Step 1: Press the upload button when you have selected all the images.</h2>
-    <h2>Step 2: After uploading, just press the publish button! It is a simple as that!</h2>
+    <h2>Step 2: After uploading, just press the publish button! It is as simple as that!</h2>
     <button id="btnUploadEx">Upload</button>
     <button id="btnPublishEx">Publish</button>
     <div class="checkboxes">
-        <div  class="checkbox">
+        <div class="checkbox">
             <input type="checkbox" id="chkOpenImages" name="check1">
             <label for="check1">Open all images in new tab</label><br>
         </div>
-
-        <div class="checkbox">
-            <input type="checkbox" id="chkDownloadImages" name="check2">
-            <label for="check2">Download the images in a CSV file</label><br>
+    </div>
+    <div id="delete-container">
+        <div id = "delete-field">
+            <h2>P.S. You can also delete images now! Just type in the keyword that every image you want to delete contains!</h2>
+            <input type="text">
         </div>
-
+        <button id="btnDeleteEx">Delete</button>
+        <script src="scripts.js"></script>
     </div>
 
-    <script src="scripts.js"></script>
 </body>
 
 </html>
