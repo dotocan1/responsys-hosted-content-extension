@@ -176,7 +176,7 @@ main(); // Call the main function
 // function deleteItems () {
 //     try {
 //         // Select the iframe items
-//         document.querySelectorAll('iframe').forEach(async (item) => {
+//         document.querySelectorAll('iframe').forEach((item) => {
 //             try {
 //                 let radios = item.contentWindow.document.body.querySelectorAll('input[type="radio"]');
 //                 if (radios.length) {
