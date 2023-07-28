@@ -25,6 +25,19 @@ try {
     console.error('An error occurred:', error);
 }
 
+let deleteTextField;
+
+async function getDeleteText () {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.get('txtDelete', function (data) {
+            console.log('Delete text field is ' + data.txtDelete);
+            deleteTextField = data.txtDelete;
+            console.log(data.txtDelete);
+            resolve();
+        });
+    });
+}
+
 function deleteItems () {
     try {
         // Select the iframe items
@@ -33,7 +46,7 @@ function deleteItems () {
                 let radios = item.contentWindow.document.body.querySelectorAll('input[type="radio"]');
                 if (radios.length) {
                     for (let radio of radios) {
-                        if (radio.value.includes("dipsy")) {
+                        if (radio.value.includes(deleteTextField)) {
                             console.log(radio.value)
                             radio.checked = true;
                             deleteButton.click();
@@ -49,4 +62,14 @@ function deleteItems () {
     }
 }
 
-// deleteItems();
+// Put your code in an async function
+async function main () {
+    try {
+        await getDeleteText();
+        deleteItems();
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+
+main(); // Call the main function
