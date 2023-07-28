@@ -14,8 +14,10 @@ function loopWithDelay () {
 
         // if user has turned on "Export to CSV"
         if (boolDownloadImages == true) {
+            console.log(storedOnlyLinks)
             let newEntry = ["ImageName", "ImageLink"];
             storedOnlyLinks.unshift(newEntry);
+            console.log(storedOnlyLinks);
 
             // Convert 2D array to CSV string
             function arrayToCSV (storedOnlyLinks) {
@@ -108,10 +110,10 @@ let i = 0;
 
 let boolDownloadImages;
 let boolOpenImages;
- 
-async function getChkOpenImages() {
+
+async function getChkOpenImages () {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get('chkOpenImages', function(data) {
+        chrome.storage.sync.get('chkOpenImages', function (data) {
             console.log('Checkbox open image state is ' + data.chkOpenImages);
             boolOpenImages = data.chkOpenImages;
             console.log(data.boolOpenImages);
@@ -120,9 +122,9 @@ async function getChkOpenImages() {
     });
 }
 
-async function getchkDownloadImages() {
+async function getchkDownloadImages () {
     return new Promise((resolve, reject) => {
-        chrome.storage.sync.get('chkDownloadImages', function(data) {
+        chrome.storage.sync.get('chkDownloadImages', function (data) {
             console.log('Checkbox download images state is ' + data.chkDownloadImages);
             boolDownloadImages = data.chkDownloadImages;
             console.log(data.boolDownloadImages);
@@ -132,14 +134,67 @@ async function getchkDownloadImages() {
 }
 
 // Put your code in an async function
-async function main() {
+async function main () {
     try {
         await getchkDownloadImages();
         await getChkOpenImages();
         loopWithDelay();
-    } catch(error) {
+    } catch (error) {
         console.error('An error occurred:', error);
     }
 }
 
 main(); // Call the main function
+
+// deleting images
+
+// let deleteButton;
+
+// try {
+//     // Select the iframe items
+//     document.querySelectorAll('iframe').forEach(item => {
+//         try {
+//             let buttons = item.contentWindow.document.body.querySelectorAll('#Delete');
+//             if (buttons.length) {
+//                 buttons.forEach(button => {
+//                     if (button.value == "Delete")
+//                         console.log(button.value)
+//                     deleteButton = button;
+//                     // dispatch the event on the body
+//                     document.body.dispatchEvent(event);
+
+//                 });
+//             }
+//         } catch (error) {
+//             console.error('An error occurred in the iframe:', error);
+//         }
+//     });
+// } catch (error) {
+//     console.error('An error occurred:', error);
+// }
+
+// function deleteItems () {
+//     try {
+//         // Select the iframe items
+//         document.querySelectorAll('iframe').forEach(async (item) => {
+//             try {
+//                 let radios = item.contentWindow.document.body.querySelectorAll('input[type="radio"]');
+//                 if (radios.length) {
+//                     for (let radio of radios) {
+//                         if (radio.value.includes("dipsy")) {
+//                             console.log(radio.value)
+//                             radio.checked = true;
+//                             deleteButton.click();
+//                         }
+//                     }
+//                 }
+//             } catch (error) {
+//                 console.error('An error occurred in the iframe:', error);
+//             }
+//         });
+//     } catch (error) {
+//         console.error('An error occurred:', error);
+//     }
+// }
+
+// deleteItems();
