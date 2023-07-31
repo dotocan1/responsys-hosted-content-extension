@@ -1,6 +1,7 @@
 body{
     width: 800px;
     height: 225px;
+    background-image: url("./images/responsys-background.avif");
 }
 button {
     display: inline-block;
