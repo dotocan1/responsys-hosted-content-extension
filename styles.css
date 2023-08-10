@@ -1,6 +1,6 @@
 body{
     width: 800px;
-    height: 225px;
+    height: fit-content;
     background-image: url("./images/dipsy.jpg");
     background-position: center;
 }
@@ -63,7 +63,7 @@ gap: 0.5rem;
   gap: 1rem;
 }
 
-#delete-field{
+#delete-field, #copy-field{
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -72,8 +72,15 @@ gap: 0.5rem;
 
 input[type = "text"]{
   height: 50%;
+  width: 380px;
 }
 
-#btnDeleteEx{
-  width: fit-content;
+#btnDeleteEx, #btnCreateEx{
+  width: 250px;
+}
+
+#create-document-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

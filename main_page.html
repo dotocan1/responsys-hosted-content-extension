@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <h1>Responsys Hosted Content</h1>
+    <h1>Responsys Helpers</h1>
     <h2>Instructions: <br> <br> Step 1: Press the upload button when you have selected all the images.</h2>
     <h2>Step 2: After uploading, just press the publish button! It is as simple as that!</h2>
     <button id="btnUploadEx">Upload</button>
@@ -17,12 +17,26 @@
         </div>
     </div>
     <div id="delete-container">
-        <div id = "delete-field">
-            <h2 id = "ps">P.S. You can also delete images now! Just type in the keyword that every image you want to delete contains!</h2>
-            <input type="text" id = "txtDelete">
+        <div id="delete-field">
+            <h2 id="ps">P.S. You can also delete images now! Just type in the keyword that every image you want to
+                delete contains!</h2>
+            <input type="text" id="txtDelete">
         </div>
         <button id="btnDeleteEx">Delete</button>
         <script src="scripts.js"></script>
+    </div>
+    <div id="create-document-container">
+        <div>
+            <h1>Copy a content library document (.htm) from another campaign.</h1>
+            <h2><strong>This is useful if you are copying a campaign and want to save yourself some time.</strong></h2>
+        </div>
+        <div>
+            <label><strong>Enter the name of the campaign you want to copy:</strong></label>
+            <input type="text" id="copy-field">
+        </div>
+        <div>
+            <button id="btnCreateEx">Copy content library document</button>
+        </div>
     </div>
 
 </body>
