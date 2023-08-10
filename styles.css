@@ -1,7 +1,11 @@
 body{
     width: 800px;
     height: 225px;
-    background-image: url("./images/responsys-background.avif");
+    background-image: url("./images/dipsy.jpg");
+    background-position: center;
+}
+#ps{
+  color: #3E1A94;
 }
 button {
     display: inline-block;

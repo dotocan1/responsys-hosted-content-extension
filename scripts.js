@@ -47,8 +47,8 @@ document.getElementById('chkOpenImages').addEventListener('change', (event) => {
     });
 });
 
-function saveDeleteValue (){
-    new Promise((resolve,reject) => {
+function saveDeleteValue () {
+    new Promise((resolve, reject) => {
         chrome.storage.sync.set({ 'txtDelete': document.getElementById('txtDelete').value }, function () {
             console.log('Text has been saved' + document.getElementById('txtDelete').value);
         });
@@ -69,6 +69,61 @@ function executeDeleteScript () {
     resolve();
 };
 
+// koristenje API-a od Responsysa
 
+let authToken;
+let endPoint;
 
+getAuth();
 
+async function getAuth () {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+    var urlencoded = new URLSearchParams();
+    urlencoded.append("user_name", "dominik.otocan");
+    urlencoded.append("password", "Babab!1Babab");
+    urlencoded.append("auth_type", "password");
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+        redirect: 'follow'
+    };
+
+    return fetch("https://login.rsys8.net/rest/api/v1.3/auth/token", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result);
+            resultJSON = JSON.parse(result);
+            authToken = resultJSON.authToken;
+            endPoint = resultJSON.endPoint;
+            console.log(authToken)
+            console.log(endPoint)
+        })
+        .catch(error => console.log('error', error));
+}
+
+function getAccountInfo () {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch(`${endPoint}/rest/api/v1.3/user/info`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
+
+async function main() {
+    await getAuth(); // Wait for getAuth to complete
+    getAccountInfo();
+  }
+
+  main();
