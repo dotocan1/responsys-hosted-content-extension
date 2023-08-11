@@ -26,6 +26,7 @@ let boolOpenImages = false;
 document.getElementById('btnUploadEx').addEventListener('click', injectTheUploadScript)
 document.getElementById('btnPublishEx').addEventListener('click', injectThePublishScript)
 document.getElementById('btnDeleteEx').addEventListener('click', injectTheDeleteScript)
+document.getElementById("btnCopyEx").addEventListener('click', main())
 
 // getting the initial state of the checkbox for opening all images
 try {
@@ -73,8 +74,14 @@ function executeDeleteScript () {
 
 let authToken;
 let endPoint;
+let originalCampFieldTxt = document.getElementById("original-campaign-field");
+let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 
-getAuth();
+let nameOfOriginalCampaign = "2023_ma_generalni_mail_redone"
+let originalClDocPath;
+let originalClFolderPath;
+
+console.log(document.getElementById("btnCopyEx"))
 
 async function getAuth () {
     var myHeaders = new Headers();
@@ -105,25 +112,67 @@ async function getAuth () {
         .catch(error => console.log('error', error));
 }
 
-function getAccountInfo () {
+function fetchCampaign(){
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", authToken);
+myHeaders.append("Authorization", authToken);
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-    };
+var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
 
-    fetch(`${endPoint}/rest/api/v1.3/user/info`, requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
+    redirect: 'follow'
+};
+
+fetch("https://rest001.rsys8.net/rest/api/v1.3/campaigns/" + nameOfOriginalCampaign, requestOptions)
+    .then(response => response.text())
+    .then(result => {
+        // console.log(result)
+        resultJSON = JSON.parse(result);
+
+        originalClDocPath = resultJSON.htmlMessagePath;
+
+        originalClDocPath = resultJSON.htmlMessagePath;
+        let originalClFolderPath;
+
+        // splitting the original content library document path into
+        // an array so that I can get the original folder path
+        let splitClDocPath = originalClDocPath.split('');
+
+        console.log(originalClDocPath);
+
+        // counting the number of occurences 
+        // of the letter "/"
+        let count = 0;
+        for (index = 0; index < splitClDocPath.length; index++) {
+            if (splitClDocPath[index] === "/") {
+                count++;
+            }
+        }
+
+        boolCount = 0;
+        let arrayOfOriginalClFolderPath = [];
+        // getting the original folder path
+        for (index = 0; index < splitClDocPath.length; index++) {
+            if (splitClDocPath[index] === "/") {
+                boolCount++;
+                if (boolCount == count) {
+                    break;
+                } else {
+                    arrayOfOriginalClFolderPath.push(splitClDocPath[index]);
+                }
+            } else {
+                arrayOfOriginalClFolderPath.push(splitClDocPath[index])
+            }
+        }
+        originalClFolderPath = arrayOfOriginalClFolderPath.join('')
+    }
+    )
+    .catch(error => console.log('error', error));
 }
 
-async function main() {
+async function main () {
     await getAuth(); // Wait for getAuth to complete
-    getAccountInfo();
-  }
+    //getAccountInfo();
+    fetchCampaign();
+}
 
-  main();
