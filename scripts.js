@@ -116,7 +116,7 @@ async function getAuth () {
         .catch(error => console.log('error', error));
 }
 
-function fetchCampaign () {
+async function fetchCampaign () {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", authToken);
 
@@ -127,7 +127,7 @@ function fetchCampaign () {
         redirect: 'follow'
     };
 
-    return fetch("https://rest001.rsys8.net/rest/api/v1.3/campaigns/" + nameOfOriginalCampaign, requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/campaigns/" + nameOfOriginalCampaign, requestOptions)
         .then(response => response.text())
         .then(result => {
             // console.log(result)
@@ -192,7 +192,7 @@ async function copyCampaign () {
         redirect: 'follow'
     };
 
-    return fetch("https://rest001.rsys8.net/rest/api/v1.3/campaigns/2023_ma_generalni_mail_redone/actions/copy", requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/campaigns/2023_ma_generalni_mail_redone/actions/copy", requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result)
@@ -204,8 +204,20 @@ async function copyCampaign () {
         .catch(error => console.log('error', error));
 }
 
-function createContentLibraryFolder(){
-    
+function fetchTheCopiedCampaign () {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    fetch(endPoint + "/rest/api/v1.3/campaigns/" + nameOfCopiedCampaign, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 }
 
 async function main () {
