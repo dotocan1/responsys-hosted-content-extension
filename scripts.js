@@ -80,6 +80,10 @@ let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 let nameOfOriginalCampaign = "2023_ma_generalni_mail_redone"
 let originalClDocPath;
 let originalClFolderPath;
+let folderName = "dominik_o"
+let nameOfCopiedCampaign = "2023_ma_api_test_prvi_danas";
+let copiedClFolderPath;
+let copiedClDocPath;
 
 console.log(document.getElementById("btnCopyEx"))
 
@@ -112,67 +116,102 @@ async function getAuth () {
         .catch(error => console.log('error', error));
 }
 
-function fetchCampaign(){
+function fetchCampaign () {
     var myHeaders = new Headers();
-myHeaders.append("Authorization", authToken);
+    myHeaders.append("Authorization", authToken);
 
-var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
 
-    redirect: 'follow'
-};
+        redirect: 'follow'
+    };
 
-fetch("https://rest001.rsys8.net/rest/api/v1.3/campaigns/" + nameOfOriginalCampaign, requestOptions)
-    .then(response => response.text())
-    .then(result => {
-        // console.log(result)
-        resultJSON = JSON.parse(result);
+    return fetch("https://rest001.rsys8.net/rest/api/v1.3/campaigns/" + nameOfOriginalCampaign, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            // console.log(result)
+            resultJSON = JSON.parse(result);
 
-        originalClDocPath = resultJSON.htmlMessagePath;
+            originalClDocPath = resultJSON.htmlMessagePath;
 
-        originalClDocPath = resultJSON.htmlMessagePath;
-        let originalClFolderPath;
+            originalClDocPath = resultJSON.htmlMessagePath;
+            let originalClFolderPath;
 
-        // splitting the original content library document path into
-        // an array so that I can get the original folder path
-        let splitClDocPath = originalClDocPath.split('');
+            // splitting the original content library document path into
+            // an array so that I can get the original folder path
+            let splitClDocPath = originalClDocPath.split('');
 
-        console.log(originalClDocPath);
+            console.log(originalClDocPath);
 
-        // counting the number of occurences 
-        // of the letter "/"
-        let count = 0;
-        for (index = 0; index < splitClDocPath.length; index++) {
-            if (splitClDocPath[index] === "/") {
-                count++;
-            }
-        }
-
-        boolCount = 0;
-        let arrayOfOriginalClFolderPath = [];
-        // getting the original folder path
-        for (index = 0; index < splitClDocPath.length; index++) {
-            if (splitClDocPath[index] === "/") {
-                boolCount++;
-                if (boolCount == count) {
-                    break;
-                } else {
-                    arrayOfOriginalClFolderPath.push(splitClDocPath[index]);
+            // counting the number of occurences 
+            // of the letter "/"
+            let count = 0;
+            for (index = 0; index < splitClDocPath.length; index++) {
+                if (splitClDocPath[index] === "/") {
+                    count++;
                 }
-            } else {
-                arrayOfOriginalClFolderPath.push(splitClDocPath[index])
             }
+
+            boolCount = 0;
+            let arrayOfOriginalClFolderPath = [];
+            // getting the original folder path
+            for (index = 0; index < splitClDocPath.length; index++) {
+                if (splitClDocPath[index] === "/") {
+                    boolCount++;
+                    if (boolCount == count) {
+                        break;
+                    } else {
+                        arrayOfOriginalClFolderPath.push(splitClDocPath[index]);
+                    }
+                } else {
+                    arrayOfOriginalClFolderPath.push(splitClDocPath[index])
+                }
+            }
+            originalClFolderPath = arrayOfOriginalClFolderPath.join('')
         }
-        originalClFolderPath = arrayOfOriginalClFolderPath.join('')
-    }
-    )
-    .catch(error => console.log('error', error));
+        )
+        .catch(error => console.log('error', error));
+}
+
+async function copyCampaign () {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "newCampaignName": nameOfCopiedCampaign,
+        "description": "",
+        "folderName": folderName
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch("https://rest001.rsys8.net/rest/api/v1.3/campaigns/2023_ma_generalni_mail_redone/actions/copy", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(result)
+            copiedClFolderPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign;
+            copiedClDocPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign + "/" + nameOfCopiedCampaign + ".htm";
+            console.log(copiedClFolderPath)
+            console.log(copiedClDocPath)
+        })
+        .catch(error => console.log('error', error));
+}
+
+function createContentLibraryFolder(){
+    
 }
 
 async function main () {
     await getAuth(); // Wait for getAuth to complete
     //getAccountInfo();
-    fetchCampaign();
+    await fetchCampaign();
+    await copyCampaign();
 }
 
