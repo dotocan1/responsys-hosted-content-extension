@@ -1,9 +1,10 @@
 body {
   width: 800px;
   height: fit-content;
-  background-image: url("./images/dipsy.jpg");
+  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("./images/dipsy.jpg");
   background-position: center;
 }
+
 
 #ps {
   color: #3E1A94;
