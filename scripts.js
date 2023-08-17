@@ -84,6 +84,8 @@ let folderName = "dominik_o"
 let nameOfCopiedCampaign = "2023_ma_api_test_prvi_danas";
 let copiedClFolderPath;
 let copiedClDocPath;
+let resultJSON;
+let originalFolders;
 
 console.log(document.getElementById("btnCopyEx"))
 
@@ -136,7 +138,6 @@ async function fetchCampaign () {
             originalClDocPath = resultJSON.htmlMessagePath;
 
             originalClDocPath = resultJSON.htmlMessagePath;
-            let originalClFolderPath;
 
             // splitting the original content library document path into
             // an array so that I can get the original folder path
@@ -246,27 +247,83 @@ async function createClLibFolder () {
         .catch(error => console.log('error', error));
 }
 
-async function createCopyOfClDoc(){
+async function createCopyOfClDoc () {
     var myHeaders = new Headers();
-myHeaders.append("Authorization", authToken);
-myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", authToken);
+    myHeaders.append("Content-Type", "application/json");
 
-var raw = JSON.stringify({
-  "documentPath": originalClDocPath
-});
+    var raw = JSON.stringify({
+        "documentPath": originalClDocPath
+    });
 
-var requestOptions = {
-  method: 'PUT',
-  headers: myHeaders,
-  body: raw,
-  redirect: 'follow'
-};
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
 
-return fetch(endPoint+ "/rest/api/v1.3/clDocs" + copiedClDocPath, requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+    return fetch(endPoint + "/rest/api/v1.3/clDocs" + copiedClDocPath, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 }
+
+async function listContentsClFolder () {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch(endPoint + "/rest/api/v1.3/clFolders" + originalClFolderPath, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            resultJSON = JSON.parse(result);
+            console.log(resultJSON);
+            originalFolders = resultJSON.folders;
+            console.log(originalFolders)
+        })
+        .catch(error => console.log('error', error));
+}
+
+// declaring the function again
+// it will only be used for copying folders
+
+async function createCopiedClLibFolderFor () {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "folderPath": copiedClFolderPath
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
+
+async function copyAllFoldersOriginalCampaign () {
+    originalFolders.forEach(folder => {
+        console.log(folder.folderPath)
+        let folderForCopy = folder.folderPath;
+        
+        
+    })
+}
+
 
 async function main () {
     await getAuth(); // Wait for getAuth to complete
@@ -276,6 +333,7 @@ async function main () {
     await fetchTheCopiedCampaign();
     await createClLibFolder();
     await createCopyOfClDoc();
-
+    await listContentsClFolder();
+    await copyAllFoldersOriginalCampaign();
 }
 
