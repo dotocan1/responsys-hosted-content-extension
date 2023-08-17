@@ -246,6 +246,28 @@ async function createClLibFolder () {
         .catch(error => console.log('error', error));
 }
 
+async function createCopyOfClDoc(){
+    var myHeaders = new Headers();
+myHeaders.append("Authorization", authToken);
+myHeaders.append("Content-Type", "application/json");
+
+var raw = JSON.stringify({
+  "documentPath": originalClDocPath
+});
+
+var requestOptions = {
+  method: 'PUT',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+return fetch(endPoint+ "/rest/api/v1.3/clDocs" + copiedClDocPath, requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
+
 async function main () {
     await getAuth(); // Wait for getAuth to complete
     //getAccountInfo();
@@ -253,6 +275,7 @@ async function main () {
     await copyCampaign();
     await fetchTheCopiedCampaign();
     await createClLibFolder();
+    await createCopyOfClDoc();
 
 }
 
