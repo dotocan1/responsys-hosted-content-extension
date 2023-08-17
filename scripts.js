@@ -204,7 +204,7 @@ async function copyCampaign () {
         .catch(error => console.log('error', error));
 }
 
-function fetchTheCopiedCampaign () {
+async function fetchTheCopiedCampaign () {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", authToken);
 
@@ -214,7 +214,33 @@ function fetchTheCopiedCampaign () {
         redirect: 'follow'
     };
 
-    fetch(endPoint + "/rest/api/v1.3/campaigns/" + nameOfCopiedCampaign, requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/campaigns/" + nameOfCopiedCampaign, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            // console.log(result)
+            resultJSON = JSON.parse(result);
+            console.log(resultJSON);
+        })
+        .catch(error => console.log('error', error));
+}
+
+async function createClLibFolder () {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "folderPath": copiedClFolderPath
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -225,5 +251,8 @@ async function main () {
     //getAccountInfo();
     await fetchCampaign();
     await copyCampaign();
+    await fetchTheCopiedCampaign();
+    await createClLibFolder();
+
 }
 
