@@ -7,7 +7,7 @@ let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 
 let nameOfOriginalCampaign = "2023_ma_generalni_mail_redone"
 let originalClDocPath;
-let originalClFolderPath = "/contentlibrary/dominik_o/2023_ma_generalni_mail_redone/2023_ma_generalni_mail_redone.htm";
+let originalClFolderPath = "/contentlibrary/dominik_o/2023_ma_generalni_mail_redone";
 let folderName = "dominik_o"
 let nameOfCopiedCampaign = "2023_ma_api_test_prvi_danas";
 let copiedClFolderPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas";
