@@ -28,6 +28,7 @@ let copiedClFolderPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas"
 let copiedClDocPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas/2023_ma_api_test_prvi_danas.htm";
 let resultJSON;
 let originalFolders;
+let originalItems;
 
 async function getAuth () {
     var myHeaders = new Headers();
@@ -196,7 +197,7 @@ async function createCopyOfClDoc () {
         .catch(error => console.log('error', error));
 }
 
-async function listContentsClFolder () {
+async function listContentsClFolder (a_originalClFolderPath) {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", authToken);
 
@@ -206,7 +207,7 @@ async function listContentsClFolder () {
         redirect: 'follow'
     };
 
-    return fetch(endPoint + "/rest/api/v1.3/clFolders" + originalClFolderPath, requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/clFolders" + a_originalClFolderPath, requestOptions)
         .then(response => response.text())
         .then(result => {
             console.log(result)
@@ -214,6 +215,7 @@ async function listContentsClFolder () {
             console.log(resultJSON);
             originalFolders = resultJSON.folders;
             console.log(originalFolders)
+            originalItems = resultJSON.items;
         })
         .catch(error => console.log('error', error));
 }
@@ -236,7 +238,11 @@ async function copyFoldersAndFilesOriginalCamp () {
             }
             let subdirectory = array.join('');
             console.log(subdirectory)
-            await createClLibFolder(copiedClFolderPath + '/' + subdirectory)
+            let newSubdirectory = copiedClFolderPath + '/' + subdirectory;
+            await createClLibFolder(newSubdirectory)
+            await listContentsClFolder(folderForCopy)
+            console.log(originalItems)
+            console.log(folderForCopy)
         }))
         return 'Successful copy of all folders!'
 
@@ -256,7 +262,7 @@ export async function main () {
     await fetchTheCopiedCampaign();
     await createClLibFolder(copiedClFolderPath);
     await createCopyOfClDoc();
-    await listContentsClFolder();
+    await listContentsClFolder(originalClFolderPath);
     await copyFoldersAndFilesOriginalCamp();
 }
 
