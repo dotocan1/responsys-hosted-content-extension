@@ -218,8 +218,8 @@ async function listContentsClFolder () {
         .catch(error => console.log('error', error));
 }
 
-function copyAllFoldersOriginalCampaign () {
-    originalFolders.forEach(folder => {
+async function copyAllFoldersOriginalCampaign () {
+    originalFolders.forEach(async folder => {
         console.log(folder.folderPath)
         let folderForCopy = folder.folderPath;
         let count = numberOfOccurences(folderForCopy)
@@ -235,6 +235,7 @@ function copyAllFoldersOriginalCampaign () {
         }
         let subdirectory = array.join('');
         console.log(subdirectory)
+        await createClLibFolder(copiedClFolderPath + '/' + subdirectory)
     })
 }
 
