@@ -237,7 +237,6 @@ async function copyFoldersAndFilesOriginalCamp () {
             console.log(newSubdirectory + " is the newSubdirectory")
             await createClLibFolder(newSubdirectory)
             await listContentsClFolder(folderForCopy)
-            console.log("this are original items " + originalItems)
             await copyAllItems(originalItems)
         }))
         return 'Successful copy of all folders!'
@@ -264,6 +263,7 @@ async function copyAllItems (a_originalItems) {
                 }
             }
             let newItem = array.join('');
+            console.log("This is the old path: " + itemForCopy)
             console.log(newItem + " this is new item")
             let newItemPath = copiedClFolderPath + '/' + newItem;
             console.log(newItemPath + " this is new item path")
