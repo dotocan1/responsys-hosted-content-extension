@@ -223,8 +223,18 @@ function copyAllFoldersOriginalCampaign () {
         console.log(folder.folderPath)
         let folderForCopy = folder.folderPath;
         let count = numberOfOccurences(folderForCopy)
-        return console.log(`This is the count: ${count}`)
-
+        let splitfolderForCopy = folderForCopy.split('');
+        let array = [];
+        let boolCount = 0;
+        for (let index = 0; index < splitfolderForCopy.length; index++) {
+            if (boolCount == count) {
+                array.push(splitfolderForCopy[index])
+            } else if (splitfolderForCopy[index] === "/") {
+                boolCount++;
+            }
+        }
+        let subdirectory = array.join('');
+        console.log(subdirectory)
     })
 }
 
