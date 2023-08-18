@@ -210,11 +210,8 @@ async function listContentsClFolder (a_originalClFolderPath) {
     return fetch(endPoint + "/rest/api/v1.3/clFolders" + a_originalClFolderPath, requestOptions)
         .then(response => response.text())
         .then(result => {
-            console.log(result)
             resultJSON = JSON.parse(result);
-            console.log(resultJSON);
             originalFolders = resultJSON.folders;
-            console.log(originalFolders)
             originalItems = resultJSON.items;
         })
         .catch(error => console.log('error', error));
@@ -223,7 +220,6 @@ async function listContentsClFolder (a_originalClFolderPath) {
 async function copyFoldersAndFilesOriginalCamp () {
     try {
         await Promise.all(originalFolders.map(async folder => {
-            console.log(folder.folderPath)
             let folderForCopy = folder.folderPath;
             let count = numberOfOccurences(folderForCopy)
             let splitfolderForCopy = folderForCopy.split('');
@@ -237,12 +233,12 @@ async function copyFoldersAndFilesOriginalCamp () {
                 }
             }
             let subdirectory = array.join('');
-            console.log(subdirectory)
             let newSubdirectory = copiedClFolderPath + '/' + subdirectory;
+            console.log(newSubdirectory + " is the newSubdirectory")
             await createClLibFolder(newSubdirectory)
             await listContentsClFolder(folderForCopy)
-            console.log(originalItems)
-            console.log(folderForCopy)
+            console.log("this are original items " + originalItems)
+            await copyAllItems(originalItems)
         }))
         return 'Successful copy of all folders!'
 
@@ -250,8 +246,34 @@ async function copyFoldersAndFilesOriginalCamp () {
     catch (error) {
         throw error;
     }
+}
 
+async function copyAllItems (a_originalItems) {
+    try {
+        await Promise.all(a_originalItems.map(async item => {
+            let itemForCopy = item.itemPath;
+            let count = numberOfOccurences(itemForCopy)
+            let splitItemForCopy = itemForCopy.split('');
+            let array = [];
+            let boolCount = 0;
+            for (let index = 0; index < splitItemForCopy.length; index++) {
+                if (boolCount == count) {
+                    array.push(splitItemForCopy[index])
+                } else if (splitItemForCopy[index] === "/") {
+                    boolCount++;
+                }
+            }
+            let newItem = array.join('');
+            console.log(newItem + " this is new item")
+            let newItemPath = copiedClFolderPath + '/' + newItem;
+            console.log(newItemPath + " this is new item path")
+        }))
+        return 'Successful copy of all items!'
 
+    }
+    catch (error) {
+        throw error;
+    }
 }
 
 export async function main () {
