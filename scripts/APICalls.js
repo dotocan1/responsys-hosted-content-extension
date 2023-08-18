@@ -1,3 +1,17 @@
+
+function numberOfOccurences (a_splitClDocPath) {
+    // counting the number of occurences 
+    // of the letter "/"
+    let count = 0;
+    for (let index = 0; index < a_splitClDocPath.length; index++) {
+        if (a_splitClDocPath[index] === "/") {
+            count++;
+        }
+    }
+    return count;
+}
+
+
 // koristenje API-a od Responsysa
 
 let authToken;
@@ -66,19 +80,12 @@ async function fetchCampaign () {
             // an array so that I can get the original folder path
             let splitClDocPath = originalClDocPath.split('');
 
-            // counting the number of occurences 
-            // of the letter "/"
-            let count = 0;
-            for (index = 0; index < splitClDocPath.length; index++) {
-                if (splitClDocPath[index] === "/") {
-                    count++;
-                }
-            }
+            let count = numberOfOccurences(splitClDocPath)
 
             boolCount = 0;
             let arrayOfOriginalClFolderPath = [];
             // getting the original folder path
-            for (index = 0; index < splitClDocPath.length; index++) {
+            for (let index = 0; index < splitClDocPath.length; index++) {
                 if (splitClDocPath[index] === "/") {
                     boolCount++;
                     if (boolCount == count) {
@@ -145,13 +152,13 @@ async function fetchTheCopiedCampaign () {
         .catch(error => console.log('error', error));
 }
 
-async function createClLibFolder () {
+async function createClLibFolder (a_copiedClFolderPath) {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", authToken);
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-        "folderPath": copiedClFolderPath
+        "folderPath": a_copiedClFolderPath
     });
 
     var requestOptions = {
@@ -211,12 +218,13 @@ async function listContentsClFolder () {
         .catch(error => console.log('error', error));
 }
 
-async function copyAllFoldersOriginalCampaign () {
+function copyAllFoldersOriginalCampaign () {
     originalFolders.forEach(folder => {
         console.log(folder.folderPath)
         let folderForCopy = folder.folderPath;
-        
-        
+        let count = numberOfOccurences(folderForCopy)
+        return console.log(`This is the count: ${count}`)
+
     })
 }
 
@@ -227,9 +235,9 @@ export async function main () {
     await fetchCampaign();
     await copyCampaign();
     await fetchTheCopiedCampaign();
-    await createClLibFolder();
+    await createClLibFolder(copiedClFolderPath);
     await createCopyOfClDoc();
     await listContentsClFolder();
-   // await copyAllFoldersOriginalCampaign();
+    copyAllFoldersOriginalCampaign();
 }
 
