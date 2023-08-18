@@ -218,27 +218,35 @@ async function listContentsClFolder () {
         .catch(error => console.log('error', error));
 }
 
-async function copyAllFoldersOriginalCampaign () {
-    originalFolders.forEach(async folder => {
-        console.log(folder.folderPath)
-        let folderForCopy = folder.folderPath;
-        let count = numberOfOccurences(folderForCopy)
-        let splitfolderForCopy = folderForCopy.split('');
-        let array = [];
-        let boolCount = 0;
-        for (let index = 0; index < splitfolderForCopy.length; index++) {
-            if (boolCount == count) {
-                array.push(splitfolderForCopy[index])
-            } else if (splitfolderForCopy[index] === "/") {
-                boolCount++;
+async function copyFoldersAndFilesOriginalCamp () {
+    try {
+        await Promise.all(originalFolders.map(async folder => {
+            console.log(folder.folderPath)
+            let folderForCopy = folder.folderPath;
+            let count = numberOfOccurences(folderForCopy)
+            let splitfolderForCopy = folderForCopy.split('');
+            let array = [];
+            let boolCount = 0;
+            for (let index = 0; index < splitfolderForCopy.length; index++) {
+                if (boolCount == count) {
+                    array.push(splitfolderForCopy[index])
+                } else if (splitfolderForCopy[index] === "/") {
+                    boolCount++;
+                }
             }
-        }
-        let subdirectory = array.join('');
-        console.log(subdirectory)
-        await createClLibFolder(copiedClFolderPath + '/' + subdirectory)
-    })
-}
+            let subdirectory = array.join('');
+            console.log(subdirectory)
+            await createClLibFolder(copiedClFolderPath + '/' + subdirectory)
+        }))
+        return 'Successful copy of all folders!'
 
+    }
+    catch (error) {
+        throw error;
+    }
+
+
+}
 
 export async function main () {
     await getAuth(); // Wait for getAuth to complete
@@ -249,6 +257,6 @@ export async function main () {
     await createClLibFolder(copiedClFolderPath);
     await createCopyOfClDoc();
     await listContentsClFolder();
-    copyAllFoldersOriginalCampaign();
+    await copyFoldersAndFilesOriginalCamp();
 }
 
