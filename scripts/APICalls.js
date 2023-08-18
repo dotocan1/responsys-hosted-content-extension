@@ -175,13 +175,13 @@ async function createClLibFolder (a_copiedClFolderPath) {
         .catch(error => console.log('error', error));
 }
 
-async function createCopyOfClDoc () {
+async function createCopyOfClDoc (oldPath, newPath) {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", authToken);
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-        "documentPath": originalClDocPath
+        "documentPath": oldPath
     });
 
     var requestOptions = {
@@ -191,7 +191,7 @@ async function createCopyOfClDoc () {
         redirect: 'follow'
     };
 
-    return fetch(endPoint + "/rest/api/v1.3/clDocs" + copiedClDocPath, requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/clDocs" + newPath, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -267,6 +267,7 @@ async function copyAllItems (a_originalItems) {
             console.log(newItem + " this is new item")
             let newItemPath = copiedClFolderPath + '/' + newItem;
             console.log(newItemPath + " this is new item path")
+            await createCopyOfClDoc(itemForCopy, newItemPath)
         }))
         return 'Successful copy of all items!'
 
@@ -283,7 +284,7 @@ export async function main () {
     await copyCampaign();
     await fetchTheCopiedCampaign();
     await createClLibFolder(copiedClFolderPath);
-    await createCopyOfClDoc();
+    await createCopyOfClDoc(originalClDocPath, copiedClDocPath);
     await listContentsClFolder(originalClFolderPath);
     await copyFoldersAndFilesOriginalCamp();
 }
