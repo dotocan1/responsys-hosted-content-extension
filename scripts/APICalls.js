@@ -7,15 +7,13 @@ let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 
 let nameOfOriginalCampaign = "2023_ma_generalni_mail_redone"
 let originalClDocPath;
-let originalClFolderPath;
+let originalClFolderPath = "/contentlibrary/dominik_o/2023_ma_generalni_mail_redone/2023_ma_generalni_mail_redone.htm";
 let folderName = "dominik_o"
 let nameOfCopiedCampaign = "2023_ma_api_test_prvi_danas";
-let copiedClFolderPath;
-let copiedClDocPath;
+let copiedClFolderPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas";
+let copiedClDocPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas/2023_ma_api_test_prvi_danas.htm";
 let resultJSON;
 let originalFolders;
-
-console.log(document.getElementById("btnCopyEx"))
 
 async function getAuth () {
     var myHeaders = new Headers();
@@ -36,12 +34,9 @@ async function getAuth () {
     return fetch("https://login.rsys8.net/rest/api/v1.3/auth/token", requestOptions)
         .then(response => response.text())
         .then(result => {
-            console.log(result);
             resultJSON = JSON.parse(result);
             authToken = resultJSON.authToken;
             endPoint = resultJSON.endPoint;
-            console.log(authToken)
-            console.log(endPoint)
         })
         .catch(error => console.log('error', error));
 }
@@ -70,8 +65,6 @@ async function fetchCampaign () {
             // splitting the original content library document path into
             // an array so that I can get the original folder path
             let splitClDocPath = originalClDocPath.split('');
-
-            console.log(originalClDocPath);
 
             // counting the number of occurences 
             // of the letter "/"
@@ -124,7 +117,6 @@ async function copyCampaign () {
     return fetch(endPoint + "/rest/api/v1.3/campaigns/2023_ma_generalni_mail_redone/actions/copy", requestOptions)
         .then(response => response.text())
         .then(result => {
-            console.log(result)
             copiedClFolderPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign;
             copiedClDocPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign + "/" + nameOfCopiedCampaign + ".htm";
             console.log(copiedClFolderPath)
@@ -210,36 +202,12 @@ async function listContentsClFolder () {
     return fetch(endPoint + "/rest/api/v1.3/clFolders" + originalClFolderPath, requestOptions)
         .then(response => response.text())
         .then(result => {
+            console.log(result)
             resultJSON = JSON.parse(result);
             console.log(resultJSON);
             originalFolders = resultJSON.folders;
             console.log(originalFolders)
         })
-        .catch(error => console.log('error', error));
-}
-
-// declaring the function again
-// it will only be used for copying folders
-
-async function createCopiedClLibFolderFor () {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", authToken);
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-        "folderPath": copiedClFolderPath
-    });
-
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-
-    return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
         .catch(error => console.log('error', error));
 }
 
@@ -262,6 +230,6 @@ export async function main () {
     await createClLibFolder();
     await createCopyOfClDoc();
     await listContentsClFolder();
-    await copyAllFoldersOriginalCampaign();
+   // await copyAllFoldersOriginalCampaign();
 }
 
