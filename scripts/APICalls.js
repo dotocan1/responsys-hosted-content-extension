@@ -177,6 +177,8 @@ async function createClLibFolder (a_copiedClFolderPath) {
 
 async function createCopyOfClDoc (oldPath, newPath) {
     var myHeaders = new Headers();
+    console.log(originalClDocPath + "originalClDocPath")
+    console.log(copiedClDocPath + " copiedClDocPath")
     myHeaders.append("Authorization", authToken);
     myHeaders.append("Content-Type", "application/json");
 
@@ -192,6 +194,28 @@ async function createCopyOfClDoc (oldPath, newPath) {
     };
 
     return fetch(endPoint + "/rest/api/v1.3/clDocs" + newPath, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
+
+async function createCopyOfClItem (oldPath, newPath) {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", authToken);
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "itemPath": oldPath
+    });
+
+    var requestOptions = {
+        method: 'PUT',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    return fetch(endPoint + "/rest/api/v1.3/clItems" + newPath, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -237,7 +261,7 @@ async function copyFoldersAndFilesOriginalCamp () {
             console.log(newSubdirectory + " is the newSubdirectory")
             await createClLibFolder(newSubdirectory)
             await listContentsClFolder(folderForCopy)
-            await copyAllItems(originalItems)
+            await copyAllItems(originalItems, newSubdirectory)
         }))
         return 'Successful copy of all folders!'
 
@@ -247,7 +271,7 @@ async function copyFoldersAndFilesOriginalCamp () {
     }
 }
 
-async function copyAllItems (a_originalItems) {
+async function copyAllItems (a_originalItems, newSubdirectory) {
     try {
         await Promise.all(a_originalItems.map(async item => {
             let itemForCopy = item.itemPath;
@@ -265,9 +289,9 @@ async function copyAllItems (a_originalItems) {
             let newItem = array.join('');
             console.log("This is the old path: " + itemForCopy)
             console.log(newItem + " this is new item")
-            let newItemPath = copiedClFolderPath + '/' + newItem;
-            console.log(newItemPath + " this is new item path")
-            await createCopyOfClDoc(itemForCopy, newItemPath)
+            let newItemPath = newSubdirectory + "/" + newItem
+            console.log(newSubdirectory + " this is new item path")
+            await createCopyOfClItem(itemForCopy, newItemPath)
         }))
         return 'Successful copy of all items!'
 
