@@ -1,14 +1,14 @@
 // function that executes the upload script
 function injectTheUploadScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['uploadScript.js'] })
+        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/uploadScript.js'] })
     })
 }
 
 // function that executes the publish script
 function injectThePublishScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['PublishScript.js'] })
+        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/PublishScript.js'] })
     })
 }
 
@@ -16,7 +16,7 @@ function injectThePublishScript () {
 function injectTheDeleteScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, async tabs => {
         await saveDeleteValue();
-        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['DeleteScript.js'] })
+        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/DeleteScript.js'] })
     })
 }
 
