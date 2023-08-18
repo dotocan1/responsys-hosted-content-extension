@@ -3,9 +3,6 @@
     "name": "Responsys Hosted Content Helper",
     "description": "Upload images easier",
     "version": "1.0",
-    "background": {
-      "service_worker": "background.js"
-    },
     "action": {
       "default_popup": "main_page.html",
       "default_icon": "./images/responsys-logo.png"
