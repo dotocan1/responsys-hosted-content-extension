@@ -1,5 +1,8 @@
 import * as APICalls from './scripts/APICalls.js';
 
+let originalCampFieldTxt = document.getElementById("original-campaign-field");
+let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
+
 // function that executes the upload script
 function injectTheUploadScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -28,7 +31,10 @@ let boolOpenImages = false;
 document.getElementById('btnUploadEx').addEventListener('click', injectTheUploadScript)
 document.getElementById('btnPublishEx').addEventListener('click', injectThePublishScript)
 document.getElementById('btnDeleteEx').addEventListener('click', injectTheDeleteScript)
-document.getElementById("btnCopyEx").addEventListener('click', APICalls.main)
+document.getElementById("btnCopyEx").addEventListener('click', () => {
+    console.log(originalCampFieldTxt.value)
+    APICalls.main(originalCampFieldTxt.value, copiedCampFieldTxt.value);
+})
 
 // getting the initial state of the checkbox for opening all images
 try {

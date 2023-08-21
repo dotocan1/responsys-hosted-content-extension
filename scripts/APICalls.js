@@ -16,15 +16,13 @@ function numberOfOccurences (a_splitClDocPath) {
 
 let authToken;
 let endPoint;
-let originalCampFieldTxt = document.getElementById("original-campaign-field");
-let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 
 let resultJSON;
 let originalClDocPath;
 
 // testing variables
-let nameOfOriginalCampaign = originalCampFieldTxt.textContent;
-let nameOfCopiedCampaign = copiedCampFieldTxt.textContent;
+let nameOfOriginalCampaign;
+let nameOfCopiedCampaign;
 let originalClFolderPath;
 let copiedClFolderPath;
 let copiedClDocPath;
@@ -204,7 +202,9 @@ async function createCopyOfClDoc (oldPath, newPath) {
         .catch(error => console.log('error', error));
 }
 
-export async function main () {
+export async function main (originalCamp, newCamp) {
+    nameOfOriginalCampaign = originalCamp;
+    nameOfCopiedCampaign = newCamp;
     await getAuth(); // Wait for getAuth to complete
     //getAccountInfo();
     await fetchCampaign();
