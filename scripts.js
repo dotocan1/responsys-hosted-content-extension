@@ -58,16 +58,3 @@ function saveDeleteValue () {
         resolve();
     })
 }
-
-// setting event handler for delete button
-// it will save the value inside the text field then call the function
-// that executes the delete script
-
-function executeDeleteScript () {
-    document.getElementById('btnDeleteEx').addEventListener('click', async () => {
-        // Persist extension storage
-        await saveDeleteValue();
-        injectTheDeleteScript();
-    });
-    resolve();
-};
