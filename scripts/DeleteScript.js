@@ -53,10 +53,12 @@ function deleteItems () {
                         }
                     }
                 }
+
             } catch (error) {
                 console.error('An error occurred in the iframe:', error);
             }
         });
+        alert("All images have been deleted!")
     } catch (error) {
         console.error('An error occurred:', error);
     }

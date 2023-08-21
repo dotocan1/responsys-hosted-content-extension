@@ -11,6 +11,7 @@ function loopWithDelay () {
                 window.open(item, "_blank");
             })
         }
+        alert("All images have been published!")
         return;
     }
 

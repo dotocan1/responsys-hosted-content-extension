@@ -198,7 +198,10 @@ async function createCopyOfClDoc (oldPath, newPath) {
 
     return fetch(endPoint + "/rest/api/v1.3/clDocs" + newPath, requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => {
+            console.log(result)
+            alert("Campaign has been copied!")
+        })
         .catch(error => console.log('error', error));
 }
 
