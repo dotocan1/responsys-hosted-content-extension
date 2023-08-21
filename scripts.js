@@ -28,7 +28,7 @@ let boolOpenImages = false;
 document.getElementById('btnUploadEx').addEventListener('click', injectTheUploadScript)
 document.getElementById('btnPublishEx').addEventListener('click', injectThePublishScript)
 document.getElementById('btnDeleteEx').addEventListener('click', injectTheDeleteScript)
-document.getElementById("btnCopyEx").addEventListener('click', APICalls.main())
+document.getElementById("btnCopyEx").addEventListener('click', APICalls.main)
 
 // getting the initial state of the checkbox for opening all images
 try {

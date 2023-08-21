@@ -23,8 +23,8 @@ let resultJSON;
 let originalClDocPath;
 
 // testing variables
-let nameOfOriginalCampaign = "2023_ma_generalni_mail_redone"
-let nameOfCopiedCampaign = "2023_ma_api_test_prvi_danas1";
+let nameOfOriginalCampaign = originalCampFieldTxt.textContent;
+let nameOfCopiedCampaign = copiedCampFieldTxt.textContent;
 let originalClFolderPath;
 let copiedClFolderPath;
 let copiedClDocPath;
