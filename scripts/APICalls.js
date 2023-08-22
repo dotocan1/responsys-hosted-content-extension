@@ -38,10 +38,13 @@ async function getAuth () {
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     var urlencoded = new URLSearchParams();
+    //**********************************************************************************************************************************************************************
+    // ONLY CHANGE THIS LINES OF CODE
     urlencoded.append("user_name", "dominik.otocan");
     urlencoded.append("password", "Babab!1Babab");
+    // ONLY CHANGE THIS LINES OF CODE
+    //**********************************************************************************************************************************************************************
     urlencoded.append("auth_type", "password");
-
     var requestOptions = {
         method: 'POST',
         headers: myHeaders,
@@ -125,7 +128,7 @@ async function copyCampaign () {
         redirect: 'follow'
     };
 
-    return fetch(endPoint + "/rest/api/v1.3/campaigns/"+ nameOfOriginalCampaign + "/actions/copy", requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/campaigns/" + nameOfOriginalCampaign + "/actions/copy", requestOptions)
         .then(response => response.text())
         .then(result => {
             copiedClFolderPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign;
