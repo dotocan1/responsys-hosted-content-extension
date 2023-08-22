@@ -125,7 +125,7 @@ async function copyCampaign () {
         redirect: 'follow'
     };
 
-    return fetch(endPoint + "/rest/api/v1.3/campaigns/2023_ma_generalni_mail_redone/actions/copy", requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/campaigns/"+ nameOfOriginalCampaign + "/actions/copy", requestOptions)
         .then(response => response.text())
         .then(result => {
             copiedClFolderPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign;
