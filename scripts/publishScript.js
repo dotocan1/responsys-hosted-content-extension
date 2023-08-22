@@ -1,4 +1,4 @@
-function loopWithDelay () {
+async function loopWithDelay () {
     // select publish button here
     if (i == storedVariable.length) {
         storedLinks.forEach(function (item) {
@@ -6,6 +6,7 @@ function loopWithDelay () {
         });
 
         // if user has turned on "Open every image in new tab"
+        await getChkOpenImages();
         if (boolOpenImages == true) {
             storedOnlyLinks.forEach(function (item) {
                 window.open(item, "_blank");
