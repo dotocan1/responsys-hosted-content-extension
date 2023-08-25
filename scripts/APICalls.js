@@ -56,10 +56,18 @@ async function getAuth () {
         .then(response => response.text())
         .then(result => {
             resultJSON = JSON.parse(result);
+            if (resultJSON.errorCode === "INVALID_USER_NAME_PASSWORD") {
+                alert("Wrong username or password!")
+                return false;
+            }
             authToken = resultJSON.authToken;
             endPoint = resultJSON.endPoint;
         })
-        .catch(error => console.log('error', error));
+        .catch(error => {
+            console.log('error', error);
+            alert("Something went wrong while authenticating!")
+            return false;
+        })
 }
 
 async function fetchCampaign () {
@@ -107,7 +115,11 @@ async function fetchCampaign () {
             originalClFolderPath = arrayOfOriginalClFolderPath.join('')
         }
         )
-        .catch(error => console.log('error', error));
+        .catch(error => {
+            console.log('error', error)
+            alert("Campaign not found!")
+            return false;
+        });
 }
 
 async function copyCampaign () {
@@ -211,9 +223,20 @@ async function createCopyOfClDoc (oldPath, newPath) {
 export async function main (originalCamp, newCamp) {
     nameOfOriginalCampaign = originalCamp;
     nameOfCopiedCampaign = newCamp;
-    await getAuth(); // Wait for getAuth to complete
-    //getAccountInfo();
-    await fetchCampaign();
+    let authSuccess = await getAuth(); // Wait for getAuth to complete
+
+    if (authSuccess == false) {
+        return 0;
+    }
+
+    console.log("hey")
+    let fetchSuccess = await fetchCampaign();
+
+    if (fetchSuccess == false) {
+        return 0;
+    }
+
+    console.log("hey")
     await copyCampaign();
     await fetchTheCopiedCampaign();
     await createClLibFolder(copiedClFolderPath);
