@@ -96,7 +96,7 @@ async function fetchCampaign () {
             let splitClDocPath = originalClDocPath.split('');
 
             let count = numberOfOccurences(splitClDocPath)
-
+            count--;
             let boolCount = 0;
             let arrayOfOriginalClFolderPath = [];
             // getting the original folder path
@@ -143,10 +143,10 @@ async function copyCampaign () {
     return fetch(endPoint + "/rest/api/v1.3/campaigns/" + nameOfOriginalCampaign + "/actions/copy", requestOptions)
         .then(response => response.text())
         .then(result => {
-            copiedClFolderPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign;
-            copiedClDocPath = "/contentlibrary/dominik_o/" + nameOfCopiedCampaign + "/" + nameOfCopiedCampaign + ".htm";
-            console.log(copiedClFolderPath)
-            console.log(copiedClDocPath)
+            copiedClFolderPath = originalClFolderPath + "/" + nameOfCopiedCampaign;
+            copiedClDocPath = originalClFolderPath + "/" + nameOfCopiedCampaign + "/" + nameOfCopiedCampaign + ".htm";
+            console.log("this is copied folder path: " + copiedClFolderPath)
+            console.log("this is copied cl doc path" + copiedClDocPath)
         })
         .catch(error => console.log('error', error));
 }
@@ -166,7 +166,6 @@ async function fetchTheCopiedCampaign () {
         .then(result => {
             // console.log(result)
             resultJSON = JSON.parse(result);
-            console.log(resultJSON);
         })
         .catch(error => console.log('error', error));
 }
@@ -195,8 +194,8 @@ async function createClLibFolder (a_copiedClFolderPath) {
 
 async function createCopyOfClDoc (oldPath, newPath) {
     var myHeaders = new Headers();
-    console.log(originalClDocPath + "originalClDocPath")
-    console.log(copiedClDocPath + " copiedClDocPath")
+    console.log(originalClDocPath + " this is originalClDocPath")
+    console.log(copiedClDocPath + " this is copiedClDocPath")
     myHeaders.append("Authorization", authToken);
     myHeaders.append("Content-Type", "application/json");
 
