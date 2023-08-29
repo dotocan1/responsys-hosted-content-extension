@@ -220,21 +220,35 @@ async function createCopyOfClDoc (oldPath, newPath) {
 }
 
 export async function main (originalCamp, newCamp) {
+    // Disable all interactions
+    document.body.style.pointerEvents = 'none';
+    let body = document.getElementById("body")
+    body.classList.add("hide-all");
+
     nameOfOriginalCampaign = originalCamp;
     nameOfCopiedCampaign = newCamp;
     let authSuccess = await getAuth(); // Wait for getAuth to complete
 
     if (authSuccess == false) {
+        // Enable all interactions
+        document.body.style.pointerEvents = 'auto';
+        body.classList.remove("hide-all");
         return 0;
     }
     let fetchSuccess = await fetchCampaign();
 
     if (fetchSuccess == false) {
+        // Enable all interactions
+        document.body.style.pointerEvents = 'auto';
+        body.classList.remove("hide-all");
         return 0;
     }
     await copyCampaign();
     await fetchTheCopiedCampaign();
     await createClLibFolder(copiedClFolderPath);
     await createCopyOfClDoc(originalClDocPath, copiedClDocPath);
+    // Enable all interactions
+    document.body.style.pointerEvents = 'auto';
+    body.classList.remove("hide-all");
 }
 

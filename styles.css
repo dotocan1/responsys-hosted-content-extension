@@ -5,7 +5,9 @@ body {
   background-position: center;
 }
 
-
+.hide-all {
+  opacity: 0.1;
+}
 #ps {
   color: #3E1A94;
 }
