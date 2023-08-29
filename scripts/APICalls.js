@@ -214,7 +214,7 @@ async function createCopyOfClDoc (oldPath, newPath) {
         .then(response => response.text())
         .then(result => {
             console.log(result)
-            alert("Campaign has been copied!")
+            alert("Campaign has been copied!\nNew folder path is:\n" + copiedClFolderPath)
         })
         .catch(error => console.log('error', error));
 }
@@ -227,15 +227,11 @@ export async function main (originalCamp, newCamp) {
     if (authSuccess == false) {
         return 0;
     }
-
-    console.log("hey")
     let fetchSuccess = await fetchCampaign();
 
     if (fetchSuccess == false) {
         return 0;
     }
-
-    console.log("hey")
     await copyCampaign();
     await fetchTheCopiedCampaign();
     await createClLibFolder(copiedClFolderPath);
