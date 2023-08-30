@@ -10,7 +10,28 @@ function numberOfOccurences (a_splitClDocPath) {
     }
     return count;
 }
+const customSort = (a, b) => {
+    for (let i = 0; i < Math.min(a.length, b.length); i++) {
+        let charA = a.charCodeAt(i);
+        let charB = b.charCodeAt(i);
 
+        if (charA !== charB) {
+            if (Math.abs(charA - charB) === 32) {
+                return charA < charB ? -1 : 1;
+            } else {
+                let lowerA = a[i].toLowerCase();
+                let lowerB = b[i].toLowerCase();
+
+                if (lowerA === lowerB) {
+                    return charA < charB ? -1 : 1;
+                } else {
+                    return lowerA < lowerB ? -1 : 1;
+                }
+            }
+        }
+    }
+    return a.length - b.length;
+};
 
 // koristenje API-a od Responsysa
 
@@ -169,6 +190,9 @@ async function getAllFolders () {
         .then(async result => {
             resultJSON = JSON.parse(result);
             let folders = resultJSON.folders;
+            folders.sort(customSort);
+            console.log(folders)
+            // TODO: Fix this so that I can sort
             folders.forEach(folder => {
                 //console.log(folder.name)
                 let option = document.createElement("option");
@@ -177,7 +201,6 @@ async function getAllFolders () {
                 folderSelect.appendChild(option);
             })
 
-            // TODO: add this in a separate click and focus listener
             const defaultOption = document.createElement('option');
             defaultOption.textContent = folderName;
 
