@@ -125,6 +125,29 @@ async function fetchCampaign () {
         });
 }
 
+async function getAllFolders () {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "EDv_OpzTLhf8h5aB9JGT8vm-8yDvp7V7u6Zlk6n0VSVp5mcXJ4fkEF2CcRIj2w");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+    };
+
+    return fetch("https://v8h1pzy-api.responsys.ocs.oraclecloud.com/rest/api/v1.3/folders", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            resultJSON = JSON.parse(result);
+
+            let folders = resultJSON.folders;
+
+            folders.forEach(folder => {
+                console.log(folder.name)
+            })
+        })
+        .catch(error => console.log('error', error));
+}
 async function copyCampaign () {
     var myHeaders = new Headers();
     myHeaders.append("Authorization", authToken);
@@ -238,6 +261,7 @@ export async function main (originalCamp, newCamp) {
         body.classList.remove("hide-all");
         return 0;
     }
+    await getAllFolders();
     let fetchSuccess = await fetchCampaign();
 
     if (fetchSuccess == false) {
