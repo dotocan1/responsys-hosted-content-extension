@@ -27,6 +27,7 @@ let originalClFolderPath;
 let copiedClFolderPath;
 let copiedClDocPath;
 let folderName;
+
 //let originalClFolderPath = "/contentlibrary/dominik_o/2023_ma_generalni_mail_redone";
 // let folderName = "dominik_o"
 // let copiedClFolderPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas1";
@@ -86,6 +87,8 @@ async function fetchCampaign () {
         .then(result => {
             // console.log(result)
             resultJSON = JSON.parse(result);
+
+            folderName = resultJSON.folderName;
 
             originalClDocPath = resultJSON.htmlMessagePath;
 
