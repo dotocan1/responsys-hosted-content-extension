@@ -32,8 +32,7 @@ document.getElementById('btnUploadEx').addEventListener('click', injectTheUpload
 document.getElementById('btnPublishEx').addEventListener('click', injectThePublishScript)
 document.getElementById('btnDeleteEx').addEventListener('click', injectTheDeleteScript)
 document.getElementById("btnCopyEx").addEventListener('click', () => {
-    console.log(originalCampFieldTxt.value)
-    APICalls.main(originalCampFieldTxt.value, copiedCampFieldTxt.value);
+    APICalls.main();
 })
 
 // getting the initial state of the checkbox for opening all images

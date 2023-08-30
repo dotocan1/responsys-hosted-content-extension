@@ -27,12 +27,34 @@ let originalClFolderPath;
 let copiedClFolderPath;
 let copiedClDocPath;
 let folderName;
-
+let folderSelect = document.getElementById("folders")
+let originalCampaignField = document.getElementById("original-campaign-field")
+let copiedCampaignField = document.getElementById("copied-campaign-field")
 //let originalClFolderPath = "/contentlibrary/dominik_o/2023_ma_generalni_mail_redone";
 // let folderName = "dominik_o"
 // let copiedClFolderPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas1";
 // let copiedClDocPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas1/2023_ma_api_test_prvi_danas1.htm";
 
+originalCampaignField.addEventListener("blur", async function () {
+    nameOfOriginalCampaign = originalCampaignField.value;
+    let authSuccess = await getAuth(); // Wait for getAuth to complete
+
+    if (authSuccess == false) {
+        // Enable all interactions
+        document.body.style.pointerEvents = 'auto';
+        body.classList.remove("hide-all");
+        return 0;
+    }
+    let fetchSuccess = await fetchCampaign();
+
+    if (fetchSuccess == false) {
+        // Enable all interactions
+        document.body.style.pointerEvents = 'auto';
+        body.classList.remove("hide-all");
+        return 0;
+    }
+    getAllFolders();
+})
 
 async function getAuth () {
     var myHeaders = new Headers();
@@ -127,7 +149,7 @@ async function fetchCampaign () {
 
 async function getAllFolders () {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "EDv_OpzTLhf8h5aB9JGT8vm-8yDvp7V7u6Zlk6n0VSVp5mcXJ4fkEF2CcRIj2w");
+    myHeaders.append("Authorization", authToken);
 
     var requestOptions = {
         method: 'GET',
@@ -135,16 +157,29 @@ async function getAllFolders () {
         redirect: 'follow'
     };
 
-    return fetch("https://v8h1pzy-api.responsys.ocs.oraclecloud.com/rest/api/v1.3/folders", requestOptions)
+    return fetch(endPoint + "/rest/api/v1.3/folders", requestOptions)
         .then(response => response.text())
-        .then(result => {
+        .then(async result => {
             resultJSON = JSON.parse(result);
-
             let folders = resultJSON.folders;
-
             folders.forEach(folder => {
-                console.log(folder.name)
+                //console.log(folder.name)
+                let option = document.createElement("option");
+                option.value = folder.name;
+                option.textContent = folder.name;
+                folderSelect.appendChild(option);
             })
+
+            // TODO: add this in a separate click and focus listener
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = folderName;
+
+            // Add the new option to the beginning of the dropdown list
+            folderSelect.insertBefore(defaultOption, folderSelect.firstChild);
+
+            // Set the new option as the default selected option
+            defaultOption.selected = true;
+            defaultOption.disabled = true;
         })
         .catch(error => console.log('error', error));
 }
@@ -156,7 +191,7 @@ async function copyCampaign () {
     var raw = JSON.stringify({
         "newCampaignName": nameOfCopiedCampaign,
         "description": "",
-        "folderName": folderName
+        "folderName": folderSelect.value
     });
 
     var requestOptions = {
@@ -245,31 +280,13 @@ async function createCopyOfClDoc (oldPath, newPath) {
         .catch(error => console.log('error', error));
 }
 
-export async function main (originalCamp, newCamp) {
+export async function main () {
+    nameOfCopiedCampaign = copiedCampaignField.value;
     // Disable all interactions
     document.body.style.pointerEvents = 'none';
     let body = document.getElementById("body")
     body.classList.add("hide-all");
 
-    nameOfOriginalCampaign = originalCamp;
-    nameOfCopiedCampaign = newCamp;
-    let authSuccess = await getAuth(); // Wait for getAuth to complete
-
-    if (authSuccess == false) {
-        // Enable all interactions
-        document.body.style.pointerEvents = 'auto';
-        body.classList.remove("hide-all");
-        return 0;
-    }
-    await getAllFolders();
-    let fetchSuccess = await fetchCampaign();
-
-    if (fetchSuccess == false) {
-        // Enable all interactions
-        document.body.style.pointerEvents = 'auto';
-        body.classList.remove("hide-all");
-        return 0;
-    }
     await copyCampaign();
     await fetchTheCopiedCampaign();
     await createClLibFolder(copiedClFolderPath);

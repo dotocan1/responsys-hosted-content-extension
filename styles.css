@@ -80,13 +80,13 @@ label {
   align-items: baseline;
 }
 
-input[type="text"] {
+input[type="text"], select {
   height: 50%;
   width: 380px;
 }
 
 #btnDeleteEx,
-#btnCreateEx {
+#btnCreateEx, #btnCopyEx {
   width: 250px;
 }
 
