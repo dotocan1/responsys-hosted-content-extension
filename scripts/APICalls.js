@@ -36,6 +36,10 @@ let copiedCampaignField = document.getElementById("copied-campaign-field")
 // let copiedClDocPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas1/2023_ma_api_test_prvi_danas1.htm";
 
 originalCampaignField.addEventListener("blur", async function () {
+    // Disable all interactions
+    document.body.style.pointerEvents = 'none';
+    let body = document.getElementById("body")
+    body.classList.add("hide-all");
     nameOfOriginalCampaign = originalCampaignField.value;
     let authSuccess = await getAuth(); // Wait for getAuth to complete
 
@@ -53,6 +57,9 @@ originalCampaignField.addEventListener("blur", async function () {
         body.classList.remove("hide-all");
         return 0;
     }
+
+    // delete options
+    folderSelect.innerHTML = '';
     getAllFolders();
 })
 
@@ -180,6 +187,10 @@ async function getAllFolders () {
             // Set the new option as the default selected option
             defaultOption.selected = true;
             defaultOption.disabled = true;
+
+            // Enable all interactions
+            document.body.style.pointerEvents = 'auto';
+            body.classList.remove("hide-all");
         })
         .catch(error => console.log('error', error));
 }
