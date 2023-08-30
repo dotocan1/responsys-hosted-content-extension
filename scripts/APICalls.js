@@ -190,14 +190,20 @@ async function getAllFolders () {
         .then(async result => {
             resultJSON = JSON.parse(result);
             let folders = resultJSON.folders;
-            folders.sort(customSort);
+
             console.log(folders)
+            // create new folder with folder names
+            let folderNames = [];
+
+            folders.forEach(folder => folderNames.push(folder.name))
+            folderNames.sort(customSort);
+
             // TODO: Fix this so that I can sort
-            folders.forEach(folder => {
+            folderNames.forEach(folder => {
                 //console.log(folder.name)
                 let option = document.createElement("option");
-                option.value = folder.name;
-                option.textContent = folder.name;
+                option.value = folder;
+                option.textContent = folder;
                 folderSelect.appendChild(option);
             })
 
