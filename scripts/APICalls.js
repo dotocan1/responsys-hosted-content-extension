@@ -51,10 +51,6 @@ let folderName;
 let folderSelect = document.getElementById("folders")
 let originalCampaignField = document.getElementById("original-campaign-field")
 let copiedCampaignField = document.getElementById("copied-campaign-field")
-//let originalClFolderPath = "/contentlibrary/dominik_o/2023_ma_generalni_mail_redone";
-// let folderName = "dominik_o"
-// let copiedClFolderPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas1";
-// let copiedClDocPath = "/contentlibrary/dominik_o/2023_ma_api_test_prvi_danas1/2023_ma_api_test_prvi_danas1.htm";
 
 originalCampaignField.addEventListener("blur", async function () {
     // Disable all interactions
@@ -81,7 +77,13 @@ originalCampaignField.addEventListener("blur", async function () {
 
     // delete options
     folderSelect.innerHTML = '';
-    getAllFolders();
+    await getAllFolders();
+    // Inside this function, "this" refers to the <select> element with id "mySelect"
+    let firstOption = folderSelect.querySelector('option:first-child');
+    // Check if first option is still visible before hiding
+    if (!firstOption.hidden) {
+        firstOption.hidden = true;
+    }
 })
 
 async function getAuth () {
