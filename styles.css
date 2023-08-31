@@ -5,6 +5,10 @@ body {
   background-position: center;
 }
 
+body * {
+  font-family: 'Montserrat', sans-serif;
+}
+
 .hide-all {
   opacity: 0.1;
 }

@@ -144,6 +144,8 @@ async function fetchCampaign () {
 
             originalClDocPath = resultJSON.htmlMessagePath;
 
+            console.log(originalClDocPath)
+
             // splitting the original content library document path into
             // an array so that I can get the original folder path
             let splitClDocPath = originalClDocPath.split('');
@@ -191,14 +193,12 @@ async function getAllFolders () {
             resultJSON = JSON.parse(result);
             let folders = resultJSON.folders;
 
-            console.log(folders)
+            // console.log(folders)
             // create new folder with folder names
             let folderNames = [];
 
             folders.forEach(folder => folderNames.push(folder.name))
             folderNames.sort(customSort);
-
-            // TODO: Fix this so that I can sort
             folderNames.forEach(folder => {
                 //console.log(folder.name)
                 let option = document.createElement("option");
