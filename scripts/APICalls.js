@@ -1,7 +1,9 @@
 //**********************************************************************************************************************************************************************
 // ONLY CHANGE THIS LINES OF CODE
-const USER_NAME = "dominik.otocan";
-const PASSWORD = "Babab!1Babab";
+const CONFIG = {
+    USER_NAME: "dominik.otocan",
+    PASSWORD: "Babab!1Babab",
+}
 // ONLY CHANGE THIS LINES OF CODE
 //**********************************************************************************************************************************************************************
 
@@ -38,7 +40,6 @@ const customSort = (a, b) => {
     }
     return a.length - b.length;
 };
-
 // factories
 
 function createCampaignHandler () {
@@ -66,11 +67,26 @@ function createDOMHandler () {
     let folderSelect = document.getElementById("folders");
     let originalCampaignField = document.getElementById("original-campaign-field");
     let copiedCampaignField = document.getElementById("copied-campaign-field");
+
+    function enableInteractions () {
+        // Enable all interactions
+        document.body.style.pointerEvents = 'auto';
+        domHandler.body.classList.remove("hide-all");
+    }
+
+    function disableInteractions () {
+        // Disable all interactions
+        document.body.style.pointerEvents = 'none';
+        domHandler.body.classList.add("hide-all");
+    }
+
     return {
         folderSelect: folderSelect,
         originalCampaignField: originalCampaignField,
         copiedCampaignField: copiedCampaignField,
-        body: body
+        body: body,
+        enableInteractions: enableInteractions,
+        disableInteractions: disableInteractions,
     }
 
 
@@ -86,8 +102,8 @@ function createAPIHandler () {
 
         var urlencoded = new URLSearchParams();
 
-        urlencoded.append("user_name", USER_NAME);
-        urlencoded.append("password", PASSWORD);
+        urlencoded.append("user_name", CONFIG.USER_NAME);
+        urlencoded.append("password", CONFIG.PASSWORD);
 
         urlencoded.append("auth_type", "password");
         var requestOptions = {
@@ -211,9 +227,7 @@ function createAPIHandler () {
                 defaultOption.selected = true;
                 defaultOption.disabled = true;
 
-                // Enable all interactions
-                document.body.style.pointerEvents = 'auto';
-                domHandler.body.classList.remove("hide-all");
+                domHandler.enableInteractions();
             })
             .catch(error => console.log('error', error));
     }
@@ -334,24 +348,18 @@ const apiHandler = createAPIHandler();
 
 // event listeners
 domHandler.originalCampaignField.addEventListener("blur", async function () {
-    // Disable all interactions
-    document.body.style.pointerEvents = 'none';
-    domHandler.body.classList.add("hide-all");
+    domHandler.disableInteractions();
     campaignHandler.nameOfOriginalCampaign = domHandler.originalCampaignField.value;
     let authSuccess = await apiHandler.getAuth(); // Wait for getAuth to complete
 
     if (authSuccess == false) {
-        // Enable all interactions
-        document.body.style.pointerEvents = 'auto';
-        domHandler.body.classList.remove("hide-all");
+        domHandler.enableInteractions();
         return 0;
     }
     let fetchSuccess = await apiHandler.fetchCampaign();
 
     if (fetchSuccess == false) {
-        // Enable all interactions
-        document.body.style.pointerEvents = 'auto';
-        domHandler.body.classList.remove("hide-all");
+        domHandler.enableInteractions();
         return 0;
     }
 
@@ -368,16 +376,12 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
 
 export async function main () {
     campaignHandler.nameOfCopiedCampaign = domHandler.copiedCampaignField.value;
-    // Disable all interactions
-    document.body.style.pointerEvents = 'none';
-    domHandler.body.classList.add("hide-all");
+    domHandler.disableInteractions();
 
     await apiHandler.copyCampaign();
     await apiHandler.fetchTheCopiedCampaign();
     await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
     await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
-    // Enable all interactions
-    document.body.style.pointerEvents = 'auto';
-    domHandler.body.classList.remove("hide-all");
+    domHandler.enableInteractions();
 }
 
