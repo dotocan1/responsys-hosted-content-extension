@@ -4,14 +4,15 @@ export function createDOMHandler () {
     let originalCampaignField = document.getElementById("original-campaign-field");
     let copiedCampaignField = document.getElementById("copied-campaign-field");
     let flexboxContainer = document.getElementById("flexbox-container");
+
+    // Enables all interactions on DOM
     function enableInteractions () {
-        // Enable all interactions
         document.body.style.pointerEvents = 'auto';
         body.classList.remove("hide-all");
     }
 
+    // Disables all interactions on DOM
     function disableInteractions () {
-        // Disable all interactions
         document.body.style.pointerEvents = 'none';
         body.classList.add("hide-all");
     }
