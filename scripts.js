@@ -1,4 +1,4 @@
-import * as APICalls from './scripts/APICalls.js';
+import * as APICalls from './scripts/index.js';
 
 let originalCampFieldTxt = document.getElementById("original-campaign-field");
 let copiedCampFieldTxt = document.getElementById("copied-campaign-field");

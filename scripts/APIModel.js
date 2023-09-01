@@ -1,109 +1,52 @@
-//**********************************************************************************************************************************************************************
-// ONLY CHANGE THIS LINES OF CODE
-const CONFIG = {
-    USER_NAME: "dominik.otocan",
-    PASSWORD: "Babab!1Babab",
-}
-// ONLY CHANGE THIS LINES OF CODE
-//**********************************************************************************************************************************************************************
+import * as CONFIGModule from "../CONFIG.js"
 
-function numberOfOccurences (a_splitClDocPath) {
-    // counting the number of occurences 
-    // of the letter "/"
-    let count = 0;
-    for (let index = 0; index < a_splitClDocPath.length; index++) {
-        if (a_splitClDocPath[index] === "/") {
-            count++;
-        }
-    }
-    return count;
-}
-const customSort = (a, b) => {
-    for (let i = 0; i < Math.min(a.length, b.length); i++) {
-        let charA = a.charCodeAt(i);
-        let charB = b.charCodeAt(i);
+const CONFIGHandler = CONFIGModule.createConfig();
 
-        if (charA !== charB) {
-            if (Math.abs(charA - charB) === 32) {
-                return charA < charB ? -1 : 1;
-            } else {
-                let lowerA = a[i].toLowerCase();
-                let lowerB = b[i].toLowerCase();
-
-                if (lowerA === lowerB) {
-                    return charA < charB ? -1 : 1;
-                } else {
-                    return lowerA < lowerB ? -1 : 1;
-                }
-            }
-        }
-    }
-    return a.length - b.length;
-};
-// factories
-
-function createCampaignHandler () {
-    let nameOfOriginalCampaign;
-    let nameOfCopiedCampaign;
-    let originalClFolderPath;
-    let copiedClFolderPath;
-    let copiedClDocPath;
-    let folderName;
-    let originalClDocPath;
-
-    return {
-        nameOfOriginalCampaign: nameOfOriginalCampaign,
-        nameOfCopiedCampaign: nameOfCopiedCampaign,
-        originalClFolderPath: originalClFolderPath,
-        copiedClFolderPath: copiedClFolderPath,
-        copiedClDocPath: copiedClDocPath,
-        folderName: folderName,
-        originalClDocPath: originalClDocPath,
-    }
-}
-
-function createDOMHandler () {
-    let body = document.getElementById("body");
-    let folderSelect = document.getElementById("folders");
-    let originalCampaignField = document.getElementById("original-campaign-field");
-    let copiedCampaignField = document.getElementById("copied-campaign-field");
-
-    function enableInteractions () {
-        // Enable all interactions
-        document.body.style.pointerEvents = 'auto';
-        domHandler.body.classList.remove("hide-all");
-    }
-
-    function disableInteractions () {
-        // Disable all interactions
-        document.body.style.pointerEvents = 'none';
-        domHandler.body.classList.add("hide-all");
-    }
-
-    return {
-        folderSelect: folderSelect,
-        originalCampaignField: originalCampaignField,
-        copiedCampaignField: copiedCampaignField,
-        body: body,
-        enableInteractions: enableInteractions,
-        disableInteractions: disableInteractions,
-    }
-
-
-}
-
-function createAPIHandler () {
+export function createAPIHandler (campaignHandler, domHandler) {
     let resultJSON;
     let authToken;
     let endPoint;
+    function numberOfOccurences (a_splitClDocPath) {
+        // counting the number of occurences
+        // of the letter "/"
+        let count = 0;
+        for (let index = 0; index < a_splitClDocPath.length; index++) {
+            if (a_splitClDocPath[index] === "/") {
+                count++;
+            }
+        }
+        return count;
+    }
+    const customSort = (a, b) => {
+        for (let i = 0; i < Math.min(a.length, b.length); i++) {
+            let charA = a.charCodeAt(i);
+            let charB = b.charCodeAt(i);
+
+            if (charA !== charB) {
+                if (Math.abs(charA - charB) === 32) {
+                    return charA < charB ? -1 : 1;
+                } else {
+                    let lowerA = a[i].toLowerCase();
+                    let lowerB = b[i].toLowerCase();
+
+                    if (lowerA === lowerB) {
+                        return charA < charB ? -1 : 1;
+                    } else {
+                        return lowerA < lowerB ? -1 : 1;
+                    }
+                }
+            }
+        }
+        return a.length - b.length;
+    };
     async function getAuth () {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
         var urlencoded = new URLSearchParams();
 
-        urlencoded.append("user_name", CONFIG.USER_NAME);
-        urlencoded.append("password", CONFIG.PASSWORD);
+        urlencoded.append("user_name", CONFIGHandler.CONFIG.USER_NAME);
+        urlencoded.append("password", CONFIGHandler.CONFIG.PASSWORD);
 
         urlencoded.append("auth_type", "password");
         var requestOptions = {
@@ -252,6 +195,7 @@ function createAPIHandler () {
         return fetch(endPoint + "/rest/api/v1.3/campaigns/" + campaignHandler.nameOfOriginalCampaign + "/actions/copy", requestOptions)
             .then(response => response.text())
             .then(result => {
+                console.log(`${campaignHandler.nameOfCopiedCampaign} this is the name of the copied campaign!`)
                 campaignHandler.copiedClFolderPath = campaignHandler.originalClFolderPath + "/" + campaignHandler.nameOfCopiedCampaign;
                 campaignHandler.copiedClDocPath = campaignHandler.originalClFolderPath + "/" + campaignHandler.nameOfCopiedCampaign + "/" + campaignHandler.nameOfCopiedCampaign + ".htm";
                 console.log("this is copied folder path: " + campaignHandler.copiedClFolderPath)
@@ -329,8 +273,6 @@ function createAPIHandler () {
 
     }
     return {
-        authToken: authToken,
-        endPoint: endPoint,
         getAuth: getAuth,
         fetchCampaign: fetchCampaign,
         getAllFolders: getAllFolders,
@@ -340,48 +282,3 @@ function createAPIHandler () {
         createCopyOfClDoc: createCopyOfClDoc,
     }
 }
-
-// initalizations
-const domHandler = createDOMHandler();
-const campaignHandler = createCampaignHandler();
-const apiHandler = createAPIHandler();
-
-// event listeners
-domHandler.originalCampaignField.addEventListener("blur", async function () {
-    domHandler.disableInteractions();
-    campaignHandler.nameOfOriginalCampaign = domHandler.originalCampaignField.value;
-    let authSuccess = await apiHandler.getAuth(); // Wait for getAuth to complete
-
-    if (authSuccess == false) {
-        domHandler.enableInteractions();
-        return 0;
-    }
-    let fetchSuccess = await apiHandler.fetchCampaign();
-
-    if (fetchSuccess == false) {
-        domHandler.enableInteractions();
-        return 0;
-    }
-
-    // delete options
-    domHandler.folderSelect.innerHTML = '';
-    await apiHandler.getAllFolders();
-    // Inside this function, "this" refers to the <select> element with id "mySelect"
-    let firstOption = domHandler.folderSelect.querySelector('option:first-child');
-    // Check if first option is still visible before hiding
-    if (!firstOption.hidden) {
-        firstOption.hidden = true;
-    }
-})
-
-export async function main () {
-    campaignHandler.nameOfCopiedCampaign = domHandler.copiedCampaignField.value;
-    domHandler.disableInteractions();
-
-    await apiHandler.copyCampaign();
-    await apiHandler.fetchTheCopiedCampaign();
-    await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
-    await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
-    domHandler.enableInteractions();
-}
-
