@@ -11,6 +11,7 @@ const apiHandler = apiHandlerModule.createAPIHandler(campaignHandler, domHandler
 // Event listeners
 // Listener for the "blur" event on the original campaign field
 domHandler.originalCampaignField.addEventListener("blur", async function () {
+   
     // Disable user interactions
     domHandler.disableInteractions();
 
@@ -19,18 +20,20 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
 
     // Attempt to authenticate with the API
     let authSuccess = await apiHandler.getAuth();
-
+    
     // If authentication fails, re-enable interactions and exit
-    if (!authSuccess) {
+    if (authSuccess == false) {
+        console.log("This works")
         domHandler.enableInteractions();
         return 0;
     }
-
+     
+    
     // Fetch campaign data
     let fetchSuccess = await apiHandler.fetchCampaign();
 
     // If fetching the campaign fails, re-enable interactions and exit
-    if (!fetchSuccessF) {
+    if (fetchSuccess == false) {
         domHandler.enableInteractions();
         return 0;
     }

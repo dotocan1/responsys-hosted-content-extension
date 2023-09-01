@@ -59,6 +59,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch("https://login.rsys8.net/rest/api/v1.3/auth/token", requestOptions)
             .then(response => response.text())
             .then(result => {
+                
                 resultJSON = JSON.parse(result);
                 if (resultJSON.errorCode === "INVALID_USER_NAME_PASSWORD") {
                     alert("Wrong username or password!")
