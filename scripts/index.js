@@ -12,13 +12,13 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
     campaignHandler.nameOfOriginalCampaign = domHandler.originalCampaignField.value;
     let authSuccess = await apiHandler.getAuth(); // Wait for getAuth to complete
 
-    if (authSuccess == false) {
+    if (!authSuccess) {
         domHandler.enableInteractions();
         return 0;
     }
     let fetchSuccess = await apiHandler.fetchCampaign();
 
-    if (fetchSuccess == false) {
+    if (!fetchSuccessF) {
         domHandler.enableInteractions();
         return 0;
     }

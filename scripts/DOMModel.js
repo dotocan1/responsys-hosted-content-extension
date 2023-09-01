@@ -3,7 +3,7 @@ export function createDOMHandler () {
     let folderSelect = document.getElementById("folders");
     let originalCampaignField = document.getElementById("original-campaign-field");
     let copiedCampaignField = document.getElementById("copied-campaign-field");
-
+    let flexboxContainer = document.getElementById("flexbox-container");
     function enableInteractions () {
         // Enable all interactions
         document.body.style.pointerEvents = 'auto';
@@ -21,6 +21,7 @@ export function createDOMHandler () {
         originalCampaignField: originalCampaignField,
         copiedCampaignField: copiedCampaignField,
         body: body,
+        flexboxContainer: flexboxContainer,
         enableInteractions: enableInteractions,
         disableInteractions: disableInteractions,
     }
