@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "name": "Responsys Hosted Content Helper",
-    "description": "Upload images easier",
-    "version": "1.0",
+    "description": "Work simpler",
+    "version": "2.0",
     "action": {
       "default_popup": "main_page.html",
       "default_icon": "./images/responsys-logo.png"
