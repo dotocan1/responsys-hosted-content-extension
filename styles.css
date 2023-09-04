@@ -64,18 +64,14 @@ label {
   /* Specifies the text color */
 }
 
-.checkbox {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 0.5rem;
-
-}
-
-#delete-container {
+#delete-container,
+#flexbox-container,
+.container,
+#create-document-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 #delete-field,
@@ -96,23 +92,13 @@ select {
 #btnDeleteEx,
 #btnCreateEx,
 #btnCopyEx,
-#exLoginBtn {
+#exLoginBtn,
+#btnUploadEx,
+#btnPublishEx {
   width: 250px;
 }
 
-#create-document-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-#flexbox-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-h2{
+h2 {
   margin: 0;
   padding: 0;
 }

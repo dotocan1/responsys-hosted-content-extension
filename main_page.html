@@ -19,42 +19,36 @@
         <input type="password" name="password" id="password-input">
         <button id="exLoginBtn">Login</button>
     </div>
-    <h1>Responsys Helper</h1>
-    <h2>Instructions: <br> <br> Step 1: Press the upload button when you have selected all the images.</h2>
-    <h2>Step 2: After uploading, just press the publish button! It is as simple as that!</h2>
-    <button id="btnUploadEx">Upload</button>
-    <button id="btnPublishEx">Publish</button>
-    <div class="checkboxes">
+    <div class="container">
+        <h2>Instructions: Step 1: Press the upload button when you have selected all the images.</h2>
+        <h2>Step 2: After uploading, just press the publish button! It is as simple as that!</h2>
         <div class="checkbox">
             <input type="checkbox" id="chkOpenImages" name="check1">
-            <label for="check1">Open all images in new tab</label><br>
+            <label for="check1">Open all images in new tab</label>
         </div>
-    </div>
-    <div id="delete-container">
-        <div id="delete-field">
-            <h2 id="ps">P.S. You can also delete images now! <br>Just type in the keyword that every image you want to
-                delete contains!</h2>
-            <input type="text" id="txtDelete">
-        </div>
+        <button id="btnUploadEx">Upload</button>
+        <button id="btnPublishEx">Publish</button>
+        <h2 id="ps">P.S. You can also delete images now! Just type in the keyword that every image you want to
+            delete contains!</h2>
+        <input type="text" id="txtDelete">
         <button id="btnDeleteEx">Delete</button>
-    </div>
-    <div id="create-document-container">
-        <div>
-            <h1>Copy campaign</h1>
-            <h2><strong>This is useful if you are copying a campaign and want to save yourself some <br>time because the
-                    extension also creates a copy of the content library folder and document. <br>So all you need to do
-                    is change the document path once the campaign is copied.</strong></h2>
-        </div>
-        <div id="flexbox-container">
-            <label><strong>Enter the name of the campaign you want to copy:</strong></label>
-            <input type="text" id="original-campaign-field">
-            <label><strong>Enter the new campaign name:</strong></label>
-            <input type="text" id="copied-campaign-field">
-            <label><strong>Choose the campaign folder:</strong></label>
-            <select name="folders" id="folders"></select>
-            <button id="btnCopyEx">Copy campaign</button>
-        </div>
-        <script src="scripts.js" type="module"></script>
+        <div id="create-document-container">
+            <div>
+                <h1>Copy campaign</h1>
+                <h2><strong>This is useful if you are copying a campaign and want to save yourself some time because the
+                        extension also creates a copy of the content library folder and document. So all you need to do
+                        is change the document path once the campaign is copied.</strong></h2>
+            </div>
+            <div id="flexbox-container">
+                <label><strong>Enter the name of the campaign you want to copy:</strong></label>
+                <input type="text" id="original-campaign-field">
+                <label><strong>Enter the new campaign name:</strong></label>
+                <input type="text" id="copied-campaign-field">
+                <label><strong>Choose the campaign folder:</strong></label>
+                <select name="folders" id="folders"></select>
+                <button id="btnCopyEx">Copy campaign</button>
+            </div>
+            <script src="scripts.js" type="module"></script>
 </body>
 
 </html>
