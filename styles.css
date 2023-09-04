@@ -39,7 +39,7 @@ button:hover {
   background-color: #45a049;
 }
 
-.checkboxes {
+.checkboxes, #login-form {
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
