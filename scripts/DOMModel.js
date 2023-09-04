@@ -4,6 +4,7 @@ export function createDOMHandler () {
     let originalCampaignField = document.getElementById("original-campaign-field");
     let copiedCampaignField = document.getElementById("copied-campaign-field");
     let flexboxContainer = document.getElementById("flexbox-container");
+    let rowContainer = document.getElementById("row-container");
 
     // Enables all interactions on DOM
     function enableInteractions () {
@@ -23,6 +24,7 @@ export function createDOMHandler () {
         copiedCampaignField: copiedCampaignField,
         body: body,
         flexboxContainer: flexboxContainer,
+        rowContainer: rowContainer,
         enableInteractions: enableInteractions,
         disableInteractions: disableInteractions,
     }
