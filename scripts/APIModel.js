@@ -1,6 +1,37 @@
 import * as CONFIGModule from "../CONFIG.js"
 
-const CONFIGHandler = CONFIGModule.createConfig();
+//const CONFIGHandler = CONFIGModule.createConfig();
+
+let USERNAME;
+let PASSWORD;
+
+// getting the initial state of username and password
+try {
+    chrome.storage.sync.get('usernameInput', function (data) {
+        console.log("Username is: " + data.usernameInput);
+        if (typeof data.usernameInput === "undefined" || typeof data.usernameInput === "") {
+            return 0;
+        } else {
+            USERNAME = data.usernameInput;
+        }
+    });
+}
+catch (error) {
+    console.log(error)
+}
+
+try {
+    chrome.storage.sync.get('passwordInput', function (data) {
+        if (typeof data.passwordInput === "undefined" || typeof data.passwordInput === "") {
+            return 0;
+        } else {
+            PASSWORD = data.passwordInput;
+        }
+    });
+}
+catch (error) {
+    console.log(error)
+}
 
 export function createAPIHandler (campaignHandler, domHandler) {
     let resultJSON;
@@ -45,8 +76,8 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
         var urlencoded = new URLSearchParams();
 
-        urlencoded.append("user_name", CONFIGHandler.CONFIG.USER_NAME);
-        urlencoded.append("password", CONFIGHandler.CONFIG.PASSWORD);
+        urlencoded.append("user_name", USERNAME);
+        urlencoded.append("password", PASSWORD);
 
         urlencoded.append("auth_type", "password");
         var requestOptions = {
@@ -59,8 +90,9 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch("https://login.rsys8.net/rest/api/v1.3/auth/token", requestOptions)
             .then(response => response.text())
             .then(result => {
-                
+
                 resultJSON = JSON.parse(result);
+                console.log(resultJSON)
                 if (resultJSON.errorCode === "INVALID_USER_NAME_PASSWORD") {
                     alert("Wrong username or password!")
                     return false;

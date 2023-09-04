@@ -23,7 +23,6 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
     
     // If authentication fails, re-enable interactions and exit
     if (authSuccess == false) {
-        console.log("This works")
         domHandler.enableInteractions();
         return 0;
     }

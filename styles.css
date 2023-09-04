@@ -12,6 +12,7 @@ body * {
 .hide-all {
   opacity: 0.1;
 }
+
 #ps {
   color: #3E1A94;
 }
@@ -39,7 +40,8 @@ button:hover {
   background-color: #45a049;
 }
 
-.checkboxes, #login-form {
+.checkboxes,
+#login-form {
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
@@ -84,13 +86,17 @@ label {
   align-items: baseline;
 }
 
-input[type="text"], select {
+input[type="text"],
+input[type="password"],
+select {
   height: 50%;
   width: 380px;
 }
 
 #btnDeleteEx,
-#btnCreateEx, #btnCopyEx {
+#btnCreateEx,
+#btnCopyEx,
+#exLoginBtn {
   width: 250px;
 }
 

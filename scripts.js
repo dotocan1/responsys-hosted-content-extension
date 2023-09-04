@@ -1,7 +1,80 @@
 import * as APICalls from './scripts/index.js';
+import * as DOMModel from './scripts/DOMModel.js';
 
 let originalCampFieldTxt = document.getElementById("original-campaign-field");
 let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
+let usernameInput = document.getElementById("username-input");
+let passwordInput = document.getElementById("password-input");
+
+const domHandler = DOMModel.createDOMHandler();
+
+function saveUsername () {
+    return new Promise((resolve, reject) => {
+        {
+            chrome.storage.sync.set({ 'usernameInput': usernameInput.value }, function () {
+                resolve("Username saved!");
+            });
+        }
+    })
+}
+
+function savePassword () {
+    return new Promise((resolve, reject) => {
+        chrome.storage.sync.set({ 'passwordInput': passwordInput.value }, function () {
+            if (chrome.runtime.lastError) {
+                console.log("Password not saved!")
+                reject(new Error(chrome.runtime.lastError));
+            } else {
+                console.log("Password saved!");
+                resolve("Password saved!");
+            }
+        });
+    })
+}
+
+// save username
+usernameInput.addEventListener('blur', async () => {
+    domHandler.disableInteractions();
+    await saveUsername();
+    domHandler.enableInteractions();
+})
+
+// save password
+passwordInput.addEventListener('blur', async () => {
+    domHandler.disableInteractions();
+    await savePassword();
+    domHandler.enableInteractions();
+})
+
+
+
+// getting the initial state of username and password
+try {
+    chrome.storage.sync.get('usernameInput', function (data) {
+        console.log("Username is: " + data.usernameInput);
+        if (typeof data.usernameInput === "undefined" || typeof data.usernameInput === "") {
+            return 0;
+        } else {
+            usernameInput.value = data.usernameInput;
+        }
+    });
+}
+catch (error) {
+    console.log(error)
+}
+
+try {
+    chrome.storage.sync.get('passwordInput', function (data) {
+        if (typeof data.passwordInput === "undefined" || typeof data.passwordInput === "") {
+            return 0;
+        } else {
+            passwordInput.value = data.passwordInput;
+        }
+    });
+}
+catch (error) {
+    console.log(error)
+}
 
 // function that executes the upload script
 function injectTheUploadScript () {
