@@ -5,6 +5,7 @@ let originalCampFieldTxt = document.getElementById("original-campaign-field");
 let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 let usernameInput = document.getElementById("username-input");
 let passwordInput = document.getElementById("password-input");
+let btnLogin = document.getElementById("exLoginBtn");
 
 const domHandler = DOMModel.createDOMHandler();
 
@@ -32,21 +33,15 @@ function savePassword () {
     })
 }
 
-// save username
-usernameInput.addEventListener('blur', async () => {
+// authenticate login
+
+btnLogin.addEventListener('click', async () => {
     domHandler.disableInteractions();
     await saveUsername();
-    domHandler.enableInteractions();
-})
-
-// save password
-passwordInput.addEventListener('blur', async () => {
-    domHandler.disableInteractions();
     await savePassword();
     domHandler.enableInteractions();
+    alert("Login successful!")
 })
-
-
 
 // getting the initial state of username and password
 try {

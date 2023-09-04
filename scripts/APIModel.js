@@ -2,41 +2,53 @@ import * as CONFIGModule from "../CONFIG.js"
 
 //const CONFIGHandler = CONFIGModule.createConfig();
 
-let USERNAME;
-let PASSWORD;
-
-// getting the initial state of username and password
-try {
-    chrome.storage.sync.get('usernameInput', function (data) {
-        console.log("Username is: " + data.usernameInput);
-        if (typeof data.usernameInput === "undefined" || typeof data.usernameInput === "") {
-            return 0;
-        } else {
-            USERNAME = data.usernameInput;
-        }
-    });
-}
-catch (error) {
-    console.log(error)
-}
-
-try {
-    chrome.storage.sync.get('passwordInput', function (data) {
-        if (typeof data.passwordInput === "undefined" || typeof data.passwordInput === "") {
-            return 0;
-        } else {
-            PASSWORD = data.passwordInput;
-        }
-    });
-}
-catch (error) {
-    console.log(error)
-}
-
 export function createAPIHandler (campaignHandler, domHandler) {
     let resultJSON;
     let authToken;
     let endPoint;
+    let USERNAME;
+    let PASSWORD;
+
+    // getting the initial state of username and password
+
+    function getUsername () {
+        return new Promise((resolve, reject) => {
+            try {
+                chrome.storage.sync.get('usernameInput', function (data) {
+                    console.log("Username is: " + data.usernameInput);
+                    if (typeof data.usernameInput === "undefined" || typeof data.usernameInput === "") {
+                        console.log("username bug")
+                        return 0;
+                    } else {
+                        USERNAME = data.usernameInput;
+                        resolve("Saved!");
+                    }
+                });
+            }
+            catch (error) {
+                console.log(error)
+            }
+        })
+    }
+
+    function getPassword () {
+        return new Promise((resolve, reject) => {
+            try {
+                chrome.storage.sync.get('passwordInput', function (data) {
+                    if (typeof data.passwordInput === "undefined" || typeof data.passwordInput === "") {
+                        console.log("password bug")
+                        return 0;
+                    } else {
+                        PASSWORD = data.passwordInput;
+                        resolve("Saved!");
+                    }
+                });
+            }
+            catch (error) {
+                console.log(error)
+            }
+        })
+    }
     function numberOfOccurences (a_splitClDocPath) {
         // counting the number of occurences
         // of the letter "/"
@@ -75,6 +87,10 @@ export function createAPIHandler (campaignHandler, domHandler) {
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
         var urlencoded = new URLSearchParams();
+        await getUsername();
+        await getPassword();
+        console.log(`${USERNAME} is the username.\n${PASSWORD} is the password.`)
+
 
         urlencoded.append("user_name", USERNAME);
         urlencoded.append("password", PASSWORD);
