@@ -1,20 +1,19 @@
 {
-    "manifest_version": 3,
-    "name": "Responsys Hosted Content Helper",
-    "description": "Work simpler",
-    "version": "2.0",
-    "action": {
-      "default_popup": "main_page.html",
-      "default_icon": "./images/responsys-logo.png"
-    },
-    "permissions": [
-      "activeTab",
-      "storage",
-      "tabs",
-      "contextMenus",
-      "webRequest",
-      "scripting",
-      "storage"
-    ],
-    "host_permissions": ["<all_urls>"]
-  }
+  "manifest_version": 3,
+  "name": "Responsys Hosted Content Helper",
+  "description": "Work simpler",
+  "version": "2.0",
+  "action": {
+    "default_popup": "main_page.html",
+    "default_icon": "./images/responsys-logo.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
