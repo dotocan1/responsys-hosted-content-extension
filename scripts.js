@@ -1,5 +1,6 @@
 import * as APICalls from './scripts/index.js';
 import * as DOMModel from './scripts/DOMModel.js';
+import * as APIModel from './scripts/APIModel.js';
 
 let originalCampFieldTxt = document.getElementById("original-campaign-field");
 let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
@@ -8,6 +9,7 @@ let passwordInput = document.getElementById("password-input");
 let btnLogin = document.getElementById("exLoginBtn");
 
 const domHandler = DOMModel.createDOMHandler();
+const apiHandler = APIModel.createAPIHandler();
 
 function saveUsername () {
     return new Promise((resolve, reject) => {
@@ -39,6 +41,14 @@ btnLogin.addEventListener('click', async () => {
     domHandler.disableInteractions();
     await saveUsername();
     await savePassword();
+    // Attempt to authenticate with the API
+    let authSuccess = await apiHandler.getAuth();
+
+    // If authentication fails, re-enable interactions and exit
+    if (authSuccess == false) {
+        domHandler.enableInteractions();
+        return 0;
+    }
     domHandler.enableInteractions();
     alert("Login successful!")
 })
