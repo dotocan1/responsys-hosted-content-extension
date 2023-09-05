@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Responsys Hosted Content Helper",
+  "name": "Responsys Helper",
   "description": "Work simpler",
   "version": "2.0",
   "action": {
