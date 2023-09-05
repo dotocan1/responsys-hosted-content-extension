@@ -1,8 +1,8 @@
 body {
   width: 800px;
   height: fit-content;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("./images/dipsy.jpg");
-  background-position: center;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url("./images/dan-cristian-padure-AsPFrbjak9I-unsplash.jpg");
+  background-position: bottom;
   line-height: 1.4;
 }
 
