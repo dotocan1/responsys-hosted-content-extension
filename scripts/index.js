@@ -15,6 +15,12 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
     // Disable user interactions
     domHandler.disableInteractions();
 
+    if (domHandler.originalCampaignField.value === "") {
+        console.log("empty")
+        domHandler.enableInteractions();
+        return 0;
+    }
+
     // Set the name of the original campaign based on the user input
     campaignHandler.nameOfOriginalCampaign = domHandler.originalCampaignField.value;
 
@@ -51,6 +57,9 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
         firstOption.hidden = true;
     }
 })
+
+// domHandler.copiedCampaignField.addEventListener('click', () => domHandler.resetInputFieldData())
+domHandler.originalCampaignField.addEventListener('click', () => domHandler.resetInputFieldData())
 
 // Main function to copy a campaign
 export async function main () {

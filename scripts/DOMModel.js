@@ -51,9 +51,26 @@ export function createDOMHandler () {
         });
     }
 
+    function saveFolderPathLabel () {
+        new Promise((resolve, reject) => {
+            // save folder path label
+            chrome.storage.sync.set({ 'folderPathLabel': folderPathLabel.innerHTML }, function () {
+                if (chrome.runtime.lastError) {
+                    console.error('Error saving copied campaign field:', chrome.runtime.lastError);
+                    reject(chrome.runtime.lastError);
+                } else {
+                    console.log('Copied campaign field value is saved ' + folderPathLabel.innerHTML);
+                    resolve();
+                }
+            });
+        })
+    }
+
     async function saveInputFieldData () {
+        console.log(folderPathLabel)
         await saveOriginalCampaignField();
         await saveCopiedCampaignField();
+        await saveFolderPathLabel();
     }
 
     function getOriginalCampaignField () {
@@ -74,10 +91,27 @@ export function createDOMHandler () {
         })
     }
 
+    function getFolderPathLabel () {
+        new Promise((resolve, reject) => {
+            chrome.storage.sync.get('folderPathLabel', function (data) {
+                folderPathLabel.innerHTML = data.folderPathLabel;
+                resolve();
+            });
+        })
+    }
+
 
     async function writeInputFieldData () {
         await getOriginalCampaignField();
         await getCopiedCampaignField();
+        await getFolderPathLabel();
+    }
+
+    function resetInputFieldData () {
+        originalCampaignField.value = "";
+        copiedCampaignField.value = "";
+        folderPathLabel.textContent = "";
+        saveInputFieldData();
     }
 
     return {
@@ -92,5 +126,6 @@ export function createDOMHandler () {
         disableInteractions: disableInteractions,
         saveInputFieldData: saveInputFieldData,
         writeInputFieldData: writeInputFieldData,
+        resetInputFieldData: resetInputFieldData,
     }
 }
