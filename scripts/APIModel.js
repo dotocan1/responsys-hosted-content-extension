@@ -318,6 +318,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 console.log(result)
                 alert("Campaign has been copied!\nNew folder path is:\n" + campaignHandler.copiedClFolderPath)
                 let label = document.createElement('label');
+                label.id = "folder-path-label";
                 label.textContent = `New folder path is: ${campaignHandler.copiedClFolderPath}`
                 domHandler.rowContainer.appendChild(label);
             })

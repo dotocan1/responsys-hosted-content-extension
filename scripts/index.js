@@ -11,7 +11,7 @@ const apiHandler = apiHandlerModule.createAPIHandler(campaignHandler, domHandler
 // Event listeners
 // Listener for the "blur" event on the original campaign field
 domHandler.originalCampaignField.addEventListener("blur", async function () {
-   
+
     // Disable user interactions
     domHandler.disableInteractions();
 
@@ -20,14 +20,14 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
 
     // Attempt to authenticate with the API
     let authSuccess = await apiHandler.getAuth();
-    
+
     // If authentication fails, re-enable interactions and exit
     if (authSuccess == false) {
         domHandler.enableInteractions();
         return 0;
     }
-     
-    
+
+
     // Fetch campaign data
     let fetchSuccess = await apiHandler.fetchCampaign();
 
@@ -65,6 +65,11 @@ export async function main () {
     await apiHandler.fetchTheCopiedCampaign();
     await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
     await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
+
+    // save data to input fields
+
+    await domHandler.saveInputFieldData();
+    console.log("promise radi!");
 
     // Re-enable user interactions
     domHandler.enableInteractions();

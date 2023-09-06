@@ -11,6 +11,8 @@ let btnLogin = document.getElementById("exLoginBtn");
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
 
+domHandler.writeInputFieldData();
+
 function saveUsername () {
     return new Promise((resolve, reject) => {
         {
