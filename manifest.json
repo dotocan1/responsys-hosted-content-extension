@@ -13,6 +13,7 @@
     "scripting"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "*://interact.rsys8.net/*",
+    "*://v8h1pzy-api.responsys.ocs.oraclecloud.com/*"
   ]
 }

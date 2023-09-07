@@ -5,7 +5,7 @@ import * as CONFIGModule from "../CONFIG.js"
 export function createAPIHandler (campaignHandler, domHandler) {
     let resultJSON;
     let authToken;
-    let endPoint;
+    let endPoint = "https://v8h1pzy-api.responsys.ocs.oraclecloud.com";
     let USERNAME;
     let PASSWORD;
 
@@ -103,7 +103,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             redirect: 'follow'
         };
 
-        return fetch("https://login.rsys8.net/rest/api/v1.3/auth/token", requestOptions)
+        return fetch(endPoint + "/rest/api/v1.3/auth/token", requestOptions)
             .then(response => response.text())
             .then(result => {
 
@@ -114,7 +114,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
                     return false;
                 }
                 authToken = resultJSON.authToken;
-                endPoint = resultJSON.endPoint;
             })
             .catch(error => {
                 console.log('error', error);
