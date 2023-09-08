@@ -8,7 +8,6 @@
     "default_icon": "./images/responsys-logo.png"
   },
   "permissions": [
-    "activeTab",
     "storage",
     "scripting"
   ],
