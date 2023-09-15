@@ -131,7 +131,6 @@ function checkOpenImages (event) {
     return new Promise((resolve, reject) => {
         // Persist checkbox state in extension storage
         chrome.storage.sync.set({ 'chkOpenImages': event.target.checked }, function () {
-            console.log("he1")
             resolve('Checkbox state is ' + event.target.checked);
         });
     })
@@ -141,7 +140,6 @@ function checkOpenImages (event) {
 document.getElementById('chkOpenImages').addEventListener('change', async (event) => {
     domHandler.disableInteractions();
     await checkOpenImages(event);
-    console.log('he2')
     domHandler.enableInteractions();
 });
 

@@ -76,6 +76,9 @@ export function createDOMHandler () {
     function getOriginalCampaignField () {
         new Promise((resolve, reject) => {
             chrome.storage.sync.get('originalCampaignField', function (data) {
+                if (typeof data.originalCampaignField === "undefined") {
+                    data.originalCampaignField = "";
+                }
                 originalCampaignField.value = data.originalCampaignField;
                 resolve();
             });
@@ -85,6 +88,9 @@ export function createDOMHandler () {
     function getCopiedCampaignField () {
         new Promise((resolve, reject) => {
             chrome.storage.sync.get('copiedCampaignField', function (data) {
+                if (typeof data.copiedCampaignField === "undefined") {
+                    data.copiedCampaignField = "";
+                }
                 copiedCampaignField.value = data.copiedCampaignField;
                 resolve();
             });
@@ -94,6 +100,9 @@ export function createDOMHandler () {
     function getFolderPathLabel () {
         new Promise((resolve, reject) => {
             chrome.storage.sync.get('folderPathLabel', function (data) {
+                if (typeof data.folderPathLabel === "undefined") {
+                    data.folderPathLabel = "";
+                }
                 folderPathLabel.innerHTML = data.folderPathLabel;
                 resolve();
             });
