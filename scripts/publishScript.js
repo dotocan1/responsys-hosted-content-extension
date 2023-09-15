@@ -113,7 +113,6 @@ async function getchkDownloadImages () {
 async function main () {
     try {
         await getchkDownloadImages();
-        await getChkOpenImages();
         loopWithDelay();
     } catch (error) {
         console.error('An error occurred:', error);
