@@ -2,10 +2,17 @@
   "manifest_version": 3,
   "name": "Responsys Helper",
   "description": "Work simpler",
-  "version": "2.0",
+  "version": "2.1",
   "action": {
     "default_popup": "main_page.html",
-    "default_icon": "./images/debug-logo.png"
+    "default_icon": "./images/responsys-logo.png",
+    "default_title": "Click me to make life simpler!"
+  },
+  "icons": {
+    "16": "./images/responsys-logo.png",
+    "32": "./images/responsys-logo.png",
+    "48": "./images/responsys-logo.png",
+    "128": "./images/responsys-logo.png"
   },
   "permissions": [
     "storage",
