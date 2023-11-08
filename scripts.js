@@ -11,6 +11,15 @@ let btnLogin = document.getElementById("exLoginBtn");
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
 
+// function that executes the upload script
+function injectTheBackgroundScript () {
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/background.js'] })
+    })
+}
+
+injectTheBackgroundScript();
+
 domHandler.writeInputFieldData();
 
 function saveUsername () {
@@ -83,6 +92,8 @@ catch (error) {
     console.log(error)
 }
 
+
+
 // function that executes the upload script
 function injectTheUploadScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
@@ -151,3 +162,4 @@ function saveDeleteValue () {
         resolve();
     })
 }
+
