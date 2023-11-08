@@ -38,11 +38,11 @@ let filesInput = document.getElementById('first_file_element');
 let filesInputsArray = filesInput.files;
 console.log(filesInputsArray)
 
-for (let i = 0; i < filesInputsArray.length; i++) {
+for (let i = i; i < filesInputsArray.length; i++) {
     console.log(filesInputsArray[i])
     let input = document.createElement('input');
     input.type = "file";
-    input.name = "file_" + i+1;
-    input.file = filesInputsArray[i+1].file;
+    input.name = "file_" + i;
+    input.file = filesInputsArray[i].file;
     filesInput.parentNode.insertBefore(input, filesInput);
 }
