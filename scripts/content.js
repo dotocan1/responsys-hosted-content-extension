@@ -19,12 +19,17 @@ function removeDisabledAttributes () {
 console.log('script has been implemented')
 let elements = [];
 
-document.querySelectorAll('iframe').forEach(item => {
-    const fileElement = item.contentWindow.document.body.querySelectorAll('form');
-    fileElement.forEach((element) => {
-        element.addEventListener('mousemove', removeDisabledAttributes);
-    })
-});
+function attachEventListener () {
+    document.querySelectorAll('iframe').forEach(item => {
+        const fileElement = item.contentWindow.document.body.querySelectorAll('form');
+        fileElement.forEach((element) => {
+            element.addEventListener('mousemove', removeDisabledAttributes);
+        })
+    });
+}
+attachEventListener();
+
+document.addEventListener('mousemove', attachEventListener);
 
 
 
