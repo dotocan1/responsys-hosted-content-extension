@@ -33,3 +33,16 @@ document.addEventListener('mousemove', attachEventListener);
 
 
 
+let filesInput = document.getElementById('first_file_element');
+
+let filesInputsArray = filesInput.files;
+console.log(filesInputsArray)
+
+for (let i = 0; i < filesInputsArray.length; i++) {
+    console.log(filesInputsArray[i])
+    let input = document.createElement('input');
+    input.type = "file";
+    input.name = "file_" + i+1;
+    input.file = filesInputsArray[i+1].file;
+    filesInput.parentNode.insertBefore(input, filesInput);
+}
