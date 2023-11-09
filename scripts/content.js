@@ -43,6 +43,8 @@ document.querySelectorAll('iframe').forEach(item => {
     filesInput = item.contentWindow.document.body.getElementById('first_file_element');
 });
 
+filesInput.addAttribute('multiple');
+
 // get filesInputsArray
 
 filesInputsArray = filesInput.files;
@@ -79,3 +81,5 @@ for (let i = 0; i < filesInputsArray.length; i++) {
     div.textContent = filesInputsArray[i].name;
     filesList.appendChild(div);
 }
+
+filesInput.remove();
