@@ -31,7 +31,7 @@ attachEventListener();
 
 document.addEventListener('mousemove', attachEventListener);
 
-
+// TODO: Code that allows for multiple uploads
 
 let filesInput = document.getElementById('first_file_element');
 let filesInputsArray = filesInput.files;
