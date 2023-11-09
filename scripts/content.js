@@ -34,15 +34,26 @@ document.addEventListener('mousemove', attachEventListener);
 
 
 let filesInput = document.getElementById('first_file_element');
-
 let filesInputsArray = filesInput.files;
-console.log(filesInputsArray)
 
-for (let i = i; i < filesInputsArray.length; i++) {
-    console.log(filesInputsArray[i])
-    let input = document.createElement('input');
-    input.type = "file";
-    input.name = "file_" + i;
-    input.file = filesInputsArray[i].file;
-    filesInput.parentNode.insertBefore(input, filesInput);
+for (let i = 1; i < filesInputsArray.length; i++) {
+    let newInput = filesInput.cloneNode(true);
+    let count = i + 1;
+    newInput.name = "file_" + count;
+    newInput.id = "";
+
+    // Create a new FileList with a single file
+    let newFileList = new DataTransfer();
+    newFileList.items.add(filesInputsArray[i]);
+
+    // Set the new FileList as the files property of the cloned input element
+    Object.defineProperty(newInput, "files", {
+        writable: true,
+        value: newFileList.files
+    });
+
+    filesInput.parentNode.insertBefore(newInput, filesInput);
 }
+
+
+
