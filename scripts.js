@@ -116,10 +116,19 @@ function injectTheDeleteScript () {
     })
 }
 
+// function that executes the multiple uploads script
+function injectTheMultipleScript () {
+    chrome.tabs.query({ active: true, currentWindow: true }, async tabs => {
+        await saveDeleteValue();
+        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/multipleUploads.js'] })
+    })
+}
+
 let boolOpenImages = false;
 
 // setting event handlers for upload and publish buttons
 document.getElementById('btnUploadEx').addEventListener('click', injectTheUploadScript)
+document.getElementById('btnMultipleEx').addEventListener('click', injectTheMultipleScript)
 document.getElementById('btnPublishEx').addEventListener('click', injectThePublishScript)
 document.getElementById('btnDeleteEx').addEventListener('click', injectTheDeleteScript)
 document.getElementById("btnCopyEx").addEventListener('click', () => {
