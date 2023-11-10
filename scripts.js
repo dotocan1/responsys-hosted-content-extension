@@ -7,11 +7,57 @@ let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 let usernameInput = document.getElementById("username-input");
 let passwordInput = document.getElementById("password-input");
 let btnLogin = document.getElementById("exLoginBtn");
+let whatsNewStatus = true;
 
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
 
 domHandler.writeInputFieldData();
+
+// popup code
+//await setWhatsNewStatus(true);
+let popupButton = document.getElementById('popupButton');
+let popup = document.getElementById('popupContainer');
+
+popupButton.addEventListener('click', async () => {
+    popup.style.display = "none";
+    await setWhatsNewStatus(false);
+})
+
+function setWhatsNewStatus (bool) {
+    return new Promise((resolve, reject) => {
+        {
+            chrome.storage.sync.set({ 'whatsNew': bool }, function () {
+                resolve("Whats new saved!");
+            });
+        }
+    })
+}
+
+function getWhatsNewStatus () {
+    // getting the initial state of username and password
+    try {
+        chrome.storage.sync.get('whatsNew', function (data) {
+            console.log("WhatsNew status is: " + data.whatsNew);
+            whatsNewStatus = data.whatsNew;
+
+            if (whatsNewStatus == true) {
+                popup.style.display = "block";
+            }
+        });
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+
+await getWhatsNewStatus();
+
+
+
+
+
 
 function saveUsername () {
     return new Promise((resolve, reject) => {
@@ -37,14 +83,7 @@ function savePassword () {
     })
 }
 
-// popup code
 
-let popupButton = document.getElementById('popupButton');
-let popup = document.getElementById('popupContainer');
-
-popupButton.addEventListener('click', () => {
-    popup.style.display = "none";
-})
 
 // authenticate login
 
