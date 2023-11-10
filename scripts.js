@@ -13,7 +13,7 @@ const apiHandler = APIModel.createAPIHandler();
 
 domHandler.writeInputFieldData();
 
-function saveUsername() {
+function saveUsername () {
     return new Promise((resolve, reject) => {
         {
             chrome.storage.sync.set({ 'usernameInput': usernameInput.value }, function () {
@@ -23,7 +23,7 @@ function saveUsername() {
     })
 }
 
-function savePassword() {
+function savePassword () {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.set({ 'passwordInput': passwordInput.value }, function () {
             if (chrome.runtime.lastError) {
@@ -36,6 +36,15 @@ function savePassword() {
         });
     })
 }
+
+// popup code
+
+let popupButton = document.getElementById('popupButton');
+let popup = document.getElementById('popupContainer');
+
+popupButton.addEventListener('click', () => {
+    popup.style.display = "none";
+})
 
 // authenticate login
 
@@ -85,7 +94,7 @@ catch (error) {
 
 
 // function that executes the content script
-function injectTheContentScript() {
+function injectTheContentScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/content.js'] })
     })
@@ -94,21 +103,21 @@ function injectTheContentScript() {
 injectTheContentScript();
 
 // function that executes the upload script
-function injectTheUploadScript() {
+function injectTheUploadScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/uploadScript.js'] })
     })
 }
 
 // function that executes the publish script
-function injectThePublishScript() {
+function injectThePublishScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/PublishScript.js'] })
     })
 }
 
 // function that executes the publish script
-function injectTheDeleteScript() {
+function injectTheDeleteScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, async tabs => {
         await saveDeleteValue();
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/DeleteScript.js'] })
@@ -116,7 +125,7 @@ function injectTheDeleteScript() {
 }
 
 // function that executes the multiple script
-function injectTheMultipleScript() {
+function injectTheMultipleScript () {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/multipleUploads.js'] })
     })
@@ -145,7 +154,7 @@ catch (error) {
     console.log(error)
 }
 
-function checkOpenImages(event) {
+function checkOpenImages (event) {
     return new Promise((resolve, reject) => {
         // Persist checkbox state in extension storage
         chrome.storage.sync.set({ 'chkOpenImages': event.target.checked }, function () {
@@ -161,7 +170,7 @@ document.getElementById('chkOpenImages').addEventListener('change', async (event
     domHandler.enableInteractions();
 });
 
-function saveDeleteValue() {
+function saveDeleteValue () {
     new Promise((resolve, reject) => {
         chrome.storage.sync.set({ 'txtDelete': document.getElementById('txtDelete').value }, function () {
             console.log('Text has been saved' + document.getElementById('txtDelete').value);
