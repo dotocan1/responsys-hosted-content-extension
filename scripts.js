@@ -11,22 +11,6 @@ let btnLogin = document.getElementById("exLoginBtn");
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
 
-// function that executes the upload script
-function injectTheBackgroundScript() {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/background.js'] })
-    })
-}
-
-// function that executes the content script
-function injectTheContentScript() {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/content.js'] })
-    })
-}
-
-injectTheContentScript();
-
 domHandler.writeInputFieldData();
 
 function saveUsername() {
@@ -123,10 +107,9 @@ function injectTheDeleteScript() {
     })
 }
 
-// function that executes the multiple uploads script
+// function that executes the multiple script
 function injectTheMultipleScript() {
-    chrome.tabs.query({ active: true, currentWindow: true }, async tabs => {
-        await saveDeleteValue();
+    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/multipleUploads.js'] })
     })
 }

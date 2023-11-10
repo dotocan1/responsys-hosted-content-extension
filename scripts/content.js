@@ -1,35 +1,18 @@
-function removeDisabledAttributes() {
-    elements = [];
+console.log('script implemented')
 
-    document.querySelectorAll('iframe').forEach(item => {
-        const fileElement = item.contentWindow.document.body.querySelectorAll('[name^="file_"]');
-        fileElement.forEach((element) => {
-            elements.push(element);
-        })
-    });
-
-    elements.forEach(element => {
-        if (element.hasAttribute('disabled')) {
-            element.removeAttribute('disabled');
-        }
-    });
-    console.log(elements)
-
-    // filesinput
+function myFunction() {
+    // console.log("This will be executed every 1000 milliseconds (1 second).");
     let filesInput;
     try {
         document.querySelectorAll('iframe').forEach(item => {
             filesInput = item.contentWindow.document.getElementById('first_file_element');
-            console.log('hee');
             filesInput.setAttribute('multiple', true);
+            // success
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
     }
 
 }
 
-console.log('script has been implemented')
-let elements = [];
-
-removeDisabledAttributes();
+setInterval(myFunction, 1000);
