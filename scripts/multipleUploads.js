@@ -1,20 +1,21 @@
 // TODO: Code that allows for multiple uploads
 
-let filesInput;
 let filesInputsArray;
 let filesList;
 
-// get filesInput
-
-try{
+// filesinput
+let filesInput;
+try {
     document.querySelectorAll('iframe').forEach(item => {
-        filesInput = item.contentWindow.document.body.getElementById('first_file_element');
+        filesInput = item.contentWindow.document.getElementById('first_file_element');
+        console.log('hee');
+        filesInput.setAttribute('multiple', true);
     });
-}catch(error){
-    console.log(error)
+} catch (error) {
+    console.log(error);
 }
 
-filesInput.addAttribute('multiple');
+
 
 // get filesInputsArray
 

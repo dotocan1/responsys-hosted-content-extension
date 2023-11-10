@@ -1,4 +1,4 @@
-function removeDisabledAttributes () {
+function removeDisabledAttributes() {
     elements = [];
 
     document.querySelectorAll('iframe').forEach(item => {
@@ -19,28 +19,17 @@ function removeDisabledAttributes () {
     let filesInput;
     try {
         document.querySelectorAll('iframe').forEach(item => {
-            filesInput = item.contentWindow.document.body.getElementById('first_file_element');
+            filesInput = item.contentWindow.document.getElementById('first_file_element');
+            console.log('hee');
+            filesInput.setAttribute('multiple', true);
         });
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-
-   
-
 
 }
 
 console.log('script has been implemented')
 let elements = [];
 
-function attachEventListener () {
-    document.querySelectorAll('iframe').forEach(item => {
-        const fileElement = item.contentWindow.document.body.querySelectorAll('form');
-        fileElement.forEach((element) => {
-            element.addEventListener('mousemove', removeDisabledAttributes);
-        })
-    });
-}
-attachEventListener();
-
-document.addEventListener('mousemove', attachEventListener);
+removeDisabledAttributes();

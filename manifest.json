@@ -21,15 +21,5 @@
   "host_permissions": [
     "*://interact.rsys8.net/*",
     "*://v8h1pzy-api.responsys.ocs.oraclecloud.com/*"
-  ],
-  "content_scripts": [
-    {
-      "js": [
-        "scripts/content.js"
-      ],
-      "matches": [
-        "https://interact.rsys8.net/interact/jsp/jindex.jsp"
-      ]
-    }
   ]
 }
