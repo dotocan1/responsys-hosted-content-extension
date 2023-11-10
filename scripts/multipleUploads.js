@@ -10,7 +10,7 @@ try {
         if (item.contentWindow.document.getElementById('first_file_element').id === "first_file_element") {
             filesInput = item.contentWindow.document.getElementById('first_file_element');
             console.log('Got through!');
-            console.log(filesInput)
+            console.log(filesInput);
         }
     });
 } catch (error) {
@@ -18,22 +18,25 @@ try {
 }
 
 // get filesInputsArray
-console.log('this is files input')
-console.log(filesInput)
+console.log('this is files input');
+console.log(filesInput);
 filesInputsArray = filesInput.files;
 
 // get count
-
 let count = filesInputsArray.length;
 
-// get filesList
-
-document.querySelectorAll('iframe').forEach(item => {
-    filesInput = item.contentWindow.document.getElementById('files_list');
-});
-
+try {
+    document.querySelectorAll('iframe').forEach(item => {
+        if (item.contentWindow.document.getElementById('first_file_element').id === "first_file_element") {
+            filesList = item.contentWindow.document.getElementById('files_list');
+            console.log('Got through!!!');
+            console.log(filesList);
+        }
+    });
+} catch (error) {
+    console.log(error);
+}
 // background work that creates new inputs that contain files
-
 for (let i = 0; i < filesInputsArray.length; i++) {
     let newInput = filesInput.cloneNode(true);
     count = count - 1;
@@ -46,13 +49,17 @@ for (let i = 0; i < filesInputsArray.length; i++) {
     let newFileList = new DataTransfer();
     newFileList.items.add(filesInputsArray[i]);
 
+    // Set the new FileList to the new input
     newInput.files = newFileList.files;
 
+    // Append the new input before the original input
     filesInput.parentNode.insertBefore(newInput, filesInput);
 
-    let div = document.createElement('div')
+    // Append the file name to the filesList
+    let div = document.createElement('div');
     div.textContent = filesInputsArray[i].name;
     filesList.appendChild(div);
-    filesInput.remove();
 }
 
+// Optionally, remove the original input after the loop if needed
+// filesInput.remove();
