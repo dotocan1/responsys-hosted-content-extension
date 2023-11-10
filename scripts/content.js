@@ -1,7 +1,7 @@
-console.log('script implemented')
+console.log('script implemented');
 
 function myFunction() {
-    // console.log("This will be executed every 1000 milliseconds (1 second).");
+    console.log("This will be executed every 1000 milliseconds (1 second).");
     let filesInput;
     try {
         document.querySelectorAll('iframe').forEach(item => {
@@ -12,7 +12,6 @@ function myFunction() {
     } catch (error) {
         // console.log(error);
     }
-
 }
 
-setInterval(myFunction, 1000);
+myFunction();
