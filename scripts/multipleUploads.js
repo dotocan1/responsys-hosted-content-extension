@@ -55,6 +55,9 @@ for (let i = 0; i < filesInputsArray.length; i++) {
     // Append the new input before the original input
     filesInput.parentNode.insertBefore(newInput, filesInput);
 
+    if (i == 0) {
+        continue;
+    }
     // Append the file name to the filesList
     let div = document.createElement('div');
     div.textContent = filesInputsArray[i].name;
