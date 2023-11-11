@@ -7,7 +7,6 @@ let copiedCampFieldTxt = document.getElementById("copied-campaign-field");
 let usernameInput = document.getElementById("username-input");
 let passwordInput = document.getElementById("password-input");
 let btnLogin = document.getElementById("exLoginBtn");
-let whatsNewStatus = true;
 
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
@@ -21,7 +20,7 @@ let popup = document.getElementById('popupContainer');
 
 popupButton.addEventListener('click', async () => {
     popup.style.display = "none";
-    await setWhatsNewStatus(false);
+    await setWhatsNewStatus(2.6);
 })
 
 function setWhatsNewStatus (bool) {
@@ -34,16 +33,16 @@ function setWhatsNewStatus (bool) {
     })
 }
 
-function getWhatsNewStatus () {
+async function getWhatsNewStatus () {
     // getting the initial state of username and password
     try {
         chrome.storage.sync.get('whatsNew', function (data) {
             console.log("WhatsNew status is: " + data.whatsNew);
-            whatsNewStatus = data.whatsNew;
 
-            if (whatsNewStatus == true) {
+            if (data.whatsNew != 2.6) {
                 popup.style.display = "block";
             }
+            resolve('worked')
         });
     }
     catch (error) {
