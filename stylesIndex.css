@@ -1,5 +1,7 @@
 /* Reset some default styles */
-body, h1, p {
+body,
+h1,
+p {
     margin: 0;
     padding: 0;
 }
@@ -29,7 +31,8 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 10px auto; /* Center images with some margin */
+    margin: 10px auto;
+    /* Center images with some margin */
 }
 
 /* Add a border to images for illustration */
@@ -49,7 +52,17 @@ a:hover {
     text-decoration: underline;
 }
 
-#main-container{
+#main-container {
     max-width: 600px;
+    margin: 0 auto;
+}
+
+.image-container {
+    position: relative;
+}
+
+.image-container:hover {
+    transform: scale(2.5);
+    z-index: 50000;
     margin: 0 auto;
 }
