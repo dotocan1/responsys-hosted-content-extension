@@ -1,7 +1,3 @@
-import * as CONFIGModule from "../CONFIG.js"
-
-//const CONFIGHandler = CONFIGModule.createConfig();
-
 export function createAPIHandler (campaignHandler, domHandler) {
     let resultJSON;
     let authToken;

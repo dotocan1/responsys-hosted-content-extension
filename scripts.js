@@ -54,12 +54,8 @@ async function getWhatsNewStatus () {
     })
 }
 
-
+injectTheContentScript ()
 await getWhatsNewStatus();
-
-
-
-
 
 
 function saveUsername () {
@@ -141,8 +137,6 @@ function injectTheContentScript () {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/content.js'] })
     })
 }
-
-injectTheContentScript();
 
 // function that executes the upload script
 function injectTheUploadScript () {
