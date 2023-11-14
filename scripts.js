@@ -36,20 +36,22 @@ function setWhatsNewStatus (bool) {
 }
 
 async function getWhatsNewStatus () {
-    // getting the initial state of username and password
-    try {
-        chrome.storage.sync.get('whatsNew', function (data) {
-            console.log("WhatsNew status is: " + data.whatsNew);
+    return new Promise((resolve, reject) => {
+        // getting the initial state of username and password
+        try {
+            chrome.storage.sync.get('whatsNew', function (data) {
+                console.log("WhatsNew status is: " + data.whatsNew);
 
-            if (data.whatsNew != NEW_VERSION) {
-                popup.style.display = "block";
-            }
-            resolve('worked')
-        });
-    }
-    catch (error) {
-        console.log(error)
-    }
+                if (data.whatsNew != NEW_VERSION) {
+                    popup.style.display = "block";
+                }
+                resolve('worked')
+            });
+        }
+        catch (error) {
+            console.log(error)
+        }
+    })
 }
 
 
@@ -164,18 +166,10 @@ function injectTheDeleteScript () {
     })
 }
 
-// function that executes the multiple script
-function injectTheMultipleScript () {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/multipleUploads.js'] })
-    })
-}
-
 let boolOpenImages = false;
 
 // setting event handlers for upload and publish buttons
 document.getElementById('btnUploadEx').addEventListener('click', injectTheUploadScript)
-document.getElementById('btnMultipleEx').addEventListener('click', injectTheMultipleScript)
 document.getElementById('btnPublishEx').addEventListener('click', injectThePublishScript)
 document.getElementById('btnDeleteEx').addEventListener('click', injectTheDeleteScript)
 document.getElementById("btnCopyEx").addEventListener('click', () => {
