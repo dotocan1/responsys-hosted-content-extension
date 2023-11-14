@@ -9,15 +9,14 @@ p {
 /* Apply styles to the body */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    color: #2c3e50;
     line-height: 1.6;
     padding: 20px;
+    background-color: #7f8c8d;
 }
 
 /* Style the heading */
 h1 {
-    color: #007bff;
     text-align: center;
 }
 
@@ -55,7 +54,15 @@ a:hover {
 #main-container {
     max-width: 600px;
     margin: 0 auto;
+    background-color: #95a5a6;
+    border-radius: 25px;
+    border: 2px solid #95a5a6;
+    display: flexbox;
+    flex-direction: column;
+    padding: 0.5rem;
 }
+
+
 
 .image-container {
     position: relative;
