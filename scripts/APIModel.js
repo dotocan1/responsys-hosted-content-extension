@@ -327,10 +327,9 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
             // splitting the original content library document path into
             // an array so that I can get the original folder path
-            let splitClDocPath = campaignHandler.originalClFolderPath.split('');
-
+            let splitClDocPath = campaignHandler.originalClDocPath.split('');
             let count = numberOfOccurences(splitClDocPath)
-            count--;
+            //count--;
             let boolCount = 0;
             let arrayOfOriginalClFolderPath = [];
             // getting the original folder path
@@ -338,8 +337,10 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 if (splitClDocPath[index] === "/") {
                     boolCount++;
                     if (boolCount == count) {
+
                         break;
                     } else {
+
                         arrayOfOriginalClFolderPath.push(splitClDocPath[index]);
                     }
                 } else {
