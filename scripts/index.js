@@ -74,6 +74,7 @@ export async function main () {
     await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
     await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
     await apiHandler.setOgPath();
+    await apiHandler.listClFolderContents();
 
     // save data to input fields
 

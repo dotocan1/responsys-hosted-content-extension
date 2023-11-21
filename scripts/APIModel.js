@@ -284,7 +284,9 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
         return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
             .then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                // console.log()
+            })
             .catch(error => console.log('error', error));
     }
 
@@ -350,6 +352,37 @@ export function createAPIHandler (campaignHandler, domHandler) {
         })
     }
 
+    async function listClFolderContents (a_path) {
+        return new Promise((resolve, reject) => {
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", authToken);
+
+            // TODO: REMOVE THIS
+            a_path = campaignHandler.ogPath;
+
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
+            };
+
+            fetch(endPoint + "/rest/api/v1.3/clFolders" + a_path, requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    // console.log(result);
+                    resultJSON = JSON.parse(result);
+
+                    let folders = resultJSON.folders;
+
+                    folders.forEach((folder) => {
+                        console.log(folder.folderPath)
+                    })
+                })
+                .catch(error => console.log('error', error));
+            resolve();
+        })
+    }
+
     return {
         getAuth: getAuth,
         fetchCampaign: fetchCampaign,
@@ -359,5 +392,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
         createClLibFolder: createClLibFolder,
         createCopyOfClDoc: createCopyOfClDoc,
         setOgPath: setOgPath,
+        listClFolderContents: listClFolderContents,
     }
 }
