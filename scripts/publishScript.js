@@ -8,11 +8,13 @@ async function loopWithDelay () {
         // if user has turned on "Open every image in new tab"
         await getChkOpenImages();
         if (boolOpenImages == true) {
-            // setTimeout(loopWithDelay, 5000); // Delay of 1 second (1000 milliseconds)
-            storedOnlyLinks.forEach(function (item) {
-                window.open(item, "_blank");
-            })
+            storedOnlyLinks.forEach(function (item, index) {
+                setTimeout(function () {
+                    window.open(item, "_blank");
+                }, index * 2000); // index * 2000 will create a 2-second delay for each item
+            });
         }
+
         alert("All images have been published!")
         return;
     }
