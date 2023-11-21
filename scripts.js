@@ -8,7 +8,7 @@ let usernameInput = document.getElementById("username-input");
 let passwordInput = document.getElementById("password-input");
 let btnLogin = document.getElementById("exLoginBtn");
 
-const NEW_VERSION = 2.7;
+const NEW_VERSION = 2.8;
 
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
