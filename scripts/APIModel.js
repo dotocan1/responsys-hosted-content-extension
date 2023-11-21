@@ -375,10 +375,27 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
                     folders.forEach(async (folder) => {
                         console.log(folder.folderPath)
-                        await listClFolderContent("")
                         // TODO: For every folder list all contents then copy everything to new folder
-                        //await listClFolderContent(folder.folderPath, campaignHandler.copiedClFolderPath)
 
+                        // splitting the original content library document path into
+                        // an array so that I can get the original folder path
+                        let splitClDocPath = folder.folderPath.split('');
+                        let count = numberOfOccurences(splitClDocPath)
+                        // count--;
+                        let boolCount = 0;
+                        let arrayOfOriginalClFolderPath = [];
+                        // getting the original folder path
+                        for (let index = 0; index < splitClDocPath.length; index++) {
+                            if (splitClDocPath[index] === "/") {
+                                boolCount++;
+                            } else if (boolCount == count) {
+                                arrayOfOriginalClFolderPath.push(splitClDocPath[index])
+                            }
+                        }
+                        let folderName = arrayOfOriginalClFolderPath.join('')
+                        console.log("this is folderName: " + folderName)
+                        await createClLibFolder(campaignHandler.copiedClFolderPath + "/" + folderName)
+                        await listClFolderContent(campaignHandler.ogPath + "/" + folderName, folderName)
                     })
                 })
                 .catch(error => console.log('error', error));
@@ -386,14 +403,14 @@ export function createAPIHandler (campaignHandler, domHandler) {
         })
     }
 
-    async function listClFolderContent (a_path) {
+    async function listClFolderContent (a_path, a_folderName) {
         return new Promise((resolve, reject) => {
             var myHeaders = new Headers();
             myHeaders.append("Authorization", authToken);
 
             // TODO: REMOVE THIS
-            a_path = campaignHandler.ogPath + "/images";
-            let a_newPath = campaignHandler.copiedClFolderPath;
+            // a_path = campaignHandler.ogPath + "/images";
+            let a_newPath = campaignHandler.copiedClFolderPath + "/" + a_folderName;
 
             var requestOptions = {
                 method: 'GET',
@@ -405,9 +422,14 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 .then(response => response.text())
                 .then(result => {
                     // console.log(result);
+
+                    console.log(resultJSON)
                     resultJSON = JSON.parse(result);
 
                     let items = resultJSON.items;
+
+                    console.log("This is a_path: " + a_path)
+                    console.log("This is a_newPath: " + a_newPath)
 
                     items.forEach(async (item) => {
                         console.log(item.itemPath)
@@ -432,6 +454,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                         let itemName = arrayOfOriginalClFolderPath.join('')
                         console.log("Does this work")
                         console.log("This is itemName: " + itemName)
+                        console.log("This is a_newPath: " + a_newPath)
                         await copyItem(item.itemPath, a_newPath, itemName)
                     })
                 })
@@ -441,35 +464,29 @@ export function createAPIHandler (campaignHandler, domHandler) {
     }
 
     async function copyItem (a_itemPath, a_newPath, a_ItemName) {
-        return new Promise((resolve, reject) => {
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", authToken);
-            myHeaders.append("Content-Type", "application/json");
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", authToken);
+        myHeaders.append("Content-Type", "application/json");
 
-            // TODO: Remove this
-            a_newPath = campaignHandler.copiedClFolderPath;
-            a_newPath = a_newPath + "/" + a_ItemName
+        var raw = JSON.stringify({
+            "itemPath": a_itemPath
+        });
 
-            var raw = JSON.stringify({
-                "itemPath": a_itemPath
-            });
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
 
-            var requestOptions = {
-                method: 'PUT',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-            };
+        return fetch(endPoint + "/rest/api/v1.3/clItems" + a_newPath + "/" + a_ItemName, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                console.log(result)
+            })
+            .catch(error => console.log('error', error));
 
-            fetch(endPoint + "/rest/api/v1.3/clItems" + a_newPath, requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    // console.log(result)
-                })
-                .catch(error => console.log('error', error));
 
-            resolve();
-        })
     }
 
     return {
