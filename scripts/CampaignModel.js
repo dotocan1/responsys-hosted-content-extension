@@ -6,6 +6,7 @@ export function createCampaignHandler () {
     let copiedClDocPath;
     let folderName;
     let originalClDocPath;
+    let ogPath;
 
     return {
         nameOfOriginalCampaign: nameOfOriginalCampaign,
@@ -15,5 +16,6 @@ export function createCampaignHandler () {
         copiedClDocPath: copiedClDocPath,
         folderName: folderName,
         originalClDocPath: originalClDocPath,
+        ogPath: ogPath,
     }
 }

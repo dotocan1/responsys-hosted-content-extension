@@ -320,11 +320,8 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
     // All new code for copying the images
 
-    async function consoleLogItems () {
+    async function setOgPath () {
         return new Promise((resolve, reject) => {
-            console.log(`${campaignHandler.originalClFolderPath} is the old path and ${campaignHandler.copiedClFolderPath} is the new path!\n
-            ${campaignHandler.originalClDocPath} is the original file path`)
-
             // splitting the original content library document path into
             // an array so that I can get the original folder path
             let splitClDocPath = campaignHandler.originalClDocPath.split('');
@@ -347,8 +344,8 @@ export function createAPIHandler (campaignHandler, domHandler) {
                     arrayOfOriginalClFolderPath.push(splitClDocPath[index])
                 }
             }
-            let ogPath = arrayOfOriginalClFolderPath.join('')
-            console.log(ogPath + " is the original path");
+            campaignHandler.ogPath = arrayOfOriginalClFolderPath.join('')
+            console.log(campaignHandler.ogPath + " is the original path");
         })
     }
 
@@ -360,6 +357,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
         fetchTheCopiedCampaign: fetchTheCopiedCampaign,
         createClLibFolder: createClLibFolder,
         createCopyOfClDoc: createCopyOfClDoc,
-        consoleLogItems: consoleLogItems,
+        setOgPath: setOgPath,
     }
 }
