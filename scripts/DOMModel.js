@@ -29,7 +29,7 @@ export function createDOMHandler () {
                     console.error('Error saving original campaign field:', chrome.runtime.lastError);
                     reject(chrome.runtime.lastError);
                 } else {
-                    console.log('Campaign field value is saved ' + originalCampaignField.value);
+                    
                     resolve();
                 }
             });
@@ -44,7 +44,7 @@ export function createDOMHandler () {
                     console.error('Error saving copied campaign field:', chrome.runtime.lastError);
                     reject(chrome.runtime.lastError);
                 } else {
-                    console.log('Copied campaign field value is saved ' + copiedCampaignField.value);
+                    
                     resolve();
                 }
             });
@@ -59,7 +59,7 @@ export function createDOMHandler () {
                     console.error('Error saving copied campaign field:', chrome.runtime.lastError);
                     reject(chrome.runtime.lastError);
                 } else {
-                    console.log('Copied campaign field value is saved ' + folderPathLabel.innerHTML);
+                    
                     resolve();
                 }
             });
@@ -67,7 +67,7 @@ export function createDOMHandler () {
     }
 
     async function saveInputFieldData () {
-        console.log(folderPathLabel)
+        
         await saveOriginalCampaignField();
         await saveCopiedCampaignField();
         await saveFolderPathLabel();

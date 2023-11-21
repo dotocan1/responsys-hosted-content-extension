@@ -11,9 +11,9 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return new Promise((resolve, reject) => {
             try {
                 chrome.storage.sync.get('usernameInput', function (data) {
-                    console.log("Username is: " + data.usernameInput);
+
                     if (typeof data.usernameInput === "undefined" || typeof data.usernameInput === "") {
-                        console.log("username bug")
+
                         return 0;
                     } else {
                         USERNAME = data.usernameInput;
@@ -32,7 +32,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             try {
                 chrome.storage.sync.get('passwordInput', function (data) {
                     if (typeof data.passwordInput === "undefined" || typeof data.passwordInput === "") {
-                        console.log("password bug")
+
                         return 0;
                     } else {
                         PASSWORD = data.passwordInput;
@@ -85,7 +85,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         var urlencoded = new URLSearchParams();
         await getUsername();
         await getPassword();
-        console.log(`${USERNAME} is the username.\n${PASSWORD} is the password.`)
+
 
 
         urlencoded.append("user_name", USERNAME);
@@ -104,7 +104,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             .then(result => {
 
                 resultJSON = JSON.parse(result);
-                console.log(resultJSON)
+
                 if (resultJSON.errorCode === "INVALID_USER_NAME_PASSWORD") {
                     alert("Wrong username or password!")
                     return false;
@@ -141,7 +141,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
                 campaignHandler.originalClDocPath = resultJSON.htmlMessagePath;
 
-                console.log(campaignHandler.originalClDocPath)
+
 
                 // splitting the original content library document path into
                 // an array so that I can get the original folder path
@@ -239,11 +239,10 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/campaigns/" + campaignHandler.nameOfOriginalCampaign + "/actions/copy", requestOptions)
             .then(response => response.text())
             .then(result => {
-                console.log(`${campaignHandler.nameOfCopiedCampaign} this is the name of the copied campaign!`)
+
                 campaignHandler.copiedClFolderPath = campaignHandler.originalClFolderPath + "/" + campaignHandler.nameOfCopiedCampaign;
                 campaignHandler.copiedClDocPath = campaignHandler.originalClFolderPath + "/" + campaignHandler.nameOfCopiedCampaign + "/" + campaignHandler.nameOfCopiedCampaign + ".htm";
-                console.log("this is copied folder path: " + campaignHandler.copiedClFolderPath)
-                console.log("this is copied cl doc path" + campaignHandler.copiedClDocPath)
+
             })
             .catch(error => console.log('error', error));
     }
@@ -291,8 +290,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
     async function createCopyOfClDoc (oldPath, newPath) {
         var myHeaders = new Headers();
-        console.log(campaignHandler.originalClDocPath + " this is originalClDocPath")
-        console.log(campaignHandler.copiedClDocPath + " this is copiedClDocPath")
+
         myHeaders.append("Authorization", authToken);
         myHeaders.append("Content-Type", "application/json");
 
@@ -310,7 +308,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clDocs" + newPath, requestOptions)
             .then(response => response.text())
             .then(result => {
-                console.log(result);
+
                 alert("Campaign has been copied!\nNew folder path is:\n" + campaignHandler.copiedClFolderPath);
                 domHandler.folderPathLabel.textContent = `New folder path is: ${campaignHandler.copiedClFolderPath}`;
                 window.scrollBy(0, 100);
@@ -319,6 +317,40 @@ export function createAPIHandler (campaignHandler, domHandler) {
             .catch(error => console.log('error', error));
 
     }
+
+    // All new code for copying the images
+
+    async function consoleLogItems () {
+        return new Promise((resolve, reject) => {
+            console.log(`${campaignHandler.originalClFolderPath} is the old path and ${campaignHandler.copiedClFolderPath} is the new path!\n
+            ${campaignHandler.originalClDocPath} is the original file path`)
+
+            // splitting the original content library document path into
+            // an array so that I can get the original folder path
+            let splitClDocPath = campaignHandler.originalClFolderPath.split('');
+
+            let count = numberOfOccurences(splitClDocPath)
+            count--;
+            let boolCount = 0;
+            let arrayOfOriginalClFolderPath = [];
+            // getting the original folder path
+            for (let index = 0; index < splitClDocPath.length; index++) {
+                if (splitClDocPath[index] === "/") {
+                    boolCount++;
+                    if (boolCount == count) {
+                        break;
+                    } else {
+                        arrayOfOriginalClFolderPath.push(splitClDocPath[index]);
+                    }
+                } else {
+                    arrayOfOriginalClFolderPath.push(splitClDocPath[index])
+                }
+            }
+            let ogPath = arrayOfOriginalClFolderPath.join('')
+            console.log(ogPath + " is the original path");
+        })
+    }
+
     return {
         getAuth: getAuth,
         fetchCampaign: fetchCampaign,
@@ -327,5 +359,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
         fetchTheCopiedCampaign: fetchTheCopiedCampaign,
         createClLibFolder: createClLibFolder,
         createCopyOfClDoc: createCopyOfClDoc,
+        consoleLogItems: consoleLogItems,
     }
 }

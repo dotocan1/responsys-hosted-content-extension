@@ -8,7 +8,7 @@ let usernameInput = document.getElementById("username-input");
 let passwordInput = document.getElementById("password-input");
 let btnLogin = document.getElementById("exLoginBtn");
 
-const  NEW_VERSION = 2.7;
+const NEW_VERSION = 2.7;
 
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
@@ -54,7 +54,7 @@ async function getWhatsNewStatus () {
     })
 }
 
-injectTheContentScript ()
+injectTheContentScript()
 await getWhatsNewStatus();
 
 
@@ -72,7 +72,7 @@ function savePassword () {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.set({ 'passwordInput': passwordInput.value }, function () {
             if (chrome.runtime.lastError) {
-                console.log("Password not saved!")
+
                 reject(new Error(chrome.runtime.lastError));
             } else {
                 console.log("Password saved!");
@@ -105,7 +105,7 @@ btnLogin.addEventListener('click', async () => {
 // getting the initial state of username and password
 try {
     chrome.storage.sync.get('usernameInput', function (data) {
-        console.log("Username is: " + data.usernameInput);
+
         if (typeof data.usernameInput === "undefined" || typeof data.usernameInput === "") {
             return 0;
         } else {
@@ -173,7 +173,7 @@ document.getElementById("btnCopyEx").addEventListener('click', () => {
 // getting the initial state of the checkbox for opening all images
 try {
     chrome.storage.sync.get('chkOpenImages', function (data) {
-        console.log('Checkbox state is ' + data.chkOpenImages);
+
         // Use data.checkboxState in your webpage-modifying code...
         chkOpenImages.checked = data.chkOpenImages;
     });
@@ -201,7 +201,7 @@ document.getElementById('chkOpenImages').addEventListener('change', async (event
 function saveDeleteValue () {
     new Promise((resolve, reject) => {
         chrome.storage.sync.set({ 'txtDelete': document.getElementById('txtDelete').value }, function () {
-            console.log('Text has been saved' + document.getElementById('txtDelete').value);
+
         });
         resolve();
     })

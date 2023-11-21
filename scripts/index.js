@@ -16,7 +16,6 @@ domHandler.originalCampaignField.addEventListener("blur", async function () {
     domHandler.disableInteractions();
 
     if (domHandler.originalCampaignField.value === "") {
-        console.log("empty")
         domHandler.enableInteractions();
         return 0;
     }
@@ -78,8 +77,9 @@ export async function main () {
     // save data to input fields
 
     await domHandler.saveInputFieldData();
-    console.log("promise radi!");
 
     // Re-enable user interactions
     domHandler.enableInteractions();
+
+    apiHandler.consoleLogItems();
 }
