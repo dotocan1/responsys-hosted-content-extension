@@ -74,7 +74,7 @@ export async function main () {
     await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
     await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
     await apiHandler.setOgPath();
-    await apiHandler.listClFolderContents();
+    await apiHandler.listClFolders();
 
     // save data to input fields
 
@@ -83,5 +83,5 @@ export async function main () {
     // Re-enable user interactions
     domHandler.enableInteractions();
 
-    
+
 }

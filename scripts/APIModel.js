@@ -352,7 +352,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         })
     }
 
-    async function listClFolderContents (a_path) {
+    async function listClFolders (a_path) {
         return new Promise((resolve, reject) => {
             var myHeaders = new Headers();
             myHeaders.append("Authorization", authToken);
@@ -392,6 +392,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
         createClLibFolder: createClLibFolder,
         createCopyOfClDoc: createCopyOfClDoc,
         setOgPath: setOgPath,
-        listClFolderContents: listClFolderContents,
+        listClFolders: listClFolders,
     }
 }
