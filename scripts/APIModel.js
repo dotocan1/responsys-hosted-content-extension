@@ -346,6 +346,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             }
             campaignHandler.ogPath = arrayOfOriginalClFolderPath.join('')
             console.log(campaignHandler.ogPath + " is the original path");
+            resolve();
         })
     }
 
