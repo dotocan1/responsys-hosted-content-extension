@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Responsys Helper",
   "description": "Work simpler",
-  "version": "3.1",
+  "version": "3.2",
   "action": {
     "default_popup": "main_page.html",
     "default_icon": "./images/responsys-logo.png",
@@ -20,6 +20,7 @@
   ],
   "host_permissions": [
     "*://interact.rsys8.net/*",
-    "*://v8h1pzy-api.responsys.ocs.oraclecloud.com/*"
+    "*://v8h1pzy-api.responsys.ocs.oraclecloud.com/*",
+    "*://v8h1pzy.responsys.ocs.oraclecloud.com/interact/jsp/jindex.jsp"
   ]
 }
