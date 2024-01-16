@@ -341,28 +341,38 @@ export function createAPIHandler (campaignHandler, domHandler) {
             resolve();
         })
     }
+    function extractPath (url) {
+        const searchString = "/contentlibrary";
+        const index = url.indexOf(searchString);
 
+        if (index !== -1) {
+            return url.substring(index);
+        } else {
+            return "Substring not found"; // or handle this case as needed
+        }
+    }
     // this functions lists all cl folders
     async function listClFolders (a_path) {
-        return new Promise((resolve, reject) => {
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", authToken);
 
-            var requestOptions = {
-                method: 'GET',
-                headers: myHeaders,
-                redirect: 'follow'
-            };
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", authToken);
 
-            fetch(endPoint + "/rest/api/v1.3/clFolders" + a_path, requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    let resultJSON;
-                    resultJSON = JSON.parse(result);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
 
-                    let folders = resultJSON.folders;
-
-                    folders.forEach(async (folder) => {
+        return fetch(endPoint + "/rest/api/v1.3/clFolders" + a_path, requestOptions)
+            .then(response => response.text())
+            .then(async result => {
+                let resultJSON;
+                resultJSON = JSON.parse(result);
+                let folders = resultJSON.folders;
+                if (folders.length == 0) {
+                    console.log(`No folders found!`)
+                } else {
+                    for (const folder of folders) {
 
                         // splitting the original content library document path into
                         // an array so that I can get the original folder path
@@ -382,15 +392,20 @@ export function createAPIHandler (campaignHandler, domHandler) {
                         let folderName = arrayOfOriginalClFolderPath.join('')
 
                         console.log(`This is the folder name:  ${folderName}`)
-                        // FIXME: Only creates the subfolder but not a sub subfolder
+                        console.log("This is the path: " + extractPath(folder.links[0].href));
+                        let folderPath = extractPath(folder.links[0].href)
+                        // FIXME: Only creates the subfolder but not a sub subfolder, should
+                        // create a recursive function here
                         // await createClLibFolder(campaignHandler.copiedClFolderPath + "/" + folderName)
                         // FIXME: Only lists the subfolder but not a sub subfolder
                         //await listClFolderContent(campaignHandler.ogPath + "/" + folderName, folderName)
-                    })
-                })
-                .catch(error => console.log('error', error));
-            resolve();
-        })
+                        await listClFolders(folderPath)
+                    }
+                }
+
+            })
+            .catch(error => console.log('error', error));
+
     }
 
     async function listClFolderContent (a_path, a_folderName) {
