@@ -163,7 +163,8 @@ export function createAPIHandler (campaignHandler, domHandler) {
             });
     }
 
-    async function getAllFolders () {
+    // function that gets all other non content library folders
+    async function getAllOtherFolders () {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", authToken);
 
@@ -182,7 +183,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
                 // create new array with folder names
                 let folderNames = [];
-
                 folders.forEach(folder => folderNames.push(folder.name))
                 folderNames.sort(customSort);
                 folderNames.forEach(folder => {
@@ -206,6 +206,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             })
             .catch(error => console.log('error', error));
     }
+    
     async function copyCampaign () {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", authToken);
@@ -273,7 +274,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
             .then(response => response.text())
             .then(result => {
-                
+
             })
             .catch(error => console.log('error', error));
     }
@@ -336,7 +337,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
             }
             campaignHandler.ogPath = arrayOfOriginalClFolderPath.join('')
             await listClFolders(campaignHandler.ogPath)
-
             resolve();
         })
     }
@@ -457,7 +457,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clItems" + a_newPath + "/" + a_ItemName, requestOptions)
             .then(response => response.text())
             .then(result => {
-                
+
             })
             .catch(error => console.log('error', error));
 
@@ -467,7 +467,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
     return {
         getAuth: getAuth,
         fetchCampaign: fetchCampaign,
-        getAllFolders: getAllFolders,
+        getAllFolders: getAllOtherFolders,
         copyCampaign: copyCampaign,
         fetchTheCopiedCampaign: fetchTheCopiedCampaign,
         createClLibFolder: createClLibFolder,
