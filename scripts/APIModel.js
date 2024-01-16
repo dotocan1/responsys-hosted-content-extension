@@ -274,7 +274,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
             .then(response => response.text())
             .then(result => {
-
+                // console.log(result)
             })
             .catch(error => console.log('error', error));
     }
@@ -300,18 +300,10 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clDocs" + newPath, requestOptions)
             .then(response => response.text())
             .then(result => {
-
-                // FIXME: Put this somewhere else on the end
-                alert("Campaign has been copied!\nNew folder path is:\n" + campaignHandler.copiedClFolderPath);
-                domHandler.folderPathLabel.textContent = `New folder path is: ${campaignHandler.copiedClFolderPath}`;
-                window.scrollBy(0, 100);
-
             })
             .catch(error => console.log('error', error));
 
     }
-
-    //  FIXME: All new code for copying the images, make it  cleaner
 
     async function setOgPath () {
         return new Promise(async (resolve, reject) => {
@@ -369,6 +361,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 let resultJSON;
                 resultJSON = JSON.parse(result);
                 let folders = resultJSON.folders;
+
                 if (folders.length == 0) {
                     console.log(`No folders found!`)
                 } else {
@@ -390,17 +383,21 @@ export function createAPIHandler (campaignHandler, domHandler) {
                             }
                         }
                         let folderName = arrayOfOriginalClFolderPath.join('')
-
-                        console.log(`This is the folder name:  ${folderName}`)
-                        console.log("This is the path: " + extractPath(folder.links[0].href));
                         let folderPath = extractPath(folder.links[0].href)
-                        // FIXME: Only creates the subfolder but not a sub subfolder, should
-                        // create a recursive function here
-                        // await createClLibFolder(campaignHandler.copiedClFolderPath + "/" + folderName)
-                        // FIXME: Only lists the subfolder but not a sub subfolder
-                        //await listClFolderContent(campaignHandler.ogPath + "/" + folderName, folderName)
-                        await listClFolders(folderPath)
+                        let newFolderPath = folderPath.replace(campaignHandler.nameOfOriginalCampaign, campaignHandler.nameOfCopiedCampaign)
+                        console.log(`${newFolderPath} is the new folder path`)
+
+                        // list all subfolders
+                        await listClFolders(folderPath);
+
+                        // copy the folder
+                        await createClLibFolder(newFolderPath);
+
+                        // list all contents
+                        await listClFolderContent(newFolderPath, folderPath)
                     }
+
+
                 }
 
             })
@@ -408,54 +405,77 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
     }
 
-    async function listClFolderContent (a_path, a_folderName) {
-        return new Promise((resolve, reject) => {
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", authToken);
+    async function listClFolderContent (a_newPath, a_oldPath) {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", authToken);
 
-            // TODO: REMOVE THIS
-            // a_path = campaignHandler.ogPath + "/images";
-            let a_newPath = campaignHandler.copiedClFolderPath + "/" + a_folderName;
 
-            var requestOptions = {
-                method: 'GET',
-                headers: myHeaders,
-                redirect: 'follow'
-            };
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
 
-            fetch(endPoint + "/rest/api/v1.3/clFolders" + a_path, requestOptions)
-                .then(response => response.text())
-                .then(result => {
-                    let resultJSON;
-                    resultJSON = JSON.parse(result);
+        return fetch(endPoint + "/rest/api/v1.3/clFolders" + a_oldPath, requestOptions)
+            .then(response => response.text())
+            .then(async result => {
+                let resultJSON;
+                resultJSON = JSON.parse(result);
+                // console.log(result)
+                console.log(resultJSON)
 
-                    let items = resultJSON.items;
-                    items.forEach(async (item) => {
+                // copy items
 
-                        // TODO: For every item, copy to new folder
-
-                        // splitting the original content library document path into
-                        // an array so that I can get the original folder path
-                        let splitClDocPath = item.itemPath.split('');
-                        let count = numberOfOccurences(splitClDocPath)
-                        // count--;
-                        let boolCount = 0;
-                        let arrayOfOriginalClFolderPath = [];
-                        // getting the original folder path
-                        for (let index = 0; index < splitClDocPath.length; index++) {
-                            if (splitClDocPath[index] === "/") {
-                                boolCount++;
-                            } else if (boolCount == count) {
-                                arrayOfOriginalClFolderPath.push(splitClDocPath[index])
-                            }
+                let items = resultJSON.items;
+                // console.log(items)
+                for (let i = 0; i < items.length; i++) {
+                    // splitting the original content library document path into
+                    // an array so that I can get the original folder path
+                    let splitClDocPath = items[i].itemPath.split('');
+                    let count = numberOfOccurences(splitClDocPath)
+                    // count--;
+                    let boolCount = 0;
+                    let arrayOfOriginalClFolderPath = [];
+                    // getting the original folder path
+                    for (let index = 0; index < splitClDocPath.length; index++) {
+                        if (splitClDocPath[index] === "/") {
+                            boolCount++;
+                        } else if (boolCount == count) {
+                            arrayOfOriginalClFolderPath.push(splitClDocPath[index])
                         }
-                        let itemName = arrayOfOriginalClFolderPath.join('')
-                        await copyItem(item.itemPath, a_newPath, itemName)
-                    })
-                })
-                .catch(error => console.log('error', error));
-            resolve();
-        })
+                    }
+                    let itemName = arrayOfOriginalClFolderPath.join('')
+                    await copyItem(items[i].itemPath, a_newPath, itemName)
+                }
+
+                // copy documents
+
+                let documents = resultJSON.documents;
+                // console.log(documents)
+                for (let i = 0; i < documents.length; i++) {
+                    // splitting the original content library document path into
+                    // an array so that I can get the original folder path
+                    let splitClDocPath = documents[i].itemPath.split('');
+                    let count = numberOfOccurences(splitClDocPath)
+                    // count--;
+                    let boolCount = 0;
+                    let arrayOfOriginalClFolderPath = [];
+                    // getting the original folder path
+                    for (let index = 0; index < splitClDocPath.length; index++) {
+                        if (splitClDocPath[index] === "/") {
+                            boolCount++;
+                        } else if (boolCount == count) {
+                            arrayOfOriginalClFolderPath.push(splitClDocPath[index])
+                        }
+                    }
+                    let documentName = arrayOfOriginalClFolderPath.join('')
+                    await copyDocument(documents[i].documentPath, a_newPath, documentName)
+                }
+
+                // copy
+
+            })
+            .catch(error => console.log('error', error));
     }
 
     async function copyItem (a_itemPath, a_newPath, a_ItemName) {
@@ -480,8 +500,30 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
             })
             .catch(error => console.log('error', error));
+    }
 
+    async function copyDocument (a_documentPath, a_newPath, a_DocumentName) {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", authToken);
+        myHeaders.append("Content-Type", "application/json");
 
+        var raw = JSON.stringify({
+            "documentPath": a_documentPath
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        return fetch(endPoint + "/rest/api/v1.3/clDocs" + a_newPath + "/" + a_DocumentName, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+
+            })
+            .catch(error => console.log('error', error));
     }
 
     return {

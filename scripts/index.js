@@ -76,8 +76,6 @@ export async function main () {
     await apiHandler.setOgPath();
     // list all cl folders
     await apiHandler.listClFolders(campaignHandler.ogPath)
-    // await apiHandler.listClFolders();
-    // await apiHandler.listClFolderContent();
 
     // save data to input fields
 
@@ -86,5 +84,9 @@ export async function main () {
     // Re-enable user interactions
     domHandler.enableInteractions();
 
+    // notify the user about the successful completion
+    alert("Campaign has been copied!\nNew folder path is:\n" + campaignHandler.copiedClFolderPath);
+    domHandler.folderPathLabel.textContent = `New folder path is: ${campaignHandler.copiedClFolderPath}`;
+    window.scrollBy(0, 100);
 
 }
