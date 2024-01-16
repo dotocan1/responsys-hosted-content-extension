@@ -206,7 +206,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             })
             .catch(error => console.log('error', error));
     }
-    
+
     async function copyCampaign () {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", authToken);
@@ -279,6 +279,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             .catch(error => console.log('error', error));
     }
 
+    // FIXME: This needs to be changedso that it copies every document
     async function createCopyOfClDoc (oldPath, newPath) {
         var myHeaders = new Headers();
 
@@ -300,6 +301,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             .then(response => response.text())
             .then(result => {
 
+                // FIXME: Put this somewhere else on the end
                 alert("Campaign has been copied!\nNew folder path is:\n" + campaignHandler.copiedClFolderPath);
                 domHandler.folderPathLabel.textContent = `New folder path is: ${campaignHandler.copiedClFolderPath}`;
                 window.scrollBy(0, 100);
@@ -309,7 +311,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
     }
 
-    // All new code for copying the images
+    //  FIXME: All new code for copying the images, make it  cleaner
 
     async function setOgPath () {
         return new Promise(async (resolve, reject) => {
@@ -336,11 +338,11 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 }
             }
             campaignHandler.ogPath = arrayOfOriginalClFolderPath.join('')
-            await listClFolders(campaignHandler.ogPath)
             resolve();
         })
     }
 
+    // this functions lists all cl folders
     async function listClFolders (a_path) {
         return new Promise((resolve, reject) => {
             var myHeaders = new Headers();
@@ -361,7 +363,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
                     let folders = resultJSON.folders;
 
                     folders.forEach(async (folder) => {
-                        // TODO: For every folder list all contents then copy everything to new folder
 
                         // splitting the original content library document path into
                         // an array so that I can get the original folder path
@@ -379,8 +380,12 @@ export function createAPIHandler (campaignHandler, domHandler) {
                             }
                         }
                         let folderName = arrayOfOriginalClFolderPath.join('')
-                        await createClLibFolder(campaignHandler.copiedClFolderPath + "/" + folderName)
-                        await listClFolderContent(campaignHandler.ogPath + "/" + folderName, folderName)
+
+                        console.log(`This is the folder name:  ${folderName}`)
+                        // FIXME: Only creates the subfolder but not a sub subfolder
+                        // await createClLibFolder(campaignHandler.copiedClFolderPath + "/" + folderName)
+                        // FIXME: Only lists the subfolder but not a sub subfolder
+                        //await listClFolderContent(campaignHandler.ogPath + "/" + folderName, folderName)
                     })
                 })
                 .catch(error => console.log('error', error));

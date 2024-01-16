@@ -74,6 +74,8 @@ export async function main () {
     await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
     await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
     await apiHandler.setOgPath();
+    // list all cl folders
+    await apiHandler.listClFolders(campaignHandler.ogPath)
     // await apiHandler.listClFolders();
     // await apiHandler.listClFolderContent();
 
