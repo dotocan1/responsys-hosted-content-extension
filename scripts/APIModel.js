@@ -1,5 +1,4 @@
 export function createAPIHandler (campaignHandler, domHandler) {
-    let resultJSON;
     let authToken;
     let endPoint = "https://v8h1pzy-api.responsys.ocs.oraclecloud.com";
     let USERNAME;
@@ -86,8 +85,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
         await getUsername();
         await getPassword();
 
-
-
         urlencoded.append("user_name", USERNAME);
         urlencoded.append("password", PASSWORD);
 
@@ -103,6 +100,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
             .then(response => response.text())
             .then(result => {
 
+                let resultJSON;
                 resultJSON = JSON.parse(result);
 
                 if (resultJSON.errorCode === "INVALID_USER_NAME_PASSWORD") {
@@ -125,28 +123,19 @@ export function createAPIHandler (campaignHandler, domHandler) {
         var requestOptions = {
             method: 'GET',
             headers: myHeaders,
-
             redirect: 'follow'
         };
 
         return fetch(endPoint + "/rest/api/v1.3/campaigns/" + domHandler.originalCampaignField.value, requestOptions)
             .then(response => response.text())
             .then(result => {
-                // console.log(result)
+                let resultJSON;
                 resultJSON = JSON.parse(result);
-
                 campaignHandler.folderName = resultJSON.folderName;
-
                 campaignHandler.originalClDocPath = resultJSON.htmlMessagePath;
-
-                campaignHandler.originalClDocPath = resultJSON.htmlMessagePath;
-
-
-
                 // splitting the original content library document path into
                 // an array so that I can get the original folder path
                 let splitClDocPath = campaignHandler.originalClDocPath.split('');
-
                 let count = numberOfOccurences(splitClDocPath)
                 count--;
                 let boolCount = 0;
@@ -187,17 +176,16 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/folders", requestOptions)
             .then(response => response.text())
             .then(async result => {
+                let resultJSON;
                 resultJSON = JSON.parse(result);
                 let folders = resultJSON.folders;
 
-                // console.log(folders)
-                // create new folder with folder names
+                // create new array with folder names
                 let folderNames = [];
 
                 folders.forEach(folder => folderNames.push(folder.name))
                 folderNames.sort(customSort);
                 folderNames.forEach(folder => {
-                    //console.log(folder.name)
                     let option = document.createElement("option");
                     option.value = folder;
                     option.textContent = folder;
@@ -260,7 +248,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/campaigns/" + campaignHandler.nameOfCopiedCampaign, requestOptions)
             .then(response => response.text())
             .then(result => {
-                // console.log(result)
+                let resultJSON;
                 resultJSON = JSON.parse(result);
             })
             .catch(error => console.log('error', error));
@@ -285,7 +273,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
             .then(response => response.text())
             .then(result => {
-                // console.log()
+                
             })
             .catch(error => console.log('error', error));
     }
@@ -347,7 +335,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 }
             }
             campaignHandler.ogPath = arrayOfOriginalClFolderPath.join('')
-            console.log(campaignHandler.ogPath + " is the original path");
             await listClFolders(campaignHandler.ogPath)
 
             resolve();
@@ -368,13 +355,12 @@ export function createAPIHandler (campaignHandler, domHandler) {
             fetch(endPoint + "/rest/api/v1.3/clFolders" + a_path, requestOptions)
                 .then(response => response.text())
                 .then(result => {
-                    // console.log(result);
+                    let resultJSON;
                     resultJSON = JSON.parse(result);
 
                     let folders = resultJSON.folders;
 
                     folders.forEach(async (folder) => {
-                        console.log(folder.folderPath)
                         // TODO: For every folder list all contents then copy everything to new folder
 
                         // splitting the original content library document path into
@@ -393,7 +379,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
                             }
                         }
                         let folderName = arrayOfOriginalClFolderPath.join('')
-                        console.log("this is folderName: " + folderName)
                         await createClLibFolder(campaignHandler.copiedClFolderPath + "/" + folderName)
                         await listClFolderContent(campaignHandler.ogPath + "/" + folderName, folderName)
                     })
@@ -421,18 +406,11 @@ export function createAPIHandler (campaignHandler, domHandler) {
             fetch(endPoint + "/rest/api/v1.3/clFolders" + a_path, requestOptions)
                 .then(response => response.text())
                 .then(result => {
-                    // console.log(result);
-
-                    console.log(resultJSON)
+                    let resultJSON;
                     resultJSON = JSON.parse(result);
 
                     let items = resultJSON.items;
-
-                    console.log("This is a_path: " + a_path)
-                    console.log("This is a_newPath: " + a_newPath)
-
                     items.forEach(async (item) => {
-                        console.log(item.itemPath)
 
                         // TODO: For every item, copy to new folder
 
@@ -452,9 +430,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
                             }
                         }
                         let itemName = arrayOfOriginalClFolderPath.join('')
-                        console.log("Does this work")
-                        console.log("This is itemName: " + itemName)
-                        console.log("This is a_newPath: " + a_newPath)
                         await copyItem(item.itemPath, a_newPath, itemName)
                     })
                 })
@@ -482,7 +457,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clItems" + a_newPath + "/" + a_ItemName, requestOptions)
             .then(response => response.text())
             .then(result => {
-                console.log(result)
+                
             })
             .catch(error => console.log('error', error));
 
