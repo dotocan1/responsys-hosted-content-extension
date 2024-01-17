@@ -160,6 +160,14 @@ function injectTheDeleteScript () {
     })
 }
 
+// function that executes the download live report script
+function injectTheLiveReportScript () {
+    chrome.tabs.query({ active: true, currentWindow: true }, async tabs => {
+        await saveDeleteValue();
+        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/downloadLiveReport.js'] })
+    })
+}
+
 let boolOpenImages = false;
 
 // setting event handlers for upload and publish buttons
@@ -169,6 +177,8 @@ document.getElementById('btnDeleteEx').addEventListener('click', injectTheDelete
 document.getElementById("btnCopyEx").addEventListener('click', () => {
     APICalls.main();
 })
+document.getElementById('btnLiveReportEx').addEventListener('click', injectTheLiveReportScript)
+
 
 // getting the initial state of the checkbox for opening all images
 try {
