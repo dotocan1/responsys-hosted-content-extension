@@ -274,13 +274,13 @@ export function createAPIHandler (campaignHandler, domHandler) {
         return fetch(endPoint + "/rest/api/v1.3/clFolders", requestOptions)
             .then(response => response.text())
             .then(result => {
-                // console.log(result)
+
             })
             .catch(error => console.log('error', error));
     }
 
-    // FIXME: This needs to be changedso that it copies every document
-    async function createCopyOfClDoc (oldPath, newPath) {
+    async function createCopyOfClDoc (oldPath, newPath, newDocName) {
+
         var myHeaders = new Headers();
 
         myHeaders.append("Authorization", authToken);
@@ -297,9 +297,11 @@ export function createAPIHandler (campaignHandler, domHandler) {
             redirect: 'follow'
         };
 
-        return fetch(endPoint + "/rest/api/v1.3/clDocs" + newPath, requestOptions)
+
+        return fetch(endPoint + "/rest/api/v1.3/clDocs" + newPath + "/" + newDocName, requestOptions)
             .then(response => response.text())
             .then(result => {
+
             })
             .catch(error => console.log('error', error));
 
@@ -385,7 +387,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                         let folderName = arrayOfOriginalClFolderPath.join('')
                         let folderPath = extractPath(folder.links[0].href)
                         let newFolderPath = folderPath.replace(campaignHandler.nameOfOriginalCampaign, campaignHandler.nameOfCopiedCampaign)
-                        console.log(`${newFolderPath} is the new folder path`)
+
 
                         // list all subfolders
                         await listClFolders(folderPath);
@@ -421,13 +423,12 @@ export function createAPIHandler (campaignHandler, domHandler) {
             .then(async result => {
                 let resultJSON;
                 resultJSON = JSON.parse(result);
-                // console.log(result)
-                console.log(resultJSON)
+
 
                 // copy items
 
                 let items = resultJSON.items;
-                // console.log(items)
+
                 for (let i = 0; i < items.length; i++) {
                     // splitting the original content library document path into
                     // an array so that I can get the original folder path
@@ -451,11 +452,11 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 // copy documents
 
                 let documents = resultJSON.documents;
-                // console.log(documents)
+
                 for (let i = 0; i < documents.length; i++) {
                     // splitting the original content library document path into
                     // an array so that I can get the original folder path
-                    let splitClDocPath = documents[i].itemPath.split('');
+                    let splitClDocPath = documents[i].documentPath.split('');
                     let count = numberOfOccurences(splitClDocPath)
                     // count--;
                     let boolCount = 0;
@@ -469,7 +470,10 @@ export function createAPIHandler (campaignHandler, domHandler) {
                         }
                     }
                     let documentName = arrayOfOriginalClFolderPath.join('')
-                    await copyDocument(documents[i].documentPath, a_newPath, documentName)
+                    documentName = documentName.replace(campaignHandler.nameOfOriginalCampaign, campaignHandler.nameOfCopiedCampaign)
+
+                    // await copyDocument(documents[i].documentPath, a_newPath, documentName)
+                    await createCopyOfClDoc(documents[i].documentPath, a_newPath, documentName)
                 }
 
                 // copy
@@ -506,6 +510,8 @@ export function createAPIHandler (campaignHandler, domHandler) {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", authToken);
         myHeaders.append("Content-Type", "application/json");
+
+
 
         var raw = JSON.stringify({
             "documentPath": a_documentPath

@@ -71,9 +71,11 @@ export async function main () {
     // Execute various API calls to copy the campaign and related tasks
     await apiHandler.copyCampaign();
     await apiHandler.fetchTheCopiedCampaign();
-    await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
-    await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
     await apiHandler.setOgPath();
+    await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
+    await apiHandler.listClFolderContent(campaignHandler.copiedClFolderPath, campaignHandler.ogPath)
+    // await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
+    // await apiHandler.setOgPath();
     // list all cl folders
     await apiHandler.listClFolders(campaignHandler.ogPath)
 
