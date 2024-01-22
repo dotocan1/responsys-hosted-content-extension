@@ -52,22 +52,22 @@ function delayedLoop (delay) {
     let count = 0;
 
     function iteration () {
-        console.log("Iteration:", count + 1);
+       // console.log("Iteration:", count + 1);
 
         // Increment the count
         count++;
 
         // Check if we have reached the desired number of iterations
-        if (editButtonEx === null || editButtonEx === undefined ) {
+        if (editButtonEx === null || editButtonEx === undefined) {
             try {
                 setEditButtonEx();
             } catch (error) {
-                console.log(error)
+                //  console.log(error)
             }
             // Schedule the next iteration with the specified delay
             setTimeout(iteration, delay);
         } else {
-            console.log(editButtonEx)
+            // console.log(editButtonEx)
         }
     }
 
