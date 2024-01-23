@@ -16,14 +16,8 @@
   },
   "permissions": [
     "storage",
-    "scripting",
-    "webNavigation",
-    "tabs",
-    "activeTab"
+    "scripting"
   ],
-  "background": {
-    "service_worker": "./background.js"
-  },
   "host_permissions": [
     "*://interact.rsys8.net/*",
     "*://v8h1pzy-api.responsys.ocs.oraclecloud.com/*",

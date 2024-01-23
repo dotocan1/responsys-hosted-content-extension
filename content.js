@@ -59,7 +59,7 @@ function setEditButtonEx () {
             wd.style.left = "0px";
 
             // testing out resizing
-            wd.style.height = "1000px"
+            // wd.style.height = "1000px"
 
         }, 500);
     });
