@@ -13,8 +13,6 @@ const NEW_VERSION = 3.0;
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
 
-domHandler.writeInputFieldData();
-
 // popup code
 //await setWhatsNewStatus(true);
 let popupButton = document.getElementById('popupButton');
@@ -208,3 +206,4 @@ function saveDeleteValue () {
     })
 }
 
+domHandler.writeInputFieldData();

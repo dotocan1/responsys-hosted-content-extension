@@ -29,7 +29,7 @@ export function createDOMHandler () {
                     console.error('Error saving original campaign field:', chrome.runtime.lastError);
                     reject(chrome.runtime.lastError);
                 } else {
-                    
+
                     resolve();
                 }
             });
@@ -44,7 +44,7 @@ export function createDOMHandler () {
                     console.error('Error saving copied campaign field:', chrome.runtime.lastError);
                     reject(chrome.runtime.lastError);
                 } else {
-                    
+
                     resolve();
                 }
             });
@@ -52,14 +52,15 @@ export function createDOMHandler () {
     }
 
     function saveFolderPathLabel () {
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             // save folder path label
+   
             chrome.storage.sync.set({ 'folderPathLabel': folderPathLabel.innerHTML }, function () {
                 if (chrome.runtime.lastError) {
                     console.error('Error saving copied campaign field:', chrome.runtime.lastError);
                     reject(chrome.runtime.lastError);
                 } else {
-                    
+
                     resolve();
                 }
             });
@@ -67,14 +68,14 @@ export function createDOMHandler () {
     }
 
     async function saveInputFieldData () {
-        
+
         await saveOriginalCampaignField();
         await saveCopiedCampaignField();
         await saveFolderPathLabel();
     }
 
     function getOriginalCampaignField () {
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             chrome.storage.sync.get('originalCampaignField', function (data) {
                 if (typeof data.originalCampaignField === "undefined") {
                     data.originalCampaignField = "";
@@ -86,7 +87,7 @@ export function createDOMHandler () {
     }
 
     function getCopiedCampaignField () {
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             chrome.storage.sync.get('copiedCampaignField', function (data) {
                 if (typeof data.copiedCampaignField === "undefined") {
                     data.copiedCampaignField = "";
@@ -98,11 +99,13 @@ export function createDOMHandler () {
     }
 
     function getFolderPathLabel () {
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             chrome.storage.sync.get('folderPathLabel', function (data) {
+            
                 if (typeof data.folderPathLabel === "undefined") {
                     data.folderPathLabel = "";
                 }
+               
                 folderPathLabel.innerHTML = data.folderPathLabel;
                 resolve();
             });

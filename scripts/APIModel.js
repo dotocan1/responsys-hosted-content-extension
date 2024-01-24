@@ -155,7 +155,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
                     }
                 }
                 campaignHandler.originalClFolderPath = arrayOfOriginalClFolderPath.join('')
-                console.log("This is the original clFolderPath " + campaignHandler.originalClFolderPath)
 
             }
             )
@@ -371,7 +370,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 resultJSON = JSON.parse(result);
                 let folders = resultJSON.folders;
 
-              
+
                 if (folders.length == 0) {
                     console.log(`No folders found!`)
                 } else {
@@ -383,7 +382,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
                         let newFolderPath = folderPath.replace(campaignHandler.originalClFolderName, campaignHandler.nameOfCopiedCampaign)
 
-                       
+
 
                         // list all subfolders
                         await listClFolders(folderPath);
@@ -470,12 +469,12 @@ export function createAPIHandler (campaignHandler, domHandler) {
                     let documentName = arrayOfOriginalClFolderPath.join('')
                     // takes the first item of array which is the name without extension
                     // replace the first part with the campaign name and add the extension part to end of the new document name
-                   
+
                     // get the document name without extension
-                  
+
                     documentName = documentName.split(".");
                     if (documentName[1] === "htm") {
-                      
+
                         documentName = campaignHandler.nameOfCopiedCampaign + "." + documentName[1]
                     } else {
                         documentName = documentName.join(".")
