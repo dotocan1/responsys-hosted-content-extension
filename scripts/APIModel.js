@@ -157,10 +157,6 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 campaignHandler.originalClFolderPath = arrayOfOriginalClFolderPath.join('')
                 console.log("This is the original clFolderPath " + campaignHandler.originalClFolderPath)
 
-                let a_ClfolderName = campaignHandler.originalClFolderPath.split('/');
-                let index = a_ClfolderName.length - 1;
-                a_ClfolderName = a_ClfolderName[index]
-                campaignHandler.originalClFolderName = a_ClfolderName;
             }
             )
             .catch(error => {
@@ -339,7 +335,10 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 }
             }
             campaignHandler.ogPath = arrayOfOriginalClFolderPath.join('')
-            console.log(campaignHandler.ogPath + " is the og path")
+            let a_ClfolderName = campaignHandler.ogPath.split('/');
+            let index = a_ClfolderName.length - 1;
+            a_ClfolderName = a_ClfolderName[index]
+            campaignHandler.originalClFolderName = a_ClfolderName;
             resolve();
         })
     }
