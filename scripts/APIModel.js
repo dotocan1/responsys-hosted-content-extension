@@ -372,15 +372,15 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 let folders = resultJSON.folders;
 
                 console.log(resultJSON)
-
+                console.log(folders)
                 if (folders.length == 0) {
                     console.log(`No folders found!`)
                 } else {
-                    let i = 0;
-                    for (const folder of folders) {
 
-                        let folderPath = extractPath(folder.links[i].href)
-                        i++;
+                    for (let i = 0; i < folders.length; i++) {
+
+                        let folderPath = extractPath(folders[i].links[0].href)
+
 
                         let newFolderPath = folderPath.replace(campaignHandler.originalClFolderName, campaignHandler.nameOfCopiedCampaign)
 
