@@ -140,6 +140,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 count--;
                 let boolCount = 0;
                 let arrayOfOriginalClFolderPath = [];
+
                 // getting the original folder path
                 for (let index = 0; index < splitClDocPath.length; index++) {
                     if (splitClDocPath[index] === "/") {
@@ -154,6 +155,12 @@ export function createAPIHandler (campaignHandler, domHandler) {
                     }
                 }
                 campaignHandler.originalClFolderPath = arrayOfOriginalClFolderPath.join('')
+                console.log("This is the original clFolderPath " + campaignHandler.originalClFolderPath)
+
+                let a_ClfolderName = campaignHandler.originalClFolderPath.split('/');
+                let index = a_ClfolderName.length - 1;
+                a_ClfolderName = a_ClfolderName[index]
+                campaignHandler.originalClFolderName = a_ClfolderName;
             }
             )
             .catch(error => {
@@ -332,6 +339,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 }
             }
             campaignHandler.ogPath = arrayOfOriginalClFolderPath.join('')
+            console.log(campaignHandler.ogPath + " is the og path")
             resolve();
         })
     }
@@ -364,30 +372,20 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 resultJSON = JSON.parse(result);
                 let folders = resultJSON.folders;
 
+                console.log(resultJSON)
+
                 if (folders.length == 0) {
                     console.log(`No folders found!`)
                 } else {
+                    let i = 0;
                     for (const folder of folders) {
 
-                        // splitting the original content library document path into
-                        // an array so that I can get the original folder path
-                        let splitClDocPath = folder.folderPath.split('');
-                        let count = numberOfOccurences(splitClDocPath)
-                        // count--;
-                        let boolCount = 0;
-                        let arrayOfOriginalClFolderPath = [];
-                        // getting the original folder path
-                        for (let index = 0; index < splitClDocPath.length; index++) {
-                            if (splitClDocPath[index] === "/") {
-                                boolCount++;
-                            } else if (boolCount == count) {
-                                arrayOfOriginalClFolderPath.push(splitClDocPath[index])
-                            }
-                        }
-                        let folderName = arrayOfOriginalClFolderPath.join('')
-                        let folderPath = extractPath(folder.links[0].href)
-                        let newFolderPath = folderPath.replace(campaignHandler.nameOfOriginalCampaign, campaignHandler.nameOfCopiedCampaign)
+                        let folderPath = extractPath(folder.links[i].href)
+                        i++;
 
+                        let newFolderPath = folderPath.replace(campaignHandler.originalClFolderName, campaignHandler.nameOfCopiedCampaign)
+
+                        console.log(`this is old folder path ${folderPath} and this is new path ${newFolderPath}`)
 
                         // list all subfolders
                         await listClFolders(folderPath);
@@ -397,6 +395,8 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
                         // list all contents
                         await listClFolderContent(newFolderPath, folderPath)
+
+                        console.log("Finished with the " + newFolderPath + " folder")
                     }
 
 

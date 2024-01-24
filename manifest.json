@@ -18,6 +18,16 @@
     "storage",
     "scripting"
   ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
   "host_permissions": [
     "*://interact.rsys8.net/*",
     "*://v8h1pzy-api.responsys.ocs.oraclecloud.com/*",

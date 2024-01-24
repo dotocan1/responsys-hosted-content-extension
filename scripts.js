@@ -54,7 +54,6 @@ async function getWhatsNewStatus () {
     })
 }
 
-injectTheContentScript()
 await getWhatsNewStatus();
 
 
@@ -128,14 +127,6 @@ try {
 }
 catch (error) {
     console.log(error)
-}
-
-
-// function that executes the content script
-function injectTheContentScript () {
-    chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/content.js'] })
-    })
 }
 
 // function that executes the upload script

@@ -72,6 +72,7 @@ export async function main () {
     await apiHandler.copyCampaign();
     await apiHandler.fetchTheCopiedCampaign();
     await apiHandler.setOgPath();
+    console.log(campaignHandler.ogPath + " is the og pathh")
     await apiHandler.createClLibFolder(campaignHandler.copiedClFolderPath);
     await apiHandler.listClFolderContent(campaignHandler.copiedClFolderPath, campaignHandler.ogPath)
     // await apiHandler.createCopyOfClDoc(campaignHandler.originalClDocPath, campaignHandler.copiedClDocPath);
