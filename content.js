@@ -44,7 +44,7 @@ function loopMultiple (delay) {
 }
 
 // Example: Run the loop 5 times with a delay of 2 seconds (2000 milliseconds)
-loopMultiple(500);
+// loopMultiple(500);
 
 
 
