@@ -469,7 +469,18 @@ export function createAPIHandler (campaignHandler, domHandler) {
                         }
                     }
                     let documentName = arrayOfOriginalClFolderPath.join('')
-                    documentName = documentName.replace(campaignHandler.nameOfOriginalCampaign, campaignHandler.nameOfCopiedCampaign)
+                    // takes the first item of array which is the name without extension
+                    // replace the first part with the campaign name and add the extension part to end of the new document name
+                    console.log("This is document name " + documentName)
+                    // get the document name without extension
+                    console.log("This is document array split")
+                    documentName = documentName.split(".");
+                    if (documentName[1] === "htm") {
+                        console.log(documentName)
+                        documentName = campaignHandler.nameOfCopiedCampaign + "." + documentName[1]
+                    } else {
+                        documentName = documentName.join(".")
+                    }
 
                     // await copyDocument(documents[i].documentPath, a_newPath, documentName)
                     await createCopyOfClDoc(documents[i].documentPath, a_newPath, documentName)
