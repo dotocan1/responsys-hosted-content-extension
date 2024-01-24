@@ -371,8 +371,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
                 resultJSON = JSON.parse(result);
                 let folders = resultJSON.folders;
 
-                console.log(resultJSON)
-                console.log(folders)
+              
                 if (folders.length == 0) {
                     console.log(`No folders found!`)
                 } else {
@@ -384,7 +383,7 @@ export function createAPIHandler (campaignHandler, domHandler) {
 
                         let newFolderPath = folderPath.replace(campaignHandler.originalClFolderName, campaignHandler.nameOfCopiedCampaign)
 
-                        console.log(`this is old folder path ${folderPath} and this is new path ${newFolderPath}`)
+                       
 
                         // list all subfolders
                         await listClFolders(folderPath);
@@ -471,12 +470,12 @@ export function createAPIHandler (campaignHandler, domHandler) {
                     let documentName = arrayOfOriginalClFolderPath.join('')
                     // takes the first item of array which is the name without extension
                     // replace the first part with the campaign name and add the extension part to end of the new document name
-                    console.log("This is document name " + documentName)
+                   
                     // get the document name without extension
-                    console.log("This is document array split")
+                  
                     documentName = documentName.split(".");
                     if (documentName[1] === "htm") {
-                        console.log(documentName)
+                      
                         documentName = campaignHandler.nameOfCopiedCampaign + "." + documentName[1]
                     } else {
                         documentName = documentName.join(".")
