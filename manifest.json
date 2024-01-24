@@ -21,7 +21,9 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "*://interact.rsys8.net/*",
+        "*://v8h1pzy-api.responsys.ocs.oraclecloud.com/*",
+        "*://v8h1pzy.responsys.ocs.oraclecloud.com/interact/jsp/jindex.jsp"
       ],
       "js": [
         "content.js"
