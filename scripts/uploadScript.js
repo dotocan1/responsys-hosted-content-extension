@@ -4,7 +4,7 @@ let filesInputsArray;
 let filesList;
 
 // filesinput
-let filesInput;
+//let filesInput;
 try {
     document.querySelectorAll('iframe').forEach(item => {
         if (item.contentWindow.document.getElementById('first_file_element').id === "first_file_element") {
