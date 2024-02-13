@@ -2,6 +2,7 @@ console.log('Content script loaded.');
 
 // Your code here, which will run each time a webpage is loaded
 let filesInput;
+let breakLoop = false;
 
 function setfilesInput () {
 
@@ -9,6 +10,7 @@ function setfilesInput () {
         document.querySelectorAll('iframe').forEach(item => {
             filesInput = item.contentWindow.document.getElementById('first_file_element');
             filesInput.setAttribute('multiple', true);
+            breakLoop = true;
             // success
         });
     } catch (error) {
@@ -27,16 +29,17 @@ function loopMultiple (delay) {
 
         // Check if we have reached the desired number of iterations
         if (filesInput === null || filesInput === undefined) {
-            console.log(filesInput)
+            // console.log(breakLoop)
+            // console.log("Loop still going!")
             try {
                 setfilesInput();
             } catch (error) {
                 //  console.log(error)
             }
             // Schedule the next iteration with the specified delay
-            setTimeout(iteration, delay);
+            if(!breakLoop) setTimeout(iteration, delay);
         } else {
-            console.log(filesInput)
+
         }
     }
 
