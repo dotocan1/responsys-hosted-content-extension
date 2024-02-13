@@ -169,6 +169,9 @@ a {
 #warning-copying{
   font-size: 24px;
   font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 /* Styles for the spinner */
