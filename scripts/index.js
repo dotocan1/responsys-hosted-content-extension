@@ -88,7 +88,7 @@ export async function main () {
     await domHandler.saveInputFieldData();
 
     // Re-enable user interactions
-    domHandler.enableInteractions();
+     domHandler.enableInteractions();
 
     alert("Campaign has been copied!\nNew folder path is:\n" + campaignHandler.copiedClFolderPath);
 

@@ -13,19 +13,19 @@ export function createDOMHandler () {
     // Enables all interactions on DOM
     function enableInteractions () {
         document.body.style.pointerEvents = 'auto';
-        body.classList.remove("hide-all");
+        //body.classList.remove("hide-all");
         spinner.classList.remove('spinner');
         spinnerContainer.classList.remove('spinner-container');
-        warningCopying.style.display = "inline";
+        warningCopying.style.display = "none";
     }
 
     // Disables all interactions on DOM
     function disableInteractions () {
         document.body.style.pointerEvents = 'none';
-        body.classList.add("hide-all");
+        //body.classList.add("hide-all");
         spinner.classList.add('spinner');
         spinnerContainer.classList.add('spinner-container');
-        warningCopying.style.display = "inline";
+        warningCopying.style.display = "flex";
     }
 
     // save content of original campaign and copied campaign input and also folder path label to storage

@@ -18,6 +18,8 @@ const apiHandler = APIModel.createAPIHandler();
 let popupButton = document.getElementById('popupButton');
 let popup = document.getElementById('popupContainer');
 
+domHandler.enableInteractions();
+
 popupButton.addEventListener('click', async () => {
     popup.style.display = "none";
     await setWhatsNewStatus(NEW_VERSION);
