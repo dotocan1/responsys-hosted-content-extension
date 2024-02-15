@@ -137,3 +137,85 @@ localStorage.setItem('linksOnlyArray', JSON.stringify(arrayOfOnlyLinks));
 
 
 btnUpload.click();
+
+async function loopWithDelay () {
+    // select publish button here
+    if (i == storedVariable.length) {
+        storedLinks.forEach(function (item) {
+            console.log(item)
+        });
+
+        // if user has turned on "Open every image in new tab"
+        await getChkOpenImages();
+        if (boolOpenImages == true) {
+            storedOnlyLinks.forEach(function (item) {
+                window.open(item, "_blank");
+                // index * 2000 will create a 2-second delay for each item
+            });
+        }
+
+        alert("All images have been published!")
+        return;
+    }
+
+    try {
+        // select the publish button
+        document.querySelectorAll('iframe').forEach(item => {
+            try {
+                if (item.contentWindow.document.body.querySelector('#FilePublish').value == "Publish") {
+                    btnPublish = item.contentWindow.document.body.querySelector('#FilePublish');
+                }
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+        )
+    }
+    catch (error) {
+        console.error('An error occurred:', error);
+    }
+
+    // Perform some loop logic here
+    console.log(`${i + 1}. iteration`)
+    console.log(`This is the stored variable: ${storedVariable[i]}`)
+    try {
+        console.log(`This is the publish button: ${btnPublish}`);
+    }
+
+    catch (error) {
+        console.error('An error occurred:', error);
+    }
+    try {
+        document.querySelectorAll('iframe').forEach(item => {
+            if (item.contentWindow.document.body.querySelector(`input[value="${storedVariable[i]}"]`).value == storedVariable[i]) {
+                try { inputElement = item.contentWindow.document.body.querySelector(`input[value="${storedVariable[i]}"]`) }
+                catch (error) {
+                    console.error('An error occurred:', error);
+                }
+            }
+        }
+        )
+    }
+    catch (error) {
+        console.error('An error occurred:', error);
+    }
+
+    try {
+        inputElement.checked = "true";
+    }
+    catch (error) {
+        console.error('An error occurred:', error);
+    }
+    try {
+        btnPublish.click();
+    }
+    catch (error) {
+        console.error('An error occurred:', error);
+    }
+
+    i++;
+    loopWithDelay();
+    //setTimeout(loopWithDelay, 2000); // Delay of 1 second (1000 milliseconds)
+
+}
