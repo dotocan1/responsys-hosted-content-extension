@@ -117,8 +117,8 @@ try {
     }
 
     for (let i = 0; i < children.length; i++) {
-        let childText = children[i].textContent + "\nhttps://static.cdn.responsys.net/i8/responsysimages/content/valamarri/" + children[i].textContent;
-        let childTextLinks = "https://static.cdn.responsys.net/i8/responsysimages/content/valamarri/" + children[i].textContent;
+        let childText = children[i].textContent + "\nhttps://email.valamar.com/assets/responsysimages/content/valamarri/" + children[i].textContent;
+        let childTextLinks = "https://email.valamar.com/assets/responsysimages/content/valamarri/" + children[i].textContent;
         replacedChildText = childText.replace(/ /g, '%2520');
         replacedChildTextLinks = childTextLinks.replace(/ /g, '%2520');
         arrayOfLinks.push(replacedChildText);
