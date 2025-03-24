@@ -1,4 +1,4 @@
-async function loopWithDelay () {
+async function loopWithDelay() {
     // select publish button here
     if (i == storedVariable.length) {
         storedLinks.forEach(function (item) {
@@ -47,9 +47,14 @@ async function loopWithDelay () {
         console.error('An error occurred:', error);
     }
     try {
+        const output = storedVariable[i].replace(/(\.(?:jpg|png|jpeg))_np/g, '$1');
         document.querySelectorAll('iframe').forEach(item => {
-            if (item.contentWindow.document.body.querySelector(`input[value="${storedVariable[i]}"]`).value == storedVariable[i]) {
-                try { inputElement = item.contentWindow.document.body.querySelector(`input[value="${storedVariable[i]}"]`) }
+            if (item.contentWindow.document.body.querySelector(`input[value="${output}"]`).value == output) {
+
+                try {
+                    console.log("this is output", output)
+                    inputElement = item.contentWindow.document.body.querySelector(`input[value="${output}"]`)
+                }
                 catch (error) {
                     console.error('An error occurred:', error);
                 }
@@ -90,7 +95,7 @@ let i = 0;
 let boolDownloadImages;
 let boolOpenImages;
 
-async function getChkOpenImages () {
+async function getChkOpenImages() {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get('chkOpenImages', function (data) {
             console.log('Checkbox open image state is ' + data.chkOpenImages);
@@ -101,7 +106,7 @@ async function getChkOpenImages () {
     });
 }
 
-async function getchkDownloadImages () {
+async function getchkDownloadImages() {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get('chkDownloadImages', function (data) {
             console.log('Checkbox download images state is ' + data.chkDownloadImages);
@@ -113,7 +118,7 @@ async function getchkDownloadImages () {
 }
 
 // Put your code in an async function
-async function main () {
+async function main() {
     try {
         await getchkDownloadImages();
         loopWithDelay();
