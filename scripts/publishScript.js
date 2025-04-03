@@ -47,7 +47,7 @@ async function loopWithDelay() {
         console.error('An error occurred:', error);
     }
     try {
-        const output = storedVariable[i].replace(/(\.(?:jpg|png|jpeg))_np/g, '$1');
+        const output = storedVariable[i].replace(/(\.(?:jpg|png|jpeg|gif))_np/g, '$1');
         document.querySelectorAll('iframe').forEach(item => {
             if (item.contentWindow.document.body.querySelector(`input[value="${output}"]`).value == output) {
 

@@ -8,7 +8,7 @@ let usernameInput = document.getElementById("username-input");
 let passwordInput = document.getElementById("password-input");
 let btnLogin = document.getElementById("exLoginBtn");
 
-const NEW_VERSION = 3.0;
+const NEW_VERSION = 4.0;
 
 const domHandler = DOMModel.createDOMHandler();
 const apiHandler = APIModel.createAPIHandler();
@@ -25,7 +25,7 @@ popupButton.addEventListener('click', async () => {
     await setWhatsNewStatus(NEW_VERSION);
 })
 
-function setWhatsNewStatus (bool) {
+function setWhatsNewStatus(bool) {
     return new Promise((resolve, reject) => {
         {
             chrome.storage.sync.set({ 'whatsNew': bool }, function () {
@@ -35,7 +35,7 @@ function setWhatsNewStatus (bool) {
     })
 }
 
-async function getWhatsNewStatus () {
+async function getWhatsNewStatus() {
     return new Promise((resolve, reject) => {
         // getting the initial state of username and password
         try {
@@ -57,7 +57,7 @@ async function getWhatsNewStatus () {
 await getWhatsNewStatus();
 
 
-function saveUsername () {
+function saveUsername() {
     return new Promise((resolve, reject) => {
         {
             chrome.storage.sync.set({ 'usernameInput': usernameInput.value }, function () {
@@ -67,7 +67,7 @@ function saveUsername () {
     })
 }
 
-function savePassword () {
+function savePassword() {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.set({ 'passwordInput': passwordInput.value }, function () {
             if (chrome.runtime.lastError) {
@@ -130,21 +130,21 @@ catch (error) {
 }
 
 // function that executes the upload script
-function injectTheUploadScript () {
+function injectTheUploadScript() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/uploadScript.js'] })
     })
 }
 
 // function that executes the publish script
-function injectThePublishScript () {
+function injectThePublishScript() {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/PublishScript.js'] })
     })
 }
 
 // function that executes the publish script
-function injectTheDeleteScript () {
+function injectTheDeleteScript() {
     chrome.tabs.query({ active: true, currentWindow: true }, async tabs => {
         await saveDeleteValue();
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/DeleteScript.js'] })
@@ -152,7 +152,7 @@ function injectTheDeleteScript () {
 }
 
 // function that executes the download live report script
-function injectTheLiveReportScript () {
+function injectTheLiveReportScript() {
     chrome.tabs.query({ active: true, currentWindow: true }, async tabs => {
         await saveDeleteValue();
         chrome.scripting.executeScript({ target: { tabId: tabs[0].id }, files: ['./scripts/downloadLiveReport.js'] })
@@ -183,7 +183,7 @@ catch (error) {
     console.log(error)
 }
 
-function checkOpenImages (event) {
+function checkOpenImages(event) {
     return new Promise((resolve, reject) => {
         // Persist checkbox state in extension storage
         chrome.storage.sync.set({ 'chkOpenImages': event.target.checked }, function () {
@@ -199,7 +199,7 @@ document.getElementById('chkOpenImages').addEventListener('change', async (event
     domHandler.enableInteractions();
 });
 
-function saveDeleteValue () {
+function saveDeleteValue() {
     new Promise((resolve, reject) => {
         chrome.storage.sync.set({ 'txtDelete': document.getElementById('txtDelete').value }, function () {
 

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Responsys Helper",
   "description": "Work simpler",
-  "version": "3.8",
+  "version": "4.0",
   "action": {
     "default_popup": "main_page.html",
     "default_icon": "./images/responsys-logo.png",
